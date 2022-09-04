@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TESTTEST</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+            $(()=>{
+                console.log("READY")
+                $.ajax({
+                    type: "GET",
+                    url: "/movie",
+                    data: {},
+                    success: (response)=>{
+                        console.log(response["result"])
+                    }
+                })
+            })
+        </script>
+    </head>
+    <body>
+        <h1>TESTTEST</h1>
+        
+    </body>
+</html>
