@@ -4,28 +4,28 @@ const TAG_ID = {
   SIGN_UP: "signUp",
 };
 
-const sign = $("#" + TAG_ID.SIGN);
-const signIn = $("#" + TAG_ID.SIGN_IN);
-const signUp = $("#" + TAG_ID.SIGN_UP);
+const sign = () => $("#" + TAG_ID.SIGN);
+const signIn = () => $("#" + TAG_ID.SIGN_IN);
+const signUp = () => $("#" + TAG_ID.SIGN_UP);
 
 const handleClickSignIn = function () {
-  loadComponent(TAG_ID.SIGN_IN, "components/sign_in", function () {
-    sign.show();
-    signIn.show();
-    signUp.hide();
+  loadComponent(TAG_ID.SIGN_IN, "/sign_in", function () {
+    sign().show();
+    signIn().show();
+    signUp().hide();
   });
 };
 const handleClickSignUp = function () {
-  loadComponent(TAG_ID.SIGN_UP, "components/sign_up", function () {
-    sign.show();
-    signUp.show();
-    signIn.hide();
+  loadComponent(TAG_ID.SIGN_UP, "/sign_up", function () {
+    sign().show();
+    signUp().show();
+    signIn().hide();
   });
 };
 const hideSign = function () {
-  sign.hide();
-  signIn.hide();
-  signUp.hide();
+  sign().hide();
+  signIn().hide();
+  signUp().hide();
 };
 const handleSubmitSignIn = function (event) {
   event.preventDefault();

@@ -6,8 +6,9 @@
   right: 0;
   display: flex;
   justify-content: center;
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.3);
   display: none;
+  z-index: 999;
 }
 .sign .sign-in,
 .sign .sign-up {
