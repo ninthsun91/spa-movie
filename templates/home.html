@@ -4,5 +4,14 @@
 <!--  -->
 {% block main %}
 <section></section>
+<button id="testbtn">test</button>
+<script>
+    const btn = document.getElementById("testbtn");
+    btn.addEventListener("click", event=>{
+        $.get("/test", (res)=>{
+            console.log(res);
+        });
+    });
+</script>
 {% endblock %}
 <!--  -->
