@@ -24,55 +24,55 @@ db = client.spamovie
 
 @app.route("/")
 def home():
-    return render_template("home.html")
-
-
-@app.route("/mov")
-def movie():
-    return render_template("movie.html")
-
-
-@app.route("/components/sign_in")
-def components_sign_in():
-    return render_template("components/sign_in.html")
-
-
-@app.route("/components/sign_up")
-def components_sign_up():
-    return render_template("components/sign_up.html")
+   return render_template("home.html")
 
 
 @app.route("/movie", methods=["GET"])
 def get_movie():
-    code = request.args["code"]
-    movie = db.movies.find_one({"code": code}, {"_id": False})
-    return jsonify({"result": "success", "movie": movie})
+   #  code = request.args["code"]
+   code = 999999
+   movie = db.movies.find_one({"code": code}, {"_id": False})
+
+   title = movie["title"]
+   director = movie["director"]
+   actor = movie["actor"]
+   pubDate = movie["pubDate"]
+   naverRating = movie["naverRating"]
+   userRating = movie["userRating"]
+   description = movie["description"]   # optional field
+   
+   return render_template("movie.html", title=title, director=director, actor=actor, pubDate=pubDate, naverRating=naverRating, userRating=userRating, description=description)
 
 
 @app.route("/review", methods=["GET"])
 def get_review():
-    return "show review"
+   return "show review"
 
 
-@app.route("/post", methods=["POST"])
+@app.route("/review", methods=["POST"])
 def post_review():
-    return "post review"
+   return "post review"
 
 
-@app.route("/signin", methods=["POST"])
+@app.route("/sign_in")
+def components_sign_in():
+   return render_template("components/sign_in.html")
+
+
+@app.route("/sign_in", methods=["POST"])
 def sign_in():
-    return "sign in"
+   return "sign in"
 
 
-@app.route("/signout", methods=["GET"])
-def sign_out():
-    return "sign out"
+@app.route("/sign_up")
+def components_sign_up():
+   return render_template("components/sign_up.html")
 
 
-@app.route("/signup", methods=["POST"])
+@app.route("/sign_up", methods=["POST"])
 def sign_up():
-    return "sign up"
+   return "sign up"
 
 
 if __name__ == "__main__":
-    app.run("0.0.0.0", port=5000, debug=True)
+   app.run("0.0.0.0", port=5000, debug=True)
