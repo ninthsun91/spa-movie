@@ -56,8 +56,22 @@
 #AppContainer .sign .sign-in,
 #AppContainer .sign .sign-up {
   margin: 20px auto 0 auto;
-  width: 200px;
-  height: 150px;
-  background-color: tomato;
+  width: 330px;
+  height: 500px;
+  background-color: rgb(120, 120, 120);
   display: none;
+}
+#AppContainer .sign section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+}
+#AppContainer .sign section form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
 }

@@ -7,6 +7,7 @@ const TAG_ID = {
 const sign = $("#" + TAG_ID.SIGN);
 const signIn = $("#" + TAG_ID.SIGN_IN);
 const signUp = $("#" + TAG_ID.SIGN_UP);
+
 const showSignIn = function () {
   loadComponent(TAG_ID.SIGN_IN, "components/sign_in", function () {
     sign.show();
@@ -25,4 +26,26 @@ const hideSign = function () {
   sign.hide();
   signIn.hide();
   signUp.hide();
+};
+const handleSubmitSignIn = function (event) {
+  event.preventDefault();
+  $.ajax({
+    url: "/signin",
+    data: {},
+    method: "POST",
+    success: function (res) {
+      console.log(res);
+    },
+  });
+};
+const handleSubmitSignUp = function (event) {
+  event.preventDefault();
+  $.ajax({
+    url: "/signup",
+    data: {},
+    method: "POST",
+    success: function (res) {
+      console.log(res);
+    },
+  });
 };
