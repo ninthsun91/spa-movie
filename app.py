@@ -1,6 +1,8 @@
 import os
 import jwt
 import hashlib
+import json
+import urllib.request
 
 from flask import Flask, render_template, request, jsonify, redirect, url_for, make_response
 from pymongo import MongoClient
@@ -17,6 +19,7 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 load_dotenv()
 URL = os.environ.get("MongoDB_URL")
 KEY = os.environ.get("SECRET_KEY")
+NMV = os.environ.get("NMovie_Search")
 CID = os.environ.get("Client_ID")
 CSC = os.environ.get("Client_Secret")
 
@@ -170,12 +173,74 @@ def sign_up():
    return redirect(url_for("/sign_in"))
 
 
+@app.route("/search", methods=["POST"])
+def search_title():
+   keyword = request.form["keyword"]
+
+   pipeline = [
+      {
+        "$search": {
+            "index": "movie_title",
+            "text": {
+                "query": keyword,
+                "path": "title",
+            }
+        }
+      }, {
+         "$project": {
+            "_id": 0,
+            "code": 1,
+            "title": 1,
+            "director": 1,
+            "pubDate": 1
+         }
+        }
+   ]
+   movies = db.movies.aggregate(pipeline)
+   if movies.alive:
+      result = []
+      for movie in movies:
+         result.append(movie)
+      return jsonify({ result })
+   else:
+      return redirect("/nsearch", keyword=keyword)
+
+
+@app.route("/nsearch")
+def search_naver():
+   keyword = request.args["keyword"]
+   query = urllib.parse.quote(keyword)
+   url = NMV + query
+
+   request_movie = urllib.request.Request(url)
+   request_movie.add_header("X-Naver-Client-Id", CID)
+   request_movie.add_header("X-Naver-Client-Secret", CSC)
+   response = urllib.request.urlopen(request_movie)
+   
+   rescode = response.getcode()
+   if rescode==200:
+      result = []
+      items = json.loads(response.read().decode("utf-8"))["items"]
+      for item in items:
+         summary = {
+            "title": remove_tags(item["title"]),
+            "code": item["link"].split("?code=")[1],
+            "director": item["director"].strip("|"),
+            "pubDate": item["pubDate"],
+         }
+         result.append(summary)
+      return jsonify({ result })
+   else:
+      return f"Error Code: {rescode}"
+
+
+
 @app.route("/test", methods=["GET"])
 def test():
-   resp = make_response()
-   resp.set_cookie("test", "cookie")
-   return resp
+   return ""
 
 
 if __name__ == "__main__":
    app.run("0.0.0.0", port=5000, debug=True)
+
+
