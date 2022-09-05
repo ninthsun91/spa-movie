@@ -1,8 +1,17 @@
 <section>
   <h2>sign up</h2>
   <form onsubmit="handleSubmitSignUp(event)">
-    <input type="text" required minlength="3" maxlength="15" />
-    <input type="text" required minlength="8" maxlength="15" />
+    <input oninput="handleInputSignUpId(event)" id="signUpId" type="text" required minlength="3" maxlength="15" />
+    <input oninput="handleInputSignUpPw(event)" id="signUpPw" type="password" required minlength="8" maxlength="15" />
+    <input
+      oninput="handleInputSignUpConfirm(event)"
+      id="signUpConfirm"
+      type="password"
+      required
+      minlength="8"
+      maxlength="15"
+    />
+    <div id="signUpErrorMessage" class="error-message"></div>
     <button>submit</button>
   </form>
 </section>

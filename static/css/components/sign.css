@@ -14,7 +14,7 @@
 .sign .sign-up {
   margin: 20px auto 0 auto;
   width: 330px;
-  height: 500px;
+  height: 400px;
   background-color: rgb(120, 120, 120);
   display: none;
 }
@@ -31,4 +31,9 @@
   align-items: center;
   flex-direction: column;
   height: 100%;
+  gap: 10px;
+}
+.sign section form .error-message {
+  color: salmon;
+  font-size: 30px;
 }
