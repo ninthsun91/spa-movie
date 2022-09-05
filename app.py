@@ -2,7 +2,7 @@ import os
 import jwt
 import hashlib
 
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, make_response
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
@@ -26,11 +26,12 @@ db = client.spamovie
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+   return render_template("home.html")
+
 
 @app.route("/rev")
 def review():
-    return render_template("review.html")
+   return render_template("review.html")
 
 
 
@@ -87,20 +88,19 @@ def post_review():
    return jsonify({"msg": "리뷰를 등록했습니다!"})
 
 
-@app.route("/sign_in")
+@app.route("/signin")
 def components_sign_in():
    return render_template("components/sign_in.html")
 
 
-@app.route("/sign_in", methods=["POST"])
+@app.route("/signin", methods=["POST"])
 def sign_in():
-   SIGNIN_FAIL = jsonify({"result": False, "msg": "아이디, 비밀번호가 틀렸습니다."})
    username = request.form["username"]
    password = request.form["password"]
    if (is_alphs(username) and (2<len(username)<16)) is not True:
-      return SIGNIN_FAIL
+      return jsonify({"msg": "아이디 형식은 알파벳,숫자 3~15자 입니다."})
    if (is_alphs(password) and (7<len(password)<16)) is not True:
-      return SIGNIN_FAIL
+      return jsonify({"msg": "비밀번호 형식은 알파벳,숫자 8~15자 입니다."})
 
    password_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
    user = db.users.find_one({"username": username, "password": password_hash})
@@ -112,25 +112,26 @@ def sign_in():
          "exp": datetime.utcnow() + timedelta(seconds = 60*60)
       }
       token = jwt.encode(payload, KEY, algorithm="HS256") #.decode("utf-8")   # annotate while running in localhost
-      return jsonify({"result": True, "logintoken": token})
+      cookie = make_response()
+      cookie.set_cookie("logintoken", token)
+      return cookie
    else:
-      return SIGNIN_FAIL
+      return jsonify({"msg": "아이디, 비밀번호가 틀렸습니다."})
 
 
-@app.route("/sign_up")
+@app.route("/signup")
 def components_sign_up():
    return render_template("components/sign_up.html")
 
 
-@app.route("/sign_up", methods=["POST"])
+@app.route("/signup", methods=["POST"])
 def sign_up():
-   SIGNUP_FAIL = jsonify({"msg": "아이디,비밀번호 형식을 확인해주세요."})
    username = request.form["username"]
    password = request.form["password"]
    if (is_alphs(username) and (2<len(username)<16)) is not True:
-      return SIGNUP_FAIL
+      return jsonify({"msg": "아이디 형식은 알파벳,숫자 3~15자 입니다."})
    if (is_alphs(password) and (7<len(password)<16)) is not True:
-      return SIGNUP_FAIL
+      return jsonify({"msg": "비밀번호 형식은 알파벳,숫자 8~15자 입니다."})
 
    cnt = db.users.find_one({}, {"_id": False})
    uid = cnt["cnt"] + 1
@@ -146,6 +147,13 @@ def sign_up():
    db.users.insert_one(profile)
 
    return redirect(url_for("/sign_in"))
+
+
+@app.route("/test", methods=["GET"])
+def test():
+   resp = make_response()
+   resp.set_cookie("test", "cookie")
+   return resp
 
 
 if __name__ == "__main__":

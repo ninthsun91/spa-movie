@@ -16,14 +16,14 @@ const signIn = () => $("#" + TAG_ID.SIGN_IN);
 const signUp = () => $("#" + TAG_ID.SIGN_UP);
 
 const handleClickSignIn = function () {
-  loadComponent(TAG_ID.SIGN_IN, "/sign_in", function () {
+  loadComponent(TAG_ID.SIGN_IN, "/signin", function () {
     sign().show();
     signIn().show();
     signUp().hide();
   });
 };
 const handleClickSignUp = function () {
-  loadComponent(TAG_ID.SIGN_UP, "/sign_up", function () {
+  loadComponent(TAG_ID.SIGN_UP, "/signup", function () {
     sign().show();
     signUp().show();
     signIn().hide();
