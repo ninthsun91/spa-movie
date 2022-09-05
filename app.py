@@ -36,7 +36,7 @@ def review():
 
 
 @app.route("/movie", methods=["GET"])
-def get_movie():
+def movie_view():
    # code = int(request.args["code"])
    code = 999999
    movie = db.movies.find_one({"code": code}, {"_id": False})
@@ -53,7 +53,7 @@ def get_movie():
 
 
 @app.route("/review", methods=["GET"])
-def get_review():
+def review_view():
    # code = int(request.args["code"])
    code = 999999
    movie = db.movies.find_one({"code": code}, {"_id": False})
@@ -67,25 +67,46 @@ def get_review():
 
 
 @app.route("/review", methods=["POST"])
-def post_review():
+def review_write():
    code = int(request.form["code"])
    username = request.form["username"]
+   title = request.form["title"]
    comment = request.form["comment"]
    if (3<=len(comment)<=300) is not True:
       return jsonify({"msg": "3글자 이상 작성해주세요."})
    userRating = request.form["userRating"]
+   likes = []
    time = str(datetime.now()).split(".")[0]
 
    review = {
       "code": code,
       "username": username,
+      "title": title,
       "comment": comment,
       "userRating": userRating,
+      "likes": likes,
       "time": time,
    }
    db.reviews.insert_one(review)
 
    return jsonify({"msg": "리뷰를 등록했습니다!"})
+
+
+@app.route("/like", methods=["POST"])
+def review_like():
+   id = request.form["id"]
+   username = request.form["username"]
+
+   review = db.reviews.find_one({"_id": ObjectId(id)})
+   likes = set(review["likes"])
+   if username in likes:
+      likes.add(username)
+      db.reviews.update_one({"_id": id}, {"$set": {"likes": list(likes)}})
+      return jsonify({"msg": "좋아요+1"})
+   else:
+      likes.remove(username)
+      db.reviews.update_one({"_id": id}, {"$set": {"likes": list(likes)}})
+      return jsonify({"msg": "좋아요-1"})
 
 
 @app.route("/signin")
