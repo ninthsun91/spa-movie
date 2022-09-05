@@ -27,9 +27,9 @@ def home():
     return render_template("home.html")
 
 
-@app.route("/mov")
-def movie():
-    return render_template("movie.html")
+@app.route("/rev")
+def review():
+    return render_template("review.html")
 
 
 @app.route("/components/sign_in")

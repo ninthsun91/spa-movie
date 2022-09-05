@@ -1,10 +1,15 @@
-#AppContainer nav {
+main {
+  height: calc(100% - 150px);
+  overflow: hidden;
+}
+nav {
   width: calc(100%-40px);
   height: 150px;
   background-color: rgb(30, 30, 30);
   display: flex;
   justify-content: space-between;
   padding: 0 20px;
+  box-shadow: 0px 0px 10px rgb(255, 255, 255, 0.5);
 }
 nav .logo {
   width: 200px;
@@ -12,11 +17,12 @@ nav .logo {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
 }
 nav .logo .app-name {
   color: white;
   cursor: pointer;
+  padding: 10px 10px 10px 5px;
 }
 nav .logo .logo-image {
   width: 60px;

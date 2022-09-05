@@ -1,6 +1,6 @@
 const PATH_NAME = {
   HOME: "/",
-  MOV: "/mov",
+  REV: "/rev",
 };
 
 const loadPage = (pathname) => {
@@ -11,15 +11,15 @@ const pushHistory = (pathname) => history.pushState({ pathname }, "", location.o
 history.replaceState({ pathname: location.pathname }, "");
 window.onpopstate = function ({ state }) {
   switch (state.pathname) {
-    case PATH_NAME.MOV:
-      return loadPage(PATH_NAME.MOV);
+    case PATH_NAME.REV:
+      return loadPage(PATH_NAME.REV);
     case PATH_NAME.HOME:
       return loadPage(PATH_NAME.HOME);
   }
 };
-const loadMovie = function () {
-  pushHistory(PATH_NAME.MOV);
-  loadPage(PATH_NAME.MOV);
+const loadRev = function () {
+  pushHistory(PATH_NAME.REV);
+  loadPage(PATH_NAME.REV);
 };
 const loadHome = function () {
   pushHistory(PATH_NAME.HOME);

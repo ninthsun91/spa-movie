@@ -1,0 +1,7 @@
+.board {
+  width: 70%;
+  min-width: 300px;
+  height: 100%;
+  color: white;
+  margin: 0 auto;
+}

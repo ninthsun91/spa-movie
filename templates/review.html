@@ -1,0 +1,44 @@
+{% extends "inheritance/center_board.html"%}
+<!--  -->
+{% block title %}Review{%endblock%}
+<!--  -->
+{% block board %}
+
+<div id="makeReview" class="make-review" onclick="handleClickMakeReview()"><i class="bi bi-plus-lg"></i></div>
+<div class="review-menu">
+  <h1>Review</h1>
+  <ul>
+    <li><label for="review-radio1">recent</label></li>
+    <li><label for="review-radio2"> popular</label></li>
+    <li><label for="review-radio3">movies</label></li>
+  </ul>
+</div>
+<div class="review-viewer">
+  <div class="review-wrapper">
+    <input type="checkbox" name="review" id="review-radio1" />
+    <div class="heading">
+      <h2>최근 작성된 리뷰</h2>
+    </div>
+    <div class="review-container">
+      <div class="review-card"></div>
+    </div>
+  </div>
+
+  <div class="review-wrapper">
+    <input type="checkbox" name="review" id="review-radio2" />
+    <div class="heading">
+      <h2>인기 많은 리뷰</h2>
+    </div>
+    <div class="review-container"></div>
+  </div>
+
+  <div class="review-wrapper">
+    <input type="checkbox" name="review" id="review-radio3" />
+    <div class="heading">
+      <h2>리뷰가 많이 달린 영화</h2>
+    </div>
+    <div class="review-container"></div>
+  </div>
+</div>
+{% endblock %}
+<!--  -->

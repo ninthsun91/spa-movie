@@ -8,14 +8,14 @@ const sign = $("#" + TAG_ID.SIGN);
 const signIn = $("#" + TAG_ID.SIGN_IN);
 const signUp = $("#" + TAG_ID.SIGN_UP);
 
-const showSignIn = function () {
+const handleClickSignIn = function () {
   loadComponent(TAG_ID.SIGN_IN, "components/sign_in", function () {
     sign.show();
     signIn.show();
     signUp.hide();
   });
 };
-const showSignUp = function () {
+const handleClickSignUp = function () {
   loadComponent(TAG_ID.SIGN_UP, "components/sign_up", function () {
     sign.show();
     signUp.show();
@@ -48,4 +48,11 @@ const handleSubmitSignUp = function (event) {
       console.log(res);
     },
   });
+};
+const handleClickReview = function () {
+  console.log("review");
+  loadRev();
+};
+const handleClickLogo = function () {
+  loadHome();
 };

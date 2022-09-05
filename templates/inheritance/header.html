@@ -6,13 +6,13 @@
 <div id="AppContainer">
   <nav>
     <div class="logo">
-      <div class="logo-image"></div>
-      <span class="app-name">movie toy</span>
+      <div class="logo-image" onclick="handleClickLogo()"></div>
+      <span class="app-name" onclick="handleClickLogo()">movie toy</span>
     </div>
     <ul class="menu">
-      <li>review</li>
-      <li onclick="showSignIn()">sign in</li>
-      <li onclick="showSignUp()">sign up</li>
+      <li onclick="handleClickReview()">review</li>
+      <li onclick="handleClickSignIn()">sign in</li>
+      <li onclick="handleClickSignUp()">sign up</li>
     </ul>
   </nav>
   <section id="sign" class="sign" onclick="hideSign()">
