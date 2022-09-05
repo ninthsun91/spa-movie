@@ -1,0 +1,33 @@
+.sign {
+  height: 100%;
+  position: fixed;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  background-color: transparent;
+  display: none;
+}
+.sign .sign-in,
+.sign .sign-up {
+  margin: 20px auto 0 auto;
+  width: 330px;
+  height: 500px;
+  background-color: rgb(120, 120, 120);
+  display: none;
+}
+.sign section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+}
+.sign section form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+}

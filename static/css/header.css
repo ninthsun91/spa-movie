@@ -1,0 +1,40 @@
+#AppContainer nav {
+  width: calc(100%-40px);
+  height: 150px;
+  background-color: rgb(30, 30, 30);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+nav .logo {
+  width: 200px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+nav .logo .app-name {
+  color: white;
+  cursor: pointer;
+}
+nav .logo .logo-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: aliceblue;
+  cursor: pointer;
+}
+nav .menu {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0 20px;
+  gap: 20px;
+}
+nav .menu li {
+  height: 30px;
+  padding: 5px;
+  color: white;
+  cursor: pointer;
+}
