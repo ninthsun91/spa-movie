@@ -32,6 +32,16 @@ def movie():
     return render_template("movie.html")
 
 
+@app.route("/components/sign_in")
+def components_sign_in():
+    return render_template("components/sign_in.html")
+
+
+@app.route("/components/sign_up")
+def components_sign_up():
+    return render_template("components/sign_up.html")
+
+
 @app.route("/movie", methods=["GET"])
 def get_movie():
     code = request.args["code"]

@@ -4,13 +4,17 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base/reset.css') }}" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base/index.css') }}" />
     <title>{% block title %} {% endblock %} | Movie Toy</title>
   </head>
   <body>
     <div id="App">{% block App %} {% endblock %}</div>
     <script src="{{ url_for('static', filename='js/modules/router.js') }}"></script>
     <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/header.js') }}"></script>
     <script src="{{ url_for('static', filename='js/home.js') }}"></script>
     <script src="{{ url_for('static', filename='js/movie.js') }}"></script>
   </body>

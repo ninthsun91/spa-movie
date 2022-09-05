@@ -1,11 +1,8 @@
-{% extends "base.html"%}
+{% extends "header.html"%}
 <!--  -->
 {% block title %}Home{%endblock%}
 <!--  -->
-{% block App %}
-<div id="AppContainer">
-  Home
-  <button id="movie" onclick="loadMovie()">goto movie</button>
-</div>
+{% block main %} Home
+<button id="movie" onclick="loadMovie()">goto movie</button>
 {% endblock %}
 <!--  -->

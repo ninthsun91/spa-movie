@@ -25,3 +25,7 @@ const loadHome = function () {
   pushHistory(PATH_NAME.HOME);
   loadPage(PATH_NAME.HOME);
 };
+
+const loadComponent = function (tagId, pathname, complete = undefined) {
+  $("#" + tagId).load(`${pathname}`, complete);
+};
