@@ -9,7 +9,7 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
-from validator import *
+from regex import *
 
 
 app = Flask(__name__)
