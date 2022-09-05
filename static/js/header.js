@@ -85,14 +85,14 @@ const handleSubmitSignUp = function (event) {
 };
 
 const validateSignUp = function () {
-  const idVal = signInId().val();
-  const pwVal = signInPw().val();
+  const idVal = signUpId().val();
+  const pwVal = signUpPw().val();
   const confirmVal = signUpConfirm().val();
   if (!reg.id.test(idVal) && idVal !== "") {
     signUpErrorMessage().text("id error");
-  } else if (!reg.id.test(pwVal) && pwVal !== "") {
+  } else if (!reg.password.test(pwVal) && pwVal !== "") {
     signUpErrorMessage().text("pw error");
-  } else if (pwVal !== confirmVal) {
+  } else if (pwVal !== confirmVal && confirmVal !== "") {
     signUpErrorMessage().text("confirm error");
   } else {
     signUpErrorMessage().text("");
@@ -103,7 +103,7 @@ const validateSignIn = function () {
   const pwVal = signInPw().val();
   if (!reg.id.test(idVal) && idVal !== "") {
     signInErrorMessage().text("id error");
-  } else if (!reg.id.test(pwVal) && pwVal !== "") {
+  } else if (!reg.password.test(pwVal) && pwVal !== "") {
     signInErrorMessage().text("pw error");
   } else {
     signInErrorMessage().text("");
