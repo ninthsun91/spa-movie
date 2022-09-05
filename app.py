@@ -7,6 +7,7 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
+from validator import *
 
 
 app = Flask(__name__)
@@ -54,7 +55,7 @@ def get_review():
    rids = movie["reviews"]
    reviews = []
    for rid in rids:
-      reviews.append(db.reviews.find_one({"_id": ObjectId(rid)}, {"_id": False}))
+      reviews.append(db.reviews.find_one({"_id": ObjectId(rid)}))
 
    return jsonify({ reviews })
 
@@ -64,6 +65,8 @@ def post_review():
    code = int(request.form["code"])
    username = request.form["username"]
    comment = request.form["comment"]
+   if (3<=len(comment)<=300) is not True:
+      return jsonify({"msg": "3글자 이상 작성해주세요."})
    userRating = request.form["userRating"]
    time = str(datetime.now()).split(".")[0]
 
@@ -86,10 +89,15 @@ def components_sign_in():
 
 @app.route("/sign_in", methods=["POST"])
 def sign_in():
+   SIGNIN_FAIL = jsonify({"result": False, "msg": "아이디, 비밀번호가 틀렸습니다."})
    username = request.form["username"]
    password = request.form["password"]
-   password_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
+   if (is_alphs(username) and (2<len(username)<16)) is not True:
+      return SIGNIN_FAIL
+   if (is_alphs(password) and (7<len(password)<16)) is not True:
+      return SIGNIN_FAIL
 
+   password_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
    user = db.users.find_one({"username": username, "password": password_hash})
    if user is not None:
       uid = user["uid"]
@@ -98,10 +106,10 @@ def sign_in():
          "username": username,
          "exp": datetime.utcnow() + timedelta(seconds = 60*60)
       }
-      token = jwt.encode(payload, KEY, algorithm="HS256") #.decode("utf-8")   # annotate while using localhost
+      token = jwt.encode(payload, KEY, algorithm="HS256") #.decode("utf-8")   # annotate while running in localhost
       return jsonify({"result": True, "logintoken": token})
    else:
-      return jsonify({"result": False, "msg": "아이디, 비밀번호가 틀렸습니다."})
+      return SIGNIN_FAIL
 
 
 @app.route("/sign_up")
@@ -111,13 +119,19 @@ def components_sign_up():
 
 @app.route("/sign_up", methods=["POST"])
 def sign_up():
+   SIGNUP_FAIL = jsonify({"msg": "아이디,비밀번호 형식을 확인해주세요."})
    username = request.form["username"]
    password = request.form["password"]
-   password_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
+   if (is_alphs(username) and (2<len(username)<16)) is not True:
+      return SIGNUP_FAIL
+   if (is_alphs(password) and (7<len(password)<16)) is not True:
+      return SIGNUP_FAIL
 
    cnt = db.users.find_one({}, {"_id": False})
    uid = cnt["cnt"] + 1
+   db.users.update_one({}, {"$set": {"cnt": uid}})
 
+   password_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
    profile = {
       "uid": uid,
       "username": username,
