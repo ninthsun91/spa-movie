@@ -1,17 +1,27 @@
+const PATH_NAME = {
+  HOME: "/",
+  MOV: "/mov",
+};
+
+const loadPage = (pathname) => {
+  $("#App").load(`${pathname} #AppContainer`);
+};
+const pushHistory = (pathname) => history.pushState({ pathname }, "", location.origin + pathname);
+
 history.replaceState({ pathname: location.pathname }, "");
 window.onpopstate = function ({ state }) {
   switch (state.pathname) {
-    case "/mov":
-      return $("#App").load("/mov #AppContainer", console.log("test success"));
-    case "/":
-      return $("#App").load("/ #AppContainer", console.log("test success"));
+    case PATH_NAME.MOV:
+      return loadPage(PATH_NAME.MOV);
+    case PATH_NAME.HOME:
+      return loadPage(PATH_NAME.HOME);
   }
 };
 const loadMovie = function () {
-  history.pushState({ pathname: "/mov" }, "", location.origin + "/mov");
-  $("#App").load("/mov #AppContainer", console.log("test success"));
+  pushHistory(PATH_NAME.MOV);
+  loadPage(PATH_NAME.MOV);
 };
 const loadHome = function () {
-  history.pushState({ pathname: "/" }, "", location.origin + "/");
-  $("#App").load("/ #AppContainer", console.log("test success"));
+  pushHistory(PATH_NAME.HOME);
+  loadPage(PATH_NAME.HOME);
 };
