@@ -8,7 +8,7 @@
 }
 .carousel .chevrons div {
   position: absolute;
-  top: 400px;
+  top: 320px;
   cursor: pointer;
   z-index: 20;
 }
@@ -28,7 +28,7 @@
 .carousel .indicator-wrapper .indicator {
   position: absolute;
   left: 50vw;
-  top: calc(42vh + 20px);
+  top: calc(42vh + 36px);
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: space-between;
@@ -36,7 +36,7 @@
 }
 .carousel .indicator-wrapper .indicator .slug {
   width: 15px;
-  height: 10px;
+  height: 7px;
   border-radius: 5px;
   background-color: rgb(255, 255, 255, 0.7);
   transition: all 0.5s;
@@ -65,14 +65,13 @@
   opacity: 0.4;
   filter: blur(50px);
 }
-
 .movies-grouped {
   height: 120vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 30px;
+  padding: 120px 30px 60px 30px;
   gap: 20px;
 }
 .movies-grouped > div {

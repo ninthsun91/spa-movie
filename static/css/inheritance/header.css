@@ -45,3 +45,25 @@ nav .menu li {
   color: white;
   cursor: pointer;
 }
+.sign section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+}
+.sign section form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  gap: 10px;
+}
+.sign section form .error-message {
+  color: salmon;
+  font-size: 30px;
+}
+.sign section form .error-message:empty {
+  display: none;
+}

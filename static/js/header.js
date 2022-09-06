@@ -1,7 +1,5 @@
 const TAG_ID = {
   SIGN: "sign",
-  SIGN_IN: "signIn",
-  SIGN_UP: "signUp",
   SIGN_UP_ID: "signUpId",
   SIGN_UP_PW: "signUpPw",
   SIGN_UP_CONFIRM: "signUpConfirm",
@@ -12,28 +10,27 @@ const TAG_ID = {
 };
 
 const sign = () => $("#" + TAG_ID.SIGN);
-const signIn = () => $("#" + TAG_ID.SIGN_IN);
-const signUp = () => $("#" + TAG_ID.SIGN_UP);
 
 const handleClickSignIn = function () {
-  loadComponent(TAG_ID.SIGN_IN, "/components/signin", function () {
+  loadComponent(TAG_ID.SIGN, "/components/signin", function () {
     sign().show();
-    signIn().show();
-    signUp().hide();
   });
 };
+const handleClickSignInCancel = function () {
+  sign().hide();
+};
 const handleClickSignUp = function () {
-  loadComponent(TAG_ID.SIGN_UP, "/components/signup", function () {
+  loadComponent(TAG_ID.SIGN, "/components/signup", function () {
     sign().show();
-    signUp().show();
-    signIn().hide();
   });
+};
+const handleClickSignUpCancel = function () {
+  sign().hide();
 };
 const hideSign = function () {
   sign().hide();
-  signIn().hide();
-  signUp().hide();
 };
+
 const handleClickReview = function () {
   loadRev();
 };

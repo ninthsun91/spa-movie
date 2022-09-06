@@ -15,10 +15,7 @@
       <li onclick="handleClickSignUp()">sign up</li>
     </ul>
   </nav>
-  <section id="sign" class="sign" onclick="hideSign()">
-    <div id="signIn" class="sign-in" onclick="event.stopPropagation()">IN</div>
-    <div id="signUp" class="sign-up" onclick="event.stopPropagation()">UP</div>
-  </section>
+  <section id="sign" class="sign" onclick="hideSign()"></section>
   <main>{% block main%}{%endblock%}</main>
 </div>
 {% endblock %}

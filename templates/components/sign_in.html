@@ -1,3 +1,4 @@
+{% extends "inheritance/modal_small.html"%} {%block content%}
 <section>
   <h2>sign in</h2>
   <form onsubmit="handleSubmitSignIn(event)">
@@ -5,5 +6,7 @@
     <input oninput="handleInputSignInPw(event)" id="signInPw" type="password" required minlength="8" maxlength="15" />
     <div id="signInErrorMessage" class="error-message"></div>
     <button>submit</button>
+    <input type="button" value="cancel" onclick="handleClickSignInCancel()" />
   </form>
 </section>
+{%endblock%}
