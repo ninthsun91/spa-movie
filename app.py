@@ -1,12 +1,21 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, session
+from dotenv import load_dotenv
+import os
+
 from components import components
 from movie import movie_bp
 from review import review_bp
 from user import user_bp
 
 
+load_dotenv()
+KEY = os.environ.get("SECRET_KEY")
+
 app = Flask(__name__)
-app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.config.update(
+   SECRET_KEY=KEY,
+   TEMPLATES_AUTO_RELOAD=True
+)
 
 app.register_blueprint(components, url_prefix="/components")
 app.register_blueprint(movie_bp, url_prefix="/")
@@ -16,6 +25,8 @@ app.register_blueprint(user_bp, url_prefix="/")
 
 @app.route("/")
 def home():
+   session["list_now"] = 0
+   session["list_trend"] = 0
    return render_template("home.html")
 @app.route("/rev")
 def review():

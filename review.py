@@ -11,7 +11,7 @@ from regex import *
 
 load_dotenv()
 URL = os.environ.get("MongoDB_URL")
-KEY = os.environ.get("SECRET_KEY")
+KEY = os.environ.get("HASH_KEY")
 
 client = MongoClient(URL, tls=True, tlsAllowInvalidCertificates=True)
 db = client.spamovie

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, render_template, request, jsonify, session
 from pymongo import MongoClient
 
 import urllib.request
@@ -23,15 +23,115 @@ db = client.spamovie
 movie_bp = Blueprint("movie", __name__)
 
 
+# 홈화면 메인 포스터
+@movie_bp.route("/carousel")
+def movie_carousel():
+    return ""
+
+
+# 홈화면 최신 영화 목록
+@movie_bp.route("/movienow")
+def movie_now():
+    dir = request.args["dir"]
+    if dir=="right":
+        session["list_now"] += 1
+    elif dir=="left":
+        session["list_now"] -= 1    
+    list_now = session.get("list_now")
+    skip = (list_now * 4) if list_now>=0 else (40 + (list_now * 4))
+
+    pipeline = [
+        {
+            "$search": {
+                "index": "movie_title",
+                "regex": {
+                    "query": "[0-9.]{4,10}",
+                    "path": "pubDate",
+                    "allowAnalyzedField": True
+                }
+            }
+        }, {
+            "$sort": { "pubDate": -1 }
+        }, {
+            "$project": {
+                "_id": 0,
+                "code": 1,
+                "image": 1,
+                "title": 1,
+                "director": 1,
+                "actor": 1,
+                "pubDate": 1,
+                "naverRating": 1,
+            }
+        }, {
+            "$limit": 40
+        }, {
+            "$skip": skip
+        }
+    ]
+    movies_search = db.movies.aggregate(pipeline)
+
+    movies = []
+    for movie in movies_search:
+        movies.append(movie)
+
+    return jsonify({ "movies": movies[0:4] })
+
+
+# 홈화면 트랜딩 영화 목록
+@movie_bp.route("/movietrend")
+def movie_trend():
+    dir = request.args["dir"]
+    if dir=="right":
+        session["list_trend"] += 1
+    elif dir=="left":
+        session["list_trend"] -= 1
+    list_trend = session.get("list_trend")
+    skip = (list_trend * 4) if list_trend>=0 else (40 + (list_trend * 4))
+
+    pipeline = [
+        {
+            "$project": {
+                "_id": 0,
+                "code": 1,
+                "image": 1,
+                "title": 1,
+                "director": 1,
+                "actor": 1,
+                "pubDate": 1,
+                "naverRating": 1,
+                "review_count": {"$size": "$reviews"}
+            }
+        }, {
+            "$sort": {
+                "review_count": -1,
+                "naverRating": -1
+            }
+        }, {
+            "$limit": 40
+        }, {
+            "$skip": skip
+        }
+    ]
+    movies_search = db.movies.aggregate(pipeline)
+
+    movies = []
+    for movie in movies_search:
+        movies.append(movie)
+        
+    return jsonify({ "movies": movies[0:4] })
+
+
+# 영화 상세
 @movie_bp.route("/movie", methods=["GET"])
 def movie_view():
-   # code = int(request.args["code"])
-   code = 999999
+   code = int(request.args["code"])
    movie = db.movies.find_one({"code": code}, {"_id": False})
    
    return render_template("movie.html", movie=movie)
 
 
+# 영화 제목 검색
 @movie_bp.route("/search", methods=["POST"])
 def search_title():
     keyword = request.form["keyword"]
@@ -137,7 +237,7 @@ def movie_add(movies):
             db.movies.insert_one(movie)
             cnt += 1
     
-    return f"{cnt} movies added to DB"
+    return print(f"{cnt} movies added to DB")
 
 
 @movie_bp.route("/test", methods=["GET"])
@@ -150,11 +250,11 @@ def test():
    return render_template("TESTPAGE.html", a=a)
 
 # 네이버 영화DB 스크랩 -> DB 유지관리용. 웹사이트에는 사용 안될거에요
-# @movie_bp.route("/scrap", methods=["GET"])
+@movie_bp.route("/scrap", methods=["GET"])
 def scrap():
     print("scrap")
 
-    url = "https://movie.naver.com/movie/sdb/rank/rmovie.naver?sel=cnt&tg=0&date=20210625"
+    url = "https://movie.naver.com/movie/sdb/rank/rmovie.naver?sel=cnt&tg=0&date=20220901"
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
     data = requests.get(url, headers=headers)
@@ -174,14 +274,16 @@ def scrap():
         data = requests.get(url, headers=headers)
         soup = BeautifulSoup(data.text, 'html.parser')
         desc = soup.select_one("#content > div.article > div.section_group.section_group_frst > div:nth-child(1) > div > div.story_area > p")
-
+        pubDate = soup.select_one("#content > div.article > div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(4)")
+                                   #content > div.article > div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(3) > a:nth-child(1)
+                                   #content > div.article > div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(3)
         movie = {
             "code": code,
             "image": naver["image"],
             "title": title,
             "director": naver["director"],
             "actor": naver["actor"],
-            "pubDate": naver["pubDate"],
+            "pubDate": remove_tags(str(pubDate)).strip().replace("\n", "")[0:10],
             "naverRating": naver["naverRating"],
             "userRating": "0.00",
             "description": remove_tags(str(desc)),
