@@ -35,6 +35,12 @@ def home():
 @app.route("/rev")
 def review():
    return render_template("review.html")
+@app.route("/revcard")
+def review_card():
+   return render_template("components/review_card.html",movies=[1,2])
+@app.route("/postercard")
+def poster_card():
+   return render_template("components/poster_card.html",movies=[1,2,3,4])
 
 
 

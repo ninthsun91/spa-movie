@@ -8,9 +8,9 @@
 <div class="review-menu">
   <h1>Review</h1>
   <ul>
-    <li><label for="review-radio1">recent</label></li>
-    <li><label for="review-radio2"> popular</label></li>
-    <li><label for="review-radio3">movies</label></li>
+    <li><label for="review-radio1" onclick="handleClickRecentReview()">recent</label></li>
+    <li><label for="review-radio2" onclick="handleClickPopularReview()">popular</label></li>
+    <li><label for="review-radio3" onclick="handleClickMostReviewed()">movies</label></li>
   </ul>
 </div>
 <div class="review-viewer">
@@ -19,23 +19,21 @@
     <div class="heading">
       <h2>최근 작성된 리뷰</h2>
     </div>
-    <div class="review-container">
-      <div class="review-card"></div>
-    </div>
+    <div id="recentReview" class="review-container"></div>
   </div>
   <div class="review-wrapper">
     <input type="checkbox" name="review" id="review-radio2" />
     <div class="heading">
       <h2>인기 많은 리뷰</h2>
     </div>
-    <div class="review-container"></div>
+    <div id="popularReview" class="review-container"></div>
   </div>
   <div class="review-wrapper">
     <input type="checkbox" name="review" id="review-radio3" />
     <div class="heading">
       <h2>리뷰가 많이 달린 영화</h2>
     </div>
-    <div class="review-container"></div>
+    <div id="mostReviewed" class="review-container most-reviewed"></div>
   </div>
 </div>
 {% endblock %}
