@@ -1,0 +1,29 @@
+<div
+  style="
+    position: fixed;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: 200vh;
+    background-color: rgb(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+  "
+  id="modalBackground"
+  onclick="handleClickModalBack()"
+>
+  <div
+    style="
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 1200px;
+      height: 800px;
+      border: solid 3px tomato;
+    "
+    onclick="event.stopPropagation()"
+  >
+    {% block content%}{%endblock%}
+  </div>
+</div>

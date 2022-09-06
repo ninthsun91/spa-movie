@@ -1,5 +1,6 @@
 const handleClickMakeReview = function () {
   console.log("review");
+  loadComponent("mostReviewed", "/components/plus/create");
 };
 const handleClickRecentReview = function () {
   console.log("recent");

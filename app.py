@@ -36,7 +36,7 @@ def home():
 
 @app.route("/rev")
 def review():
-   return render_template("review.html")
+   return render_template("review_page.html")
 
 @app.route("/movie", methods=["GET"])
 def movie_view():

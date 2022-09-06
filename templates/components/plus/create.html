@@ -1,0 +1,10 @@
+{% extends "inheritance/modal.html"%} {%block content%}
+<div>
+  <h2 id="modalTitle">영화를 먼저 골라주세요</h2>
+  <form onsubmit="handleSubmitSearchMovie(event)">
+    <input type="text" />
+    <button>submit</button>
+  </form>
+  <div id="moviesSearched" style="display: flex"></div>
+</div>
+{%endblock%}

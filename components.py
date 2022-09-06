@@ -11,9 +11,13 @@ def poster_card():
    return render_template("components/poster_card.html",movies=[1,2,3,4])
 
 @components.route("/signup")
-def components_sign_up():
+def sign_up():
    return render_template("components/sign_up.html")
 
 @components.route("/signin")
-def components_sign_in():
+def sign_in():
    return render_template("components/sign_in.html")
+
+@components.route("/plus/create")
+def create():
+   return render_template("components/plus/create.html")
