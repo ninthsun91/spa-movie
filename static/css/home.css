@@ -9,7 +9,6 @@
 .carousel .chevrons div {
   position: absolute;
   top: 400px;
-  /* transform: translate(-50%, -50%); */
   cursor: pointer;
   z-index: 20;
 }
@@ -20,7 +19,7 @@
   right: 50px;
 }
 .carousel .chevrons div i {
-  color: white;
+  color: rgb(255, 255, 255, 0.7);
   font-size: 60px;
 }
 .carousel .indicator-wrapper {
@@ -33,13 +32,13 @@
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: space-between;
-  width: 140px;
+  width: 120px;
 }
 .carousel .indicator-wrapper .indicator .slug {
   width: 15px;
   height: 10px;
   border-radius: 5px;
-  background-color: white;
+  background-color: rgb(255, 255, 255, 0.7);
   transition: all 0.5s;
 }
 .carousel .indicator-wrapper .indicator .slug:first-child {
@@ -51,10 +50,13 @@
   left: -100vw;
   display: flex;
   width: 300vw;
+  height: 100%;
 }
 .carousel .carousel-constainer .carousel-box {
   position: relative;
   width: 100vw;
+  height: 100%;
+  overflow: hidden;
   transition: all 0.5s;
 }
 .carousel .carousel-constainer .carousel-box img {

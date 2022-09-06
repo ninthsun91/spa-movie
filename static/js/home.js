@@ -16,10 +16,7 @@ const shrinkSlug = function (num) {
 const handleClickLeftChevron = function () {
   if (clickable) {
     clickable = false;
-    const copyNumber = numberIndicating;
-    setTimeout(function () {
-      shrinkSlug(copyNumber);
-    }, 500);
+    shrinkSlug(numberIndicating);
     numberIndicating -= 1;
     slugs(calculating(numberIndicating)).css("width", "50px");
 
@@ -37,10 +34,7 @@ const handleClickLeftChevron = function () {
 const handleClickRightChevron = function () {
   if (clickable) {
     clickable = false;
-    const copyNumber = numberIndicating;
-    setTimeout(function () {
-      shrinkSlug(copyNumber);
-    }, 500);
+    shrinkSlug(numberIndicating);
     numberIndicating += 1;
     slugs(calculating(numberIndicating)).css("width", "50px");
 
