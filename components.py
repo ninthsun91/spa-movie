@@ -1,3 +1,4 @@
+from email import message
 from flask import Blueprint, render_template, jsonify, request
 
 components = Blueprint("components", __name__)
@@ -30,3 +31,6 @@ def create_uncov():
 @components.route("/upsert")
 def upsert():
    return render_template("components/review_upsert.html",movie_title="tenet")
+@components.route("/popup-upsertied")
+def popup_upsertied():
+   return render_template("components/popup.html",message="제출되었습니다")

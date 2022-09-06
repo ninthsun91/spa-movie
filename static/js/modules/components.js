@@ -2,7 +2,7 @@ const modalBackground = () => $("#modalBackground");
 const moviesSearched = () => $("#moviesSearched");
 const searchLeft = () => $("#searchLeft");
 const searchRight = () => $("#searchRight");
-
+const popupPlace = () => $("#popupPlace");
 const handleClickModalBack = function () {
   modalBackground().hide();
 };
@@ -36,12 +36,23 @@ const handleClickMovieUpsert = function () {
   searchLeft().hide();
   searchRight().hide();
 };
+let timeout;
 const handleSubmitMovieUpsirt = function (event) {
   event.preventDefault();
   console.log("movie upsirt");
   modalBackground().hide();
+  loadComponent("popupPlace", "/components/popup-upsertied");
+  console.log("popupPlace()", popupPlace());
+  popupPlace().show();
+  timeout = setTimeout(function () {
+    popupPlace().hide();
+  }, 3000);
 };
 const handleClickMovieUpsirtCancel = function () {
   loadComponent("modalContent", "/components/plus/create-uncov");
   console.log("movie upsirt cancel");
+};
+const handleClickPopupConfirm = function () {
+  popupPlace().hide();
+  clearTimeout(timeout);
 };
