@@ -9,7 +9,7 @@
 .carousel .chevrons div {
   position: absolute;
   top: 400px;
-  transform: translate(-50%, -50%);
+  /* transform: translate(-50%, -50%); */
   cursor: pointer;
   z-index: 20;
 }
@@ -23,6 +23,28 @@
   color: white;
   font-size: 60px;
 }
+.carousel .indicator-wrapper {
+  position: relative;
+}
+.carousel .indicator-wrapper .indicator {
+  position: absolute;
+  left: 50vw;
+  top: calc(42vh + 20px);
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: space-between;
+  width: 140px;
+}
+.carousel .indicator-wrapper .indicator .slug {
+  width: 15px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: white;
+  transition: all 0.5s;
+}
+.carousel .indicator-wrapper .indicator .slug:first-child {
+  width: 50px;
+}
 .carousel .carousel-constainer {
   height: 0;
   position: relative;
@@ -30,25 +52,18 @@
   display: flex;
   width: 300vw;
 }
-.carousel .carousel-constainer .img-box {
+.carousel .carousel-constainer .carousel-box {
+  position: relative;
   width: 100vw;
-  transition: all 1s;
-  /* filter: blur(50px); */
+  transition: all 0.5s;
 }
-.carousel .carousel-constainer .img-box img {
+.carousel .carousel-constainer .carousel-box img {
+  position: absolute;
   width: 100%;
-  /* filter: blur(50px); */
   opacity: 0.4;
-}
-.carousel .back-img {
-  height: 100%;
-  /* background-image: url("https://images.pexels.com/photos/940797/pexels-photo-940797.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
-  background-size: cover;
-  background-position: center;
   filter: blur(50px);
-  overflow: hidden;
-  opacity: 0.2; */
 }
+
 .movies-grouped {
   height: 120vh;
   display: flex;
