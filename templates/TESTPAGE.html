@@ -6,7 +6,7 @@
   </head>
   <body>
     <h1>TESTTEST</h1>
-    {{ a["name"] }}
+    {{ a }}
     <button id="testbtn">test</button>
     <div id="testdiv"></div>
     <script>
@@ -22,16 +22,17 @@
         //   $("#testdiv").text(JSON.stringify(res))
           
         // });
+        const review = {
+            "code": 198413,
+            "username": "8집주세요",
+            "title": "박찬욱이 박찬욱했다",
+            "comment": "난해한 전개. 상징성이 가득한 연출. 오묘하면서도 섬세한 감정선. 작품 해석 면에서는 분명 재미있지만 까다로운 영화. 박해일 연기는 일품",
+            "userRating": "9.00",
+        }
         $.ajax({
           type: "POST",
-          url: "/test2",
-          data: {
-            "code": 999999,
-            "username": "8집주세요",
-            "title": "국힙원탑 아이유!",
-            "comment": "너무너무 기대되요!!",
-            "userRating": 9.00,
-          },
+          url: "/review",
+          data: review,
           success: (response) => {
             console.log(response);            
             

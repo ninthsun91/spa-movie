@@ -40,10 +40,11 @@ def review_view():
 def review_write():
     code = int(request.form["code"])
     title = request.form["title"]
+
     if title_check(title) is not True:
         return jsonify({"msg": "제목은 특수문자 제외 3~30자입니다."})
     comment = request.form["comment"]
-    if (3<=len(comment)<=300) is not True:
+    if comment_check(comment) is not True:
         return jsonify({"msg": "3글자 이상 작성해주세요."})
     userRating = request.form["userRating"]
 
