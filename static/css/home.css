@@ -1,5 +1,53 @@
 .carousel {
   height: 50vh;
+  overflow: hidden;
+}
+.carousel .chevrons {
+  border: solid 1px red;
+  position: relative;
+}
+.carousel .chevrons div {
+  position: absolute;
+  top: 400px;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  z-index: 20;
+}
+.carousel .chevrons .left-chevron {
+  left: 50px;
+}
+.carousel .chevrons .right-chevron {
+  right: 50px;
+}
+.carousel .chevrons div i {
+  color: white;
+  font-size: 60px;
+}
+.carousel .carousel-constainer {
+  height: 0;
+  position: relative;
+  left: -100vw;
+  display: flex;
+  width: 300vw;
+}
+.carousel .carousel-constainer .img-box {
+  width: 100vw;
+  transition: all 1s;
+  /* filter: blur(50px); */
+}
+.carousel .carousel-constainer .img-box img {
+  width: 100%;
+  /* filter: blur(50px); */
+  opacity: 0.4;
+}
+.carousel .back-img {
+  height: 100%;
+  /* background-image: url("https://images.pexels.com/photos/940797/pexels-photo-940797.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+  background-size: cover;
+  background-position: center;
+  filter: blur(50px);
+  overflow: hidden;
+  opacity: 0.2; */
 }
 .movies-grouped {
   height: 120vh;
@@ -14,6 +62,7 @@
   width: 100%;
   height: 100%;
 }
+
 .movies-grouped > div .movie-list {
   width: calc(100% - 60px);
   height: calc(95% - 40px);

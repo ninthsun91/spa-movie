@@ -3,7 +3,36 @@
 {% block title %}Home{%endblock%}
 <!--  -->
 {% block main %}
-<section id="carousel" class="carousel" style="border: solid 2px salmon"></section>
+<section id="carousel" class="carousel" style="border: solid 2px salmon">
+  <div class="chevrons">
+    <div id="leftChevron" class="left-chevron" onclick="handleClickLeftChevron()">
+      <i class="bi bi-chevron-compact-left"></i>
+    </div>
+    <div id="rightChevron" class="right-chevron" onclick="handleClickRightChevron()">
+      <i class="bi bi-chevron-compact-right"></i>
+    </div>
+  </div>
+  <div class="carousel-constainer">
+    <div class="img-box">
+      <img
+        src="https://images.pexels.com/photos/940797/pexels-photo-940797.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        alt=""
+      />
+    </div>
+    <div class="img-box">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Dog_%28128484081%29.jpeg/800px-Dog_%28128484081%29.jpeg?20181106134441"
+        alt=""
+      />
+    </div>
+    <div class="img-box">
+      <img
+        src="https://images.rawpixel.com/image_1000/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA1L25zODIzMC1pbWFnZS5qcGc.jpg"
+        alt=""
+      />
+    </div>
+  </div>
+</section>
 <section class="movies-grouped" style="border: solid 2px gold">
   <div class="now-playing" style="border: solid 2px PaleVioletRed">
     <h2>now playing</h2>
