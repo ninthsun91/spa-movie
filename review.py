@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 
 from regex import *
 
+
 load_dotenv()
 URL = os.environ.get("MongoDB_URL")
 KEY = os.environ.get("HASH_KEY")
@@ -19,6 +20,7 @@ db = client.spamovie
 review_bp = Blueprint("review", __name__)
 
 
+# 리뷰 상세
 @review_bp.route("/review", methods=["GET"])
 def review_view():
    # code = int(request.args["code"])
@@ -33,6 +35,7 @@ def review_view():
    return jsonify({ "reviews": reviews })
 
 
+# 리뷰 작성 및 수정
 @review_bp.route("/review", methods=["POST"])
 def review_write():
     code = int(request.form["code"])
@@ -59,7 +62,10 @@ def review_write():
                 "time": str(datetime.now()).split(".")[0],
             }
             id = request.form["id"] if "id" in request.form.keys() else None
-            db.reviews.update_one({"_id": ObjectId(id)}, {"$set": review}, upsert=True)
+            up = db.reviews.update_one({"_id": ObjectId(id)}, {"$set": review}, upsert=True)
+
+            db.movies.update_one({"code": code}, {"$addToSet": {"reviews": str(up.upserted_id)}})
+            update_rating(code)
 
             return jsonify({"msg": "리뷰를 등록했습니다!"})
         except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
@@ -68,6 +74,18 @@ def review_write():
         return jsonify({"msg": "로그인을 먼저 해주세요."})   
 
 
+# 좋아요 수 조회
+@review_bp.route("/like")
+def count_like():
+    id = request.args["id"]
+
+    review = db.reviews.find_one({"_id": ObjectId(id)})
+    likes = review["likes"]
+
+    return jsonify({ "likes": len(likes) })
+
+
+# 좋아요 증감
 @review_bp.route("/like", methods=["POST"])
 def review_like():
    id = request.form["id"]
@@ -91,3 +109,19 @@ def review_like():
          return ""
    else:
       return ""
+
+
+# 영화 평점(userRating) 계산
+def update_rating(code):
+    movie = db.movies.find_one({"code": code})
+
+    sum = 0
+    r_ids = movie["reviews"]
+    for r_id in r_ids:
+        review = db.reviews.find_one({"_id": ObjectId(r_id)})
+        sum += float(review["userRating"])
+
+    userRating = "{:.2f}".format(sum / len(r_ids))
+    db.movies.update_one({"code": code}, {"$set": {"userRating": userRating}})
+
+    return print(f"{code} userRating: {userRating}")
