@@ -49,80 +49,94 @@ const signInId = () => $("#" + TAG_ID.SIGN_IN_ID);
 const signInPw = () => $("#" + TAG_ID.SIGN_IN_PW);
 const signInErrorMessage = () => $("#" + TAG_ID.SIGN_IN_ERROR_MESSAGE);
 
-const handleSubmitSignIn = function (event) {
-  event.preventDefault();
-  const username = signInId().val();
-  const password = signInPw().val();
-  const isIdValid = reg.id.test(username);
-  const isPwValid = reg.password.test(password);
-  if (isIdValid && isPwValid) {
-    $.ajax({
-      url: "/signin",
-      data: { username, password },
-      method: "POST",
-      success: function (res) {
-        console.log(res);
-      },
-    });
-  } else if (!isIdValid && !isPwValid) {
-    signInErrorMessage().text = "id pw error";
-  } else if (!isIdValid) {
-    signInErrorMessage().text = "id error";
-  } else {
-    signInErrorMessage().text = "pw error";
+const tagsUp = {
+  id: () => $("#" + TAG_ID.SIGN_UP_ID),
+  pw: () => $("#" + TAG_ID.SIGN_UP_PW),
+  confirm: () => $("#" + TAG_ID.SIGN_UP_CONFIRM),
+  errorMsg: () => $("#" + TAG_ID.SIGN_UP_ERROR_MESSAGE),
+};
+const tagsIn = {
+  id: () => $("#" + TAG_ID.SIGN_IN_ID),
+  pw: () => $("#" + TAG_ID.SIGN_IN_PW),
+  errorMsg: () => $("#" + TAG_ID.SIGN_IN_ERROR_MESSAGE),
+};
+const idValidator = (idVal) => (reg.id.test(idVal) && idVal ? { result: true } : { result: false, msg: "id error" });
+const pwValidator = (pwVal) =>
+  reg.password.test(pwVal) && pwVal ? { result: true } : { result: false, msg: "pw error" };
+const confirmValidator = (pwVal, confirmVal) =>
+  pwVal === confirmVal && confirmVal ? { result: true } : { result: false, msg: "confirm error" };
+const signValidator = function ({ id, pw, confirm }) {
+  const { result: resultId, msg: msgId } = idValidator(id().val());
+  if (!resultId) return msgId;
+  const { result: resultPw, msg: msgPw } = pwValidator(pw().val());
+  if (!resultPw) return msgPw;
+  if (confirm) {
+    const { result: resultConfirm, msg: msgConfirm } = confirmValidator(pw().val(), confirm().val());
+    if (!resultConfirm) return msgConfirm;
   }
+  return { result: true };
 };
-const handleSubmitSignUp = function (event) {
-  event.preventDefault();
-  $.ajax({
-    url: "/signup",
-    data: {},
-    method: "POST",
-    success: function (res) {
-      console.log(res);
-    },
-  });
-};
-
-const validateSignUp = function () {
-  const idVal = signUpId().val();
-  const pwVal = signUpPw().val();
-  const confirmVal = signUpConfirm().val();
-  if (!reg.id.test(idVal) && idVal !== "") {
-    signUpErrorMessage().text("id error");
-  } else if (!reg.password.test(pwVal) && pwVal !== "") {
-    signUpErrorMessage().text("pw error");
-  } else if (pwVal !== confirmVal && confirmVal !== "") {
-    signUpErrorMessage().text("confirm error");
+const showErrorMsg = function (msgTag, { result, msg }) {
+  if (!result) {
+    msgTag().text(msg);
   } else {
-    signUpErrorMessage().text("");
-  }
-};
-const validateSignIn = function () {
-  const idVal = signInId().val();
-  const pwVal = signInPw().val();
-  if (!reg.id.test(idVal) && idVal !== "") {
-    signInErrorMessage().text("id error");
-  } else if (!reg.password.test(pwVal) && pwVal !== "") {
-    signInErrorMessage().text("pw error");
-  } else {
-    signInErrorMessage().text("");
+    msgTag().text("");
   }
 };
 
-const handleInputSignUpId = function () {
-  validateSignUp();
+const handleInputSignUpId = function (event) {
+  const {
+    target: { value },
+  } = event;
+  showErrorMsg(tagsUp.errorMsg, idValidator(value));
 };
-const handleInputSignUpPw = function () {
-  validateSignUp();
+const handleInputSignUpPw = function (event) {
+  const {
+    target: { value },
+  } = event;
+  showErrorMsg(tagsUp.errorMsg, pwValidator(value));
 };
-const handleInputSignUpConfirm = function () {
-  validateSignUp();
+const handleInputSignUpConfirm = function (event) {
+  const {
+    target: { value },
+  } = event;
+  showErrorMsg(tagsUp.errorMsg, confirmValidator(tagsUp.pw().val(), value));
 };
 
 const handleInputSignInId = function (event) {
-  validateSignIn();
+  const {
+    target: { value },
+  } = event;
+  showErrorMsg(tagsIn.errorMsg, idValidator(value));
 };
 const handleInputSignInPw = function (event) {
-  validateSignIn();
+  const {
+    target: { value },
+  } = event;
+  showErrorMsg(tagsIn.errorMsg, pwValidator(value));
+};
+
+const handleSubmitSignUp = function (event) {
+  event.preventDefault();
+  console.log(signValidator(tagsUp));
+  // $.ajax({
+  //   url: "/signup",
+  //   data: {},
+  //   method: "POST",
+  //   success: function (res) {
+  //     console.log(res);
+  //   },
+  // });
+};
+const handleSubmitSignIn = function (event) {
+  event.preventDefault();
+  console.log(signValidator(tagsIn));
+  // $.ajax({
+  //   url: "/signin",
+  //   data: { username, password },
+  //   method: "POST",
+  //   success: function (res) {
+  //     console.log(res);
+  //   },
+  // });
 };
