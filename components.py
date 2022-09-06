@@ -22,17 +22,17 @@ def sign_up():
 def sign_in():
    return render_template("components/sign_in.html")
 
-@components.route("/plus/moviesearch")
+@components.route("/moviesearch")
 def create():
    return render_template("components/movieSearch.html",is_modal_covered=True)
 
-@components.route("/plus/moviesearch-uncov")
+@components.route("/moviesearch-uncov")
 def create_uncov():
    return render_template("components/movieSearch.html",is_modal_covered=False)
 
 @components.route("/upsert")
 def upsert():
-   return render_template("components/review_upsert.html",movie_title="tenet create",title="Make Review") 
+   return render_template("components/review_upsert.html",movie_title="tenet create",title="Make Review",make_edit="make") 
 
 @components.route("/popup-upsertied")
 def popup_upsertied():
@@ -45,4 +45,4 @@ def view_review():
 @components.route("/edit")
 def edit():
    print("edit")
-   return render_template("components/review_upsert.html",movie_title="tenet edit",title="Edit Review")
+   return render_template("components/review_upsert.html",movie_title="tenet edit",title="Edit Review",make_edit="edit")

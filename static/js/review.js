@@ -1,6 +1,6 @@
 const handleClickMakeReview = function () {
   console.log("review");
-  loadComponent("createReview", "/components/plus/moviesearch");
+  loadComponent("createReview", "/components/moviesearch");
 };
 const handleClickRecentReview = function () {
   console.log("recent");

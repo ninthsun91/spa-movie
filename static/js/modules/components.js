@@ -47,9 +47,14 @@ const handleSubmitMovieUpsirt = function (event) {
     popupPlace().hide();
   }, 3000);
 };
-const handleClickMovieUpsirtCancel = function () {
-  loadComponent("modalContent", "/components/plus/moviesearch-uncov");
-  console.log("movie upsirt cancel");
+const handleClickMovieUpsirtCancel = function (makeEdit) {
+  if (makeEdit === "make") {
+    loadComponent("modalContent", "/components/moviesearch-uncov");
+    console.log("movie make cancel");
+  } else {
+    loadComponent("modalContent", "/components/view-review");
+    console.log("movie edit cancel");
+  }
 };
 const handleClickPopupConfirm = function () {
   popupPlace().hide();
