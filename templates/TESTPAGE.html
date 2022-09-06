@@ -17,7 +17,7 @@
       const btn = document.getElementById("testbtn");
       btn.addEventListener("click", (event)=>{
         console.log("CLICK");
-        $.get("/test2", (res)=>{
+        $.post("/test2", {"id": "63170577d4008f8d8ff93876","data1":1,"data2":2},(res)=>{
           console.log("SUCCESS");
           $("#testdiv").text(JSON.stringify(res))
           
@@ -42,3 +42,4 @@
     </script>
   </body>
 </html>
+<!-- 63170577d4008f8d8ff93876 -->
