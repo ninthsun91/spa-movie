@@ -49,7 +49,7 @@ const handleSubmitMovieUpsirt = function (event) {
   }, 3000);
 };
 const handleClickMovieUpsirtCancel = function () {
-  loadComponent("modalContent", "/components/plus/create-uncov");
+  loadComponent("modalContent", "/components/plus/moviesearch-uncov");
   console.log("movie upsirt cancel");
 };
 const handleClickPopupConfirm = function () {

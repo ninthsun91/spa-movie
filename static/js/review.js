@@ -1,6 +1,6 @@
 const handleClickMakeReview = function () {
   console.log("review");
-  loadComponent("mostReviewed", "/components/plus/create");
+  loadComponent("createReview", "/components/plus/moviesearch");
 };
 const handleClickRecentReview = function () {
   console.log("recent");
@@ -13,4 +13,8 @@ const handleClickPopularReview = function () {
 const handleClickMostReviewed = function () {
   console.log("postercard");
   loadComponent("mostReviewed", "/components/postercard-v");
+};
+const handleClickViewReview = function () {
+  console.log("view review");
+  loadComponent("reviewViewer", "/components/view-review");
 };

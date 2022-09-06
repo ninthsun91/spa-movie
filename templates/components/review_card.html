@@ -1,13 +1,29 @@
 {% for item in movies %}
 <section style="width: 660px; height: 260px; display: flex; padding: 20px; gap: 10px">
   <div style="width: 130px">
-    <div style="background-color: antiquewhite; height: 190px; margin-bottom: 10px"></div>
-    <div style="background-color: antiquewhite; height: 60px"></div>
+    <div style="border: solid 2px greenyellow; color: white; height: 190px; margin-bottom: 10px"></div>
+    <div style="border: solid 2px greenyellow; color: white; height: 60px"></div>
   </div>
-  <div style="width: 385px"><div style="background-color: antiquewhite; height: 100%"></div></div>
+  <div style="width: 385px"><div style="border: solid 2px greenyellow; color: white; height: 100%"></div></div>
   <div>
-    <div style="background-color: antiquewhite; width: 125px; height: 125px; margin-bottom: 10px"></div>
-    <div style="background-color: antiquewhite; width: 125px; height: 125px"></div>
+    <div
+      style="
+        border: solid 2px greenyellow;
+        color: white;
+        width: 125px;
+        height: 125px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      "
+      id="viewReview"
+      onclick="handleClickViewReview()"
+    >
+      확인하기
+    </div>
+    <div style="border: solid 2px greenyellow; color: white; width: 125px; height: 125px"></div>
   </div>
 </section>
 {% endfor %}

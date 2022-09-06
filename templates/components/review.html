@@ -1,0 +1,53 @@
+{% extends "inheritance/modal.html"%}
+<!-- -->
+{% block content%}
+
+<div style="width: 100%; height: 80%; border: solid 2px DeepPink; color: deeppink">
+  <h2 style="font-size: 40px">tenet</h2>
+  <div
+    class="content-container"
+    style="
+      border: solid 2px white;
+      height: 80%;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 5px;
+    "
+  >
+    <div
+      style="
+        flex: 1;
+        height: 80%;
+        border: solid 2px gold;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 5px;
+      "
+    >
+      <div style="flex: 5; border: solid 2px lightsteelblue">포스터</div>
+      <div style="flex: 1; border: solid 2px lightsteelblue; padding: 5px">영화제목</div>
+    </div>
+    <div
+      style="
+        flex: 3;
+        height: 80%;
+        border: solid 2px gold;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 5px;
+      "
+    >
+      <div style="flex: 5; border: solid 2px lightsteelblue">리뷰</div>
+      <div style="flex: 1; border: solid 2px lightsteelblue; display: flex; gap: 5px; padding: 5px">
+        <div style="flex: 3; border: solid 2px MediumSeaGreen">좋아요</div>
+        <div style="flex: 2; border: solid 2px MediumSeaGreen">리뷰수정</div>
+        <div style="flex: 2; border: solid 2px MediumSeaGreen">리뷰삭제</div>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%}

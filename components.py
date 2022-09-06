@@ -22,15 +22,21 @@ def sign_up():
 def sign_in():
    return render_template("components/sign_in.html")
 
-@components.route("/plus/create")
+@components.route("/plus/moviesearch")
 def create():
-   return render_template("components/plus/movieSearched.html",is_modal_covered=True)
-@components.route("/plus/create-uncov")
+   return render_template("components/movieSearch.html",is_modal_covered=True)
+@components.route("/plus/moviesearch-uncov")
 def create_uncov():
-   return render_template("components/plus/movieSearched.html",is_modal_covered=False)
+   return render_template("components/movieSearch.html",is_modal_covered=False)
 @components.route("/upsert")
 def upsert():
    return render_template("components/review_upsert.html",movie_title="tenet")
 @components.route("/popup-upsertied")
 def popup_upsertied():
    return render_template("components/popup.html",message="제출되었습니다")
+@components.route("/view-review")
+def view_review():
+   return render_template("components/review.html")
+# @components.route("/edit")
+# def edit():
+#    return render_template("components/popup.html",message="제출되었습니다")
