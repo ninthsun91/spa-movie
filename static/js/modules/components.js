@@ -29,3 +29,19 @@ const handleClickSearchLeft = function () {
 const handleClickSearchRight = function () {
   console.log("right");
 };
+
+const handleClickMovieUpsert = function () {
+  console.log("upsert");
+  loadComponent("modalContent", "/components/upsert");
+  searchLeft().hide();
+  searchRight().hide();
+};
+const handleSubmitMovieUpsirt = function (event) {
+  event.preventDefault();
+  console.log("movie upsirt");
+  modalBackground().hide();
+};
+const handleClickMovieUpsirtCancel = function () {
+  loadComponent("modalContent", "/components/plus/create-uncov");
+  console.log("movie upsirt cancel");
+};
