@@ -1,4 +1,5 @@
 import os
+from unicodedata import name
 import jwt
 import hashlib
 import json
@@ -80,6 +81,8 @@ def review_write():
    code = int(request.form["code"])
    username = request.form["username"]
    title = request.form["title"]
+   if title_check(title) is not True:
+      return jsonify({"msg": "제목은 특수문자 제외 3~30자입니다."})
    comment = request.form["comment"]
    if (3<=len(comment)<=300) is not True:
       return jsonify({"msg": "3글자 이상 작성해주세요."})
@@ -104,18 +107,26 @@ def review_write():
 @app.route("/like", methods=["POST"])
 def review_like():
    id = request.form["id"]
-   username = request.form["username"]
+   token = request.cookies.get("logintoken")
+   if token is not None:
+      try: 
+         payload = jwt.decode(token, KEY, algorithms=["HS256"])
+         username = payload["username"]
 
-   review = db.reviews.find_one({"_id": ObjectId(id)})
-   likes = set(review["likes"])
-   if username in likes:
-      likes.add(username)
-      db.reviews.update_one({"_id": id}, {"$set": {"likes": list(likes)}})
-      return jsonify({"msg": "좋아요+1"})
+         review = db.reviews.find_one({"_id": ObjectId(id)})
+         likes = set(review["likes"])
+         if username in likes:
+            likes.add(username)
+            db.reviews.update_one({"_id": id}, {"$set": {"likes": list(likes)}})
+            return jsonify({"msg": "좋아요+1"})
+         else:
+            likes.remove(username)
+            db.reviews.update_one({"_id": id}, {"$set": {"likes": list(likes)}})
+            return jsonify({"msg": "좋아요-1"})
+      except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+         return ""
    else:
-      likes.remove(username)
-      db.reviews.update_one({"_id": id}, {"$set": {"likes": list(likes)}})
-      return jsonify({"msg": "좋아요-1"})
+      return ""
 
 
 @app.route("/signin")
@@ -127,9 +138,9 @@ def components_sign_in():
 def sign_in():
    username = request.form["username"]
    password = request.form["password"]
-   if (is_alphs(username) and (2<len(username)<16)) is not True:
-      return jsonify({"msg": "아이디 형식은 알파벳,숫자 3~15자 입니다."})
-   if (is_alphs(password) and (7<len(password)<16)) is not True:
+   if name_check(username) is not True:
+      return jsonify({"msg": "아이디 형식은 알파벳,한글,숫자 3~15자 입니다."})
+   if pass_check(password) is not True:
       return jsonify({"msg": "비밀번호 형식은 알파벳,숫자 8~15자 입니다."})
 
    password_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
@@ -158,9 +169,9 @@ def components_sign_up():
 def sign_up():
    username = request.form["username"]
    password = request.form["password"]
-   if (is_alphs(username) and (2<len(username)<16)) is not True:
-      return jsonify({"msg": "아이디 형식은 알파벳,숫자 3~15자 입니다."})
-   if (is_alphs(password) and (7<len(password)<16)) is not True:
+   if name_check(username) is not True:
+      return jsonify({"msg": "아이디 형식은 알파벳,한글,숫자 3~15자 입니다."})
+   if pass_check(password) is not True:
       return jsonify({"msg": "비밀번호 형식은 알파벳,숫자 8~15자 입니다."})
 
    cnt = db.users.find_one({}, {"_id": False})
@@ -181,8 +192,13 @@ def sign_up():
 
 @app.route("/search", methods=["POST"])
 def search_title():
-   keyword = request.form["keyword"]
+   keyword = request.form["keyword"]   
+   result = search_db(keyword) + search_naver(keyword)
 
+   return jsonify({ result })
+
+
+def search_db(keyword):
    pipeline = [
       {
         "$search": {
@@ -203,18 +219,13 @@ def search_title():
         }
    ]
    movies = db.movies.aggregate(pipeline)
-   if movies.alive:
-      result = []
-      for movie in movies:
-         result.append(movie)
-      return jsonify({ result })
-   else:
-      return redirect("/nsearch", keyword=keyword)
+   result = []
+   for movie in movies:
+      result.append(movie)
+   return result
 
 
-@app.route("/nsearch")
-def search_naver():
-   keyword = request.args["keyword"]
+def search_naver(keyword):
    query = urllib.parse.quote(keyword)
    url = NMV + query
 
@@ -237,13 +248,22 @@ def search_naver():
          result.append(summary)
       return jsonify({ result })
    else:
-      return f"Error Code: {rescode}"
+      return print(f"Error Code: {rescode}")
+
+
+@app.route("/nsearch")
+def search_naver():
+   keyword = request.args["keyword"]
+   
 
 
 
 @app.route("/test", methods=["GET"])
 def test():
-   return ""
+   a = [1,2,3]
+   b = [4,5,6]
+   print(a+b)
+   return render_template("TESTPAGE.html")
 
 
 if __name__ == "__main__":
