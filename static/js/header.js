@@ -16,14 +16,14 @@ const signIn = () => $("#" + TAG_ID.SIGN_IN);
 const signUp = () => $("#" + TAG_ID.SIGN_UP);
 
 const handleClickSignIn = function () {
-  loadComponent(TAG_ID.SIGN_IN, "/signin", function () {
+  loadComponent(TAG_ID.SIGN_IN, "/components/signin", function () {
     sign().show();
     signIn().show();
     signUp().hide();
   });
 };
 const handleClickSignUp = function () {
-  loadComponent(TAG_ID.SIGN_UP, "/signup", function () {
+  loadComponent(TAG_ID.SIGN_UP, "/components/signup", function () {
     sign().show();
     signUp().show();
     signIn().hide();
@@ -118,15 +118,23 @@ const handleInputSignInPw = function (event) {
 
 const handleSubmitSignUp = function (event) {
   event.preventDefault();
+  console.log(event);
   console.log(signValidator(tagsUp));
-  // $.ajax({
-  //   url: "/signup",
-  //   data: {},
-  //   method: "POST",
-  //   success: function (res) {
-  //     console.log(res);
-  //   },
-  // });
+  const { result } = signValidator(tagsUp);
+  if (result) {
+    const data = { username: tagsUp.id().val(), password: tagsUp.pw().val() };
+    $.ajax({
+      url: "/signup",
+      data,
+      method: "POST",
+      success: function (res) {
+        console.log(res);
+      },
+      complete: function () {
+        hideSign();
+      },
+    });
+  }
 };
 const handleSubmitSignIn = function (event) {
   event.preventDefault();

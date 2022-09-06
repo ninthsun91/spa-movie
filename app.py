@@ -10,7 +10,7 @@ from bson.objectid import ObjectId
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from regex import *
-
+from components import components
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -26,6 +26,7 @@ CSC = os.environ.get("Client_Secret")
 client = MongoClient(URL, tls=True, tlsAllowInvalidCertificates=True)
 db = client.spamovie
 
+app.register_blueprint(components, url_prefix="/components")
 
 @app.route("/")
 def home():
@@ -35,14 +36,6 @@ def home():
 @app.route("/rev")
 def review():
    return render_template("review.html")
-@app.route("/revcard")
-def review_card():
-   return render_template("components/review_card.html",movies=[1,2])
-@app.route("/postercard")
-def poster_card():
-   return render_template("components/poster_card.html",movies=[1,2,3,4])
-
-
 
 @app.route("/movie", methods=["GET"])
 def movie_view():
@@ -117,12 +110,6 @@ def review_like():
       db.reviews.update_one({"_id": id}, {"$set": {"likes": list(likes)}})
       return jsonify({"msg": "좋아요-1"})
 
-
-@app.route("/signin")
-def components_sign_in():
-   return render_template("components/sign_in.html")
-
-
 @app.route("/signin", methods=["POST"])
 def sign_in():
    username = request.form["username"]
@@ -149,9 +136,6 @@ def sign_in():
       return jsonify({"msg": "아이디, 비밀번호가 틀렸습니다."})
 
 
-@app.route("/signup")
-def components_sign_up():
-   return render_template("components/sign_up.html")
 
 
 @app.route("/signup", methods=["POST"])
@@ -175,8 +159,9 @@ def sign_up():
       "reviews": []
    }
    db.users.insert_one(profile)
-
-   return redirect(url_for("/sign_in"))
+   inserted = db.users.find_one({"username": username}, {"_id": False})
+   print(inserted)
+   return jsonify({"msg": "sign up success"})
 
 
 @app.route("/search", methods=["POST"])
