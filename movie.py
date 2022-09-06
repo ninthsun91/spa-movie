@@ -149,13 +149,6 @@ def test():
    }   
    return render_template("TESTPAGE.html", a=a)
 
-
-@movie_bp.route("/test2")
-def test2():
-    return ""
-
-
-
 # 네이버 영화DB 스크랩 -> DB 유지관리용. 웹사이트에는 사용 안될거에요
 # @movie_bp.route("/scrap", methods=["GET"])
 def scrap():

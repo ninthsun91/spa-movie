@@ -35,30 +35,37 @@ def review_view():
 
 @review_bp.route("/review", methods=["POST"])
 def review_write():
-   code = int(request.form["code"])
-   username = request.form["username"]
-   title = request.form["title"]
-   if title_check(title) is not True:
-      return jsonify({"msg": "제목은 특수문자 제외 3~30자입니다."})
-   comment = request.form["comment"]
-   if (3<=len(comment)<=300) is not True:
-      return jsonify({"msg": "3글자 이상 작성해주세요."})
-   userRating = request.form["userRating"]
-   likes = []
-   time = str(datetime.now()).split(".")[0]
+    code = int(request.form["code"])
+    title = request.form["title"]
+    if title_check(title) is not True:
+        return jsonify({"msg": "제목은 특수문자 제외 3~30자입니다."})
+    comment = request.form["comment"]
+    if (3<=len(comment)<=300) is not True:
+        return jsonify({"msg": "3글자 이상 작성해주세요."})
+    userRating = request.form["userRating"]
 
-   review = {
-      "code": code,
-      "username": username,
-      "title": title,
-      "comment": comment,
-      "userRating": userRating,
-      "likes": likes,
-      "time": time,
-   }
-   db.reviews.insert_one(review)
+    token = request.cookies.get("logintoken")
+    if token is not None:
+        try: 
+            payload = jwt.decode(token, KEY, algorithms=["HS256"])
+            username = payload["username"]
+            review = {
+                "code": code,
+                "username": username,
+                "title": title,
+                "comment": comment,
+                "userRating": userRating,
+                "likes": [],
+                "time": str(datetime.now()).split(".")[0],
+            }
+            id = request.form["id"] if "id" in request.form.keys() else None
+            db.reviews.update_one({"_id": ObjectId(id)}, {"$set": review}, upsert=True)
 
-   return jsonify({"msg": "리뷰를 등록했습니다!"})
+            return jsonify({"msg": "리뷰를 등록했습니다!"})
+        except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+            return jsonify({"msg": "로그인이 만료되었습니다."})
+    else:
+        return jsonify({"msg": "로그인을 먼저 해주세요."})   
 
 
 @review_bp.route("/like", methods=["POST"])
