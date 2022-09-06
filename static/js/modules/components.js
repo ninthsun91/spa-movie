@@ -36,3 +36,12 @@ const handleClickMovieUpsert = function () {
   searchLeft().hide();
   searchRight().hide();
 };
+const handleSubmitMovieUpsirt = function (event) {
+  event.preventDefault();
+  console.log("movie upsirt");
+  modalBackground().hide();
+};
+const handleClickMovieUpsirtCancel = function () {
+  loadComponent("modalContent", "/components/plus/create-uncov");
+  console.log("movie upsirt cancel");
+};

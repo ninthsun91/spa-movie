@@ -23,7 +23,10 @@ def sign_in():
 
 @components.route("/plus/create")
 def create():
-   return render_template("components/plus/movieSearched.html")
+   return render_template("components/plus/movieSearched.html",is_modal_covered=True)
+@components.route("/plus/create-uncov")
+def create_uncov():
+   return render_template("components/plus/movieSearched.html",is_modal_covered=False)
 @components.route("/upsert")
 def upsert():
    return render_template("components/review_upsert.html",movie_title="tenet")
