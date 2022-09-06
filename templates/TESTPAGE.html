@@ -3,15 +3,42 @@
   <head>
     <title>TESTTEST</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-      $(() => {
-        console.log("READY");
-
-      });
-    </script>
   </head>
   <body>
     <h1>TESTTEST</h1>
     {{ a["name"] }}
+    <button id="testbtn">test</button>
+    <div id="testdiv"></div>
+    <script>
+      $(() => {
+        console.log("READY");
+      });
+
+      const btn = document.getElementById("testbtn");
+      btn.addEventListener("click", (event)=>{
+        console.log("CLICK");
+        $.get("/test2", (res)=>{
+          console.log("SUCCESS");
+          $("#testdiv").text(JSON.stringify(res))
+          
+        });
+        // $.ajax({
+        //   type: "POST",
+        //   url: "/search",
+        //   data: { "keyword": "반지의 제왕" },
+        //   success: (response) => {
+        //     const result = response.result
+        //     console.log(result);
+
+        //     for(const movie of result) {
+        //       const line = `<li>${JSON.stringify(movie)}</li>`;
+        //       $("#testdiv").append(line);
+        //     }
+            
+            
+        //   }
+        // })
+      });
+    </script>
   </body>
 </html>
