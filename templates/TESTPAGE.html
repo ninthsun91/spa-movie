@@ -17,7 +17,7 @@
       const btn = document.getElementById("testbtn");
       btn.addEventListener("click", (event)=>{
         console.log("CLICK");
-        $.post("/test2", {"id": "63170577d4008f8d8ff93876","data1":1,"data2":2},(res)=>{
+        $.get("/test2?dir=right", (res)=>{
           console.log("SUCCESS");
           $("#testdiv").text(JSON.stringify(res))
           
