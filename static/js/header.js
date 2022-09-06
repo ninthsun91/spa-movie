@@ -16,14 +16,14 @@ const signIn = () => $("#" + TAG_ID.SIGN_IN);
 const signUp = () => $("#" + TAG_ID.SIGN_UP);
 
 const handleClickSignIn = function () {
-  loadComponent(TAG_ID.SIGN_IN, "/signin", function () {
+  loadComponent(TAG_ID.SIGN_IN, "/components/signin", function () {
     sign().show();
     signIn().show();
     signUp().hide();
   });
 };
 const handleClickSignUp = function () {
-  loadComponent(TAG_ID.SIGN_UP, "/signup", function () {
+  loadComponent(TAG_ID.SIGN_UP, "/components/signup", function () {
     sign().show();
     signUp().show();
     signIn().hide();
@@ -60,24 +60,24 @@ const tagsIn = {
   pw: () => $("#" + TAG_ID.SIGN_IN_PW),
   errorMsg: () => $("#" + TAG_ID.SIGN_IN_ERROR_MESSAGE),
 };
-const idValidator = (idVal) => (reg.id.test(idVal) && idVal ? { result: true } : { result: false, msg: "id error" });
+const idValidator = (idVal) => (reg.id.test(idVal) && idVal ? { isValid: true } : { isValid: false, msg: "id error" });
 const pwValidator = (pwVal) =>
-  reg.password.test(pwVal) && pwVal ? { result: true } : { result: false, msg: "pw error" };
+  reg.password.test(pwVal) && pwVal ? { isValid: true } : { isValid: false, msg: "pw error" };
 const confirmValidator = (pwVal, confirmVal) =>
-  pwVal === confirmVal && confirmVal ? { result: true } : { result: false, msg: "confirm error" };
+  pwVal === confirmVal && confirmVal ? { isValid: true } : { isValid: false, msg: "confirm error" };
 const signValidator = function ({ id, pw, confirm }) {
-  const { result: resultId, msg: msgId } = idValidator(id().val());
-  if (!resultId) return msgId;
-  const { result: resultPw, msg: msgPw } = pwValidator(pw().val());
-  if (!resultPw) return msgPw;
+  const { isValid: isValidId, msg: msgId } = idValidator(id().val());
+  if (!isValidId) return msgId;
+  const { isValid: isValidPw, msg: msgPw } = pwValidator(pw().val());
+  if (!isValidPw) return msgPw;
   if (confirm) {
-    const { result: resultConfirm, msg: msgConfirm } = confirmValidator(pw().val(), confirm().val());
-    if (!resultConfirm) return msgConfirm;
+    const { isValid: isValidConfirm, msg: msgConfirm } = confirmValidator(pw().val(), confirm().val());
+    if (!isValidConfirm) return msgConfirm;
   }
-  return { result: true };
+  return { isValid: true };
 };
-const showErrorMsg = function (msgTag, { result, msg }) {
-  if (!result) {
+const showErrorMsg = function (msgTag, { isValid, msg }) {
+  if (!isValid) {
     msgTag().text(msg);
   } else {
     msgTag().text("");
@@ -118,25 +118,40 @@ const handleInputSignInPw = function (event) {
 
 const handleSubmitSignUp = function (event) {
   event.preventDefault();
+  console.log(event);
   console.log(signValidator(tagsUp));
-  // $.ajax({
-  //   url: "/signup",
-  //   data: {},
-  //   method: "POST",
-  //   success: function (res) {
-  //     console.log(res);
-  //   },
-  // });
+  const { isValid } = signValidator(tagsUp);
+  if (isValid) {
+    const data = { username: tagsUp.id().val(), password: tagsUp.pw().val() };
+    $.ajax({
+      url: "/signup",
+      data,
+      method: "POST",
+      success: function (res) {
+        console.log(res);
+      },
+      complete: function () {
+        hideSign();
+      },
+    });
+  }
 };
 const handleSubmitSignIn = function (event) {
   event.preventDefault();
-  console.log(signValidator(tagsIn));
-  // $.ajax({
-  //   url: "/signin",
-  //   data: { username, password },
-  //   method: "POST",
-  //   success: function (res) {
-  //     console.log(res);
-  //   },
-  // });
+  const { isValid } = signValidator(tagsIn);
+  const data = { username: tagsIn.id().val(), password: tagsIn.pw().val() };
+  console.log("data; : ", data);
+  if (isValid) {
+    $.ajax({
+      url: "/signin",
+      data,
+      method: "POST",
+      success: function (res) {
+        console.log(res);
+      },
+      complete: function () {
+        hideSign();
+      },
+    });
+  }
 };
