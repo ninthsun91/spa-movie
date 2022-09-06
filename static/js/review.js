@@ -18,3 +18,7 @@ const handleClickViewReview = function () {
   console.log("view review");
   loadComponent("reviewViewer", "/components/view-review");
 };
+const handleClickReviewEdit = function () {
+  console.log("edit review");
+  loadComponent("modalContent", "/components/edit");
+};

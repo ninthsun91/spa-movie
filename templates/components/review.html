@@ -44,7 +44,13 @@
       <div style="flex: 5; border: solid 2px lightsteelblue">리뷰</div>
       <div style="flex: 1; border: solid 2px lightsteelblue; display: flex; gap: 5px; padding: 5px">
         <div style="flex: 3; border: solid 2px MediumSeaGreen">좋아요</div>
-        <div style="flex: 2; border: solid 2px MediumSeaGreen">리뷰수정</div>
+        <div
+          style="flex: 2; border: solid 2px MediumSeaGreen; cursor: pointer"
+          id="reviewEdit"
+          onclick="handleClickReviewEdit()"
+        >
+          리뷰수정
+        </div>
         <div style="flex: 2; border: solid 2px MediumSeaGreen">리뷰삭제</div>
       </div>
     </div>

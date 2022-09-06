@@ -42,7 +42,6 @@ const handleSubmitMovieUpsirt = function (event) {
   console.log("movie upsirt");
   modalBackground().hide();
   loadComponent("popupPlace", "/components/popup-upsertied");
-  console.log("popupPlace()", popupPlace());
   popupPlace().show();
   timeout = setTimeout(function () {
     popupPlace().hide();
