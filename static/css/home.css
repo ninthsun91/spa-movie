@@ -1,0 +1,25 @@
+.carousel {
+  height: 50vh;
+}
+.movies-grouped {
+  height: 120vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  gap: 20px;
+}
+.movies-grouped > div {
+  width: 100%;
+  height: 100%;
+}
+.movies-grouped > div .movie-list {
+  width: calc(100% - 60px);
+  height: calc(95% - 40px);
+  margin: 0 auto;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
