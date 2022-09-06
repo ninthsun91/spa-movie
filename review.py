@@ -74,6 +74,17 @@ def review_write():
         return jsonify({"msg": "로그인을 먼저 해주세요."})   
 
 
+# 좋아요 수 조회
+@review_bp.route("/like")
+def count_like():
+    id = request.args["id"]
+
+    review = db.reviews.find_one({"_id": ObjectId(id)})
+    likes = review["likes"]
+
+    return jsonify({ "likes": len(likes) })
+
+
 # 좋아요 증감
 @review_bp.route("/like", methods=["POST"])
 def review_like():
