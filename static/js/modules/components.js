@@ -52,7 +52,7 @@ const handleClickMovieUpsirtCancel = function (makeEdit) {
     loadComponent("modalContent", "/components/moviesearch-uncov");
     console.log("movie make cancel");
   } else {
-    loadComponent("modalContent", "/components/view-review");
+    loadComponent("reviewViewer", "/components/view-review");
     console.log("movie edit cancel");
   }
 };
