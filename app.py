@@ -132,6 +132,7 @@ def sign_in():
 
    password_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
    user = db.users.find_one({"username": username, "password": password_hash})
+   print(user)
    if user is not None:
       uid = user["uid"]
       payload = {
@@ -140,13 +141,11 @@ def sign_in():
          "exp": datetime.utcnow() + timedelta(seconds = 60*60)
       }
       token = jwt.encode(payload, KEY, algorithm="HS256") #.decode("utf-8")   # annotate while running in localhost
-      cookie = make_response()
-      cookie.set_cookie("logintoken", token)
-      return cookie
+      response = make_response({"msg": "login done"})
+      response.set_cookie("logintoken", token)
+      return response
    else:
       return jsonify({"msg": "아이디, 비밀번호가 틀렸습니다."})
-
-
 
 
 @app.route("/signup", methods=["POST"])
