@@ -17,27 +17,26 @@
       const btn = document.getElementById("testbtn");
       btn.addEventListener("click", (event)=>{
         console.log("CLICK");
-        $.get("/test2?dir=right", (res)=>{
-          console.log("SUCCESS");
-          $("#testdiv").text(JSON.stringify(res))
+        // $.get("/test2?dir=right", (res)=>{
+        //   console.log("SUCCESS");
+        //   $("#testdiv").text(JSON.stringify(res))
           
-        });
-        // $.ajax({
-        //   type: "POST",
-        //   url: "/search",
-        //   data: { "keyword": "반지의 제왕" },
-        //   success: (response) => {
-        //     const result = response.result
-        //     console.log(result);
-
-        //     for(const movie of result) {
-        //       const line = `<li>${JSON.stringify(movie)}</li>`;
-        //       $("#testdiv").append(line);
-        //     }
+        // });
+        $.ajax({
+          type: "POST",
+          url: "/test2",
+          data: {
+            "code": 999999,
+            "username": "8집주세요",
+            "title": "국힙원탑 아이유!",
+            "comment": "너무너무 기대되요!!",
+            "userRating": 9.00,
+          },
+          success: (response) => {
+            console.log(response);            
             
-            
-        //   }
-        // })
+          }
+        })
       });
     </script>
   </body>
