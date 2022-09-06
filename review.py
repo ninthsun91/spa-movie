@@ -30,7 +30,7 @@ def review_view():
    for rid in rids:
       reviews.review_bpend(db.reviews.find_one({"_id": ObjectId(rid)}))
 
-   return jsonify({ reviews })
+   return jsonify({ "reviews": reviews })
 
 
 @review_bp.route("/review", methods=["POST"])
@@ -68,16 +68,16 @@ def review_like():
    if token is not None:
       try: 
          payload = jwt.decode(token, KEY, algorithms=["HS256"])
-         username = payload["username"]
+         uid = payload["uid"]
 
          review = db.reviews.find_one({"_id": ObjectId(id)})
          likes = set(review["likes"])
-         if username in likes:
-            likes.add(username)
+         if uid not in likes:
+            likes.add(uid)
             db.reviews.update_one({"_id": id}, {"$set": {"likes": list(likes)}})
             return jsonify({"msg": "좋아요+1"})
          else:
-            likes.remove(username)
+            likes.remove(uid)
             db.reviews.update_one({"_id": id}, {"$set": {"likes": list(likes)}})
             return jsonify({"msg": "좋아요-1"})
       except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
