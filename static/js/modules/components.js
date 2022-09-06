@@ -1,5 +1,7 @@
 const modalBackground = () => $("#modalBackground");
 const moviesSearched = () => $("#moviesSearched");
+const searchLeft = () => $("#searchLeft");
+const searchRight = () => $("#searchRight");
 
 const handleClickModalBack = function () {
   modalBackground().hide();
@@ -16,6 +18,14 @@ const handleSubmitSearchMovie = function (event) {
   //   },
   // });
   setTimeout(function () {
-    loadComponent("moviesSearched", "/components/postercard");
+    loadComponent("moviesSearched", "/components/postercard-h");
+    searchLeft().show();
+    searchRight().show();
   }, 1000);
+};
+const handleClickSearchLeft = function () {
+  console.log("left");
+};
+const handleClickSearchRight = function () {
+  console.log("right");
 };

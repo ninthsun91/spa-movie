@@ -12,5 +12,5 @@ const handleClickPopularReview = function () {
 };
 const handleClickMostReviewed = function () {
   console.log("postercard");
-  loadComponent("mostReviewed", "/components/postercard");
+  loadComponent("mostReviewed", "/components/postercard-v");
 };
