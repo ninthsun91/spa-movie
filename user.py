@@ -45,9 +45,9 @@ def sign_in():
          "exp": datetime.utcnow() + timedelta(seconds = 60*60)
       }
       token = jwt.encode(payload, KEY, algorithm="HS256") #.decode("utf-8")   # annotate while running in localhost
-      cookie = make_response()
-      cookie.set_cookie("logintoken", token)
-      return cookie
+      response = make_response({"msg": "login done"})
+      response.set_cookie("logintoken", token)
+      return response
    else:
       return jsonify({"msg": "아이디, 비밀번호가 틀렸습니다."})
 
@@ -79,4 +79,4 @@ def sign_up():
    }
    db.users.insert_one(profile)
 
-   return redirect(url_for("/sign_in"))
+   return jsonify({"msg": "sign up success"})

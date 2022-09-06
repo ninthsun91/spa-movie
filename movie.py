@@ -37,6 +37,7 @@ def search_title():
    return jsonify({ result })
 
 
+# MongoDB 제목 검색
 def search_db(keyword):
    pipeline = [
       {
@@ -64,6 +65,7 @@ def search_db(keyword):
    return result
 
 
+# 네이버영화 검색 API
 def search_naver(keyword):
    query = urllib.parse.quote(keyword)
    url = NMV + query
