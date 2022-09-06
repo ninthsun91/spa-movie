@@ -11,7 +11,10 @@
 {% elif direction == 'horizontal' %}
 <!-- -->
 {% for item in movies %}
-<section style="width: 600px; height: 100px; display: flex; border: solid 1px salmon; padding: 20px">
+<section
+  style="width: 600px; height: 100px; display: flex; border: solid 1px salmon; padding: 20px; cursor: pointer"
+  onclick="handleClickMovieUpsert()"
+>
   <div style="flex: 3; border: solid 1px springgreen; height: 100%"></div>
   <div style="flex: 1; border: solid 1px springgreen; height: 100%"></div>
 </section>

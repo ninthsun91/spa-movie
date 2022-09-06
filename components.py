@@ -23,4 +23,7 @@ def sign_in():
 
 @components.route("/plus/create")
 def create():
-   return render_template("components/plus/create.html")
+   return render_template("components/plus/movieSearched.html")
+@components.route("/upsert")
+def upsert():
+   return render_template("components/review_upsert.html",movie_title="tenet")
