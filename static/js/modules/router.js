@@ -34,6 +34,7 @@ const handleLoadHome = function () {
   setTitle(TITLE.HOME);
   loadComponent("movieListNow", "/components/postercard-v");
   loadComponent("movieListTrending", "/components/postercard-v");
+  numberIndicating = 0;
 };
 const handleLoadRev = function () {
   console.log("after load rev");
