@@ -21,6 +21,7 @@ cover/
 ./TESTPAGE.html
 ./templates/inheritance/TESTPAGE.html
 TESTPAGE.html
+test.html
 
 
 # Flask stuff:
