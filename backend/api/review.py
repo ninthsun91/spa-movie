@@ -7,7 +7,7 @@ from bson.objectid import ObjectId
 from datetime import datetime
 from dotenv import load_dotenv
 
-from regex import *
+from ..util.validator import *
 
 
 load_dotenv()

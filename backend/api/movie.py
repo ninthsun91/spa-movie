@@ -1,3 +1,4 @@
+from turtle import title
 from flask import Blueprint, render_template, request, jsonify, session
 from pymongo import MongoClient
 
@@ -10,7 +11,7 @@ from ordered_set import OrderedSet
 from bs4 import BeautifulSoup
 import requests
 
-from regex import *
+from ..util.validator import *
 
 load_dotenv()
 URL = os.environ.get("MongoDB_URL")
