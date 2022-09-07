@@ -5,6 +5,7 @@ import urllib.request
 import json
 import os
 from dotenv import load_dotenv
+from ordered_set import OrderedSet
 
 from bs4 import BeautifulSoup
 import requests
@@ -24,9 +25,42 @@ movie_bp = Blueprint("movie", __name__)
 
 
 # 홈화면 메인 포스터
-@movie_bp.route("/carousel")
+@movie_bp.route("/test2")
 def movie_carousel():
-    return ""
+    dir = request.args["dir"]
+    if dir=="right":
+        session["list_main"] += 1
+    elif dir=="left":
+        session["list_main"] -= 1    
+    if abs(session.get("list_main"))==10:
+        session["list_main"] = 0
+    page = session.get("list_main")
+    skip = page if page>=0 else 10 + page
+
+    pipeline = [
+        {
+            "$sort": {"time": -1}
+        }, {
+            "$project": {
+                "_id": 0,
+                "code": 1,
+                "title": 1,
+                "time": 1,
+            }
+        }, {"$limit": 50}
+    ]
+    review_search = db.reviews.aggregate(pipeline)
+    
+    codes = OrderedSet()
+    for review in review_search:
+        codes.add(review["code"])
+        if len(codes)==10:
+            break
+
+    code = list(codes)[skip]
+    movie = db.movies.find_one({"code": code}, {"_id": False})
+
+    return jsonify({ "movie": movie })
 
 
 # 홈화면 최신 영화 목록
@@ -37,8 +71,11 @@ def movie_now():
         session["list_now"] += 1
     elif dir=="left":
         session["list_now"] -= 1    
-    list_now = session.get("list_now")
-    skip = (list_now * 4) if list_now>=0 else (40 + (list_now * 4))
+    if abs(session.get("list_now"))==10:
+        session["list_now"] = 0
+    page = session.get("list_now")
+    skip = page if page>=0 else 10 + page
+    skip = (page * 4) if page>=0 else (40 + (page * 4))
 
     pipeline = [
         {
@@ -63,11 +100,7 @@ def movie_now():
                 "pubDate": 1,
                 "naverRating": 1,
             }
-        }, {
-            "$limit": 40
-        }, {
-            "$skip": skip
-        }
+        }, {"$limit": 40}, {"$skip": skip}
     ]
     movies_search = db.movies.aggregate(pipeline)
 
@@ -86,8 +119,11 @@ def movie_trend():
         session["list_trend"] += 1
     elif dir=="left":
         session["list_trend"] -= 1
-    list_trend = session.get("list_trend")
-    skip = (list_trend * 4) if list_trend>=0 else (40 + (list_trend * 4))
+    if abs(session.get("list_trend"))==10:
+        session["list_trend"] = 0
+    page = session.get("list_trend")
+    skip = page if page>=0 else 10 + page
+    skip = (page * 4) if page>=0 else (40 + (page * 4))
 
     pipeline = [
         {
@@ -107,11 +143,7 @@ def movie_trend():
                 "review_count": -1,
                 "naverRating": -1
             }
-        }, {
-            "$limit": 40
-        }, {
-            "$skip": skip
-        }
+        }, {"$limit": 40}, {"$skip": skip}
     ]
     movies_search = db.movies.aggregate(pipeline)
 

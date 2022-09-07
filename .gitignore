@@ -18,6 +18,9 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+./TESTPAGE.html
+./templates/inheritance/TESTPAGE.html
+TESTPAGE.html
 
 
 # Flask stuff:

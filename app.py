@@ -14,6 +14,7 @@ KEY = os.environ.get("SECRET_KEY")
 app = Flask(__name__)
 app.config.update(
    SECRET_KEY=KEY,
+   SESSION_COOKIE_NAME = "home_movie_list",
    TEMPLATES_AUTO_RELOAD=True
 )
 
@@ -25,6 +26,7 @@ app.register_blueprint(user_bp, url_prefix="/")
 
 @app.route("/")
 def home():
+   session["list_main"] = 0
    session["list_now"] = 0
    session["list_trend"] = 0
    return render_template("home.html")
