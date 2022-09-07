@@ -25,7 +25,7 @@ movie_bp = Blueprint("movie", __name__)
 
 
 # 홈화면 메인 포스터
-@movie_bp.route("/test2")
+@movie_bp.route("/carousel")
 def movie_carousel():
     dir = request.args["dir"]
     if dir=="right":
