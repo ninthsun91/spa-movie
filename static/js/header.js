@@ -124,12 +124,14 @@ const handleSubmitSignUp = function (event) {
       url: "/signup",
       data,
       method: "POST",
-      success: function (res) {
-        console.log(res);
+      success: function ({ msg }) {
+        if (msg === "success") {
+          loadComponent(TAG_ID.SIGN, "/components/signin", function () {
+            sign().show();
+          });
+        }
       },
-      complete: function () {
-        hideSign();
-      },
+      complete: function () {},
     });
   }
 };

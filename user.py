@@ -79,4 +79,4 @@ def sign_up():
    }
    db.users.insert_one(profile)
 
-   return jsonify({"msg": "sign up success"})
+   return jsonify({"msg": "success"})
