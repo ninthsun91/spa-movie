@@ -51,19 +51,82 @@ nav .menu li {
   align-items: center;
   flex-direction: column;
   height: 100%;
+  width: 100%;
+}
+.sign section header {
+  background-color: rgb(30, 30, 30);
+  width: 100%;
+  height: fit-content;
+}
+.sign section header h2 {
+  color: white;
+  margin: 18px 0 14px 24px;
+  font-weight: 900;
+  font-size: 24px;
+  border-bottom: solid 1px white;
+  padding: 0 0 12px 6px;
 }
 .sign section form {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width: 100%;
   height: 100%;
   gap: 10px;
 }
+.sign section form .input-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sign section form .input-wrapper label {
+  font-size: 12px;
+  align-self: flex-start;
+  padding: 0 0 4px 6px;
+  font-weight: 800;
+}
+.sign section form .input-wrapper input {
+  width: 100%;
+  height: 24px;
+  border: none;
+}
+
 .sign section form .error-message {
   color: salmon;
   font-size: 30px;
 }
 .sign section form .error-message:empty {
   display: none;
+}
+.sign section form .button-wrapper {
+  width: 100%;
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+.sign section form .button-wrapper > * {
+  width: 24%;
+  display: block;
+  border: none;
+  padding: 3px 0;
+  cursor: pointer;
+}
+
+.sign section form .button-wrapper input {
+  background-color: white;
+}
+.sign section form .button-wrapper input:hover {
+  outline: rgb(180, 180, 180) solid 2px;
+  outline-offset: 3px;
+}
+.sign section form .button-wrapper button {
+  background-color: rgb(30, 30, 30);
+  color: white;
+}
+.sign section form .button-wrapper button:hover {
+  outline: rgb(60, 60, 60) solid 2px;
+  outline-offset: 3px;
 }

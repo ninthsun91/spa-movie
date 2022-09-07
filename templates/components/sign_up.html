@@ -1,20 +1,34 @@
 {% extends "inheritance/modal_small.html"%} {%block content%}
 <section>
-  <h2>sign up</h2>
+  <header><h2>sign up</h2></header>
   <form onsubmit="handleSubmitSignUp(event)">
-    <input oninput="handleInputSignUpId(event)" id="signUpId" type="text" required minlength="3" maxlength="15" />
-    <input oninput="handleInputSignUpPw(event)" id="signUpPw" type="password" required minlength="8" maxlength="15" />
-    <input
-      oninput="handleInputSignUpConfirm(event)"
-      id="signUpConfirm"
-      type="password"
-      required
-      minlength="8"
-      maxlength="15"
-    />
+    <div class="input-wrapper">
+      <label for="signUpId">id</label>
+      <input oninput="handleInputSignUpId(event)" id="signUpId" type="text" required minlength="3" maxlength="15" />
+    </div>
+
+    <div class="input-wrapper">
+      <label for="signUpPw">password</label>
+      <input oninput="handleInputSignUpPw(event)" id="signUpPw" type="password" required minlength="8" maxlength="15" />
+    </div>
+
+    <div class="input-wrapper">
+      <label for="signUpConfirm">confirm</label>
+      <input
+        oninput="handleInputSignUpConfirm(event)"
+        id="signUpConfirm"
+        type="password"
+        required
+        minlength="8"
+        maxlength="15"
+      />
+    </div>
+
     <div id="signUpErrorMessage" class="error-message"></div>
-    <button>submit</button>
-    <input type="button" value="cancel" onclick="handleClickSignUpCancel()" />
+    <div class="button-wrapper">
+      <input type="button" value="cancel" onclick="handleClickSignUpCancel()" />
+      <button>submit</button>
+    </div>
   </form>
 </section>
 {%endblock%}
