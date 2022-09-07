@@ -1,5 +1,4 @@
-from email import message
-from flask import Blueprint, render_template, jsonify, request
+from flask import Blueprint, render_template
 
 components = Blueprint("components", __name__)
 

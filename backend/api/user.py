@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify, make_response, redirect, url_for
+from flask import Blueprint, request, jsonify, make_response
 from pymongo import MongoClient
 
 import jwt
@@ -8,7 +8,7 @@ from bson.objectid import ObjectId
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 
-from regex import *
+from ..util.validator import *
 
 
 load_dotenv()
@@ -117,11 +117,6 @@ def profile_reviews():
    except:
       return jsonify({ "msg": "로그인 세션이 만료되었습니다." })
 
-
-# 프로필 렌더링. components.py로 이동시켜도 무관x
-@user_bp.route("/profile")
-def profile():
-   return render_template("프로필.html")
 
 
 # 로그인 세션 갱신
