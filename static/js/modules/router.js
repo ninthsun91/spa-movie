@@ -1,12 +1,3 @@
-const PATH_NAME = {
-  HOME: "/",
-  REV: "/rev",
-};
-const TITLE = {
-  HOME: "Home",
-  REV: "Reviw",
-};
-
 const loadPage = (pathname, complete = undefined) => {
   $("#App").load(`${pathname} #AppContainer`, complete);
 };
@@ -46,5 +37,5 @@ const loadComponent = function (tagId, pathname, complete = undefined) {
 };
 
 const setTitle = function (title) {
-  document.title = title + " | movie toy";
+  document.title = title + " | Movie Toy";
 };

@@ -19,13 +19,6 @@ db = client.spamovie
 
 user_bp = Blueprint("user", __name__)
 
-
-
-@user_bp.route("/signin")
-def components_sign_in():
-   return render_template("components/sign_in.html")
-
-
 @user_bp.route("/signin", methods=["POST"])
 def sign_in():
    username = request.form["username"]
@@ -34,28 +27,25 @@ def sign_in():
       return jsonify({"msg": "아이디 형식은 알파벳,한글,숫자 3~15자 입니다."})
    if pass_check(password) is not True:
       return jsonify({"msg": "비밀번호 형식은 알파벳,숫자 8~15자 입니다."})
-
    password_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
    user = db.users.find_one({"username": username, "password": password_hash})
    if user is not None:
+      print("hi1")
       uid = user["uid"]
       payload = {
          "uid": uid,
          "username": username,
          "exp": datetime.utcnow() + timedelta(seconds = 60*60)
       }
+      print("hi2")
+      print("hi3")
       token = jwt.encode(payload, KEY, algorithm="HS256") #.decode("utf-8")   # annotate while running in localhost
       response = make_response({"msg": "login done"})
       response.set_cookie("logintoken", token)
+      print("hi4")
       return response
    else:
       return jsonify({"msg": "아이디, 비밀번호가 틀렸습니다."})
-
-
-@user_bp.route("/signup")
-def components_sign_up():
-   return render_template("components/sign_up.html")
-
 
 @user_bp.route("/signup", methods=["POST"])
 def sign_up():

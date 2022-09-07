@@ -66,6 +66,7 @@ def movie_carousel():
 # 홈화면 최신 영화 목록
 @movie_bp.route("/movienow")
 def movie_now():
+    print(session)
     dir = request.args["dir"]
     if dir=="right":
         session["list_now"] += 1
