@@ -65,8 +65,9 @@ def review_write():
             id = request.form["id"] if "id" in request.form.keys() else None
             up = db.reviews.update_one({"_id": ObjectId(id)}, {"$set": review}, upsert=True)
 
+            db.users.update_one({"username": username}, {"$addToSet": {"reviews": str(up.upserted_id)}})
             db.movies.update_one({"code": code}, {"$addToSet": {"reviews": str(up.upserted_id)}})
-            update_rating(code)
+            update_rating(code)            
 
             return jsonify({"msg": "리뷰를 등록했습니다!"})
         except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):

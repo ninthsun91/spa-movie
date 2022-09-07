@@ -12,7 +12,7 @@ def pass_check(test):
 
 
 def title_check(test):
-    title = re.compile(r"^[\s\wㄱ-ㅎㅏ-ㅣ가-힣.?!]{3,30}$")
+    title = re.compile(r"^[\s\wㄱ-ㅎㅏ-ㅣ가-힣-.?!]{3,30}$")
     return True if re.fullmatch(title, test) else False
 
 
