@@ -42,7 +42,7 @@ def sign_in():
       }
       token = jwt.encode(payload, KEY, algorithm="HS256") #.decode("utf-8")   # annotate while running in localhost
       response = make_response({"msg": "login done"})
-      response.set_cookie("logintoken", token)
+      response.set_cookie("logintoken", token, timedelta(seconds = 60*60))
       return response
    else:
       return jsonify({"msg": "아이디, 비밀번호가 틀렸습니다."})
@@ -108,8 +108,7 @@ def profile_reviews():
       payload = jwt.decode(token, KEY, algorithms=["HS256"])
       uid = payload["uid"]
 
-      rids = db.users.find_one({"uid": uid}, {"_id": False, "reviews": True})["reviews"]
-     
+      rids = db.users.find_one({"uid": uid}, {"_id": False, "reviews": True})["reviews"]     
       reviews = []
       for rid in rids:
          reviews.append(db.reviews.find_one({"_id": ObjectId(rid)}))
@@ -123,6 +122,21 @@ def profile_reviews():
 @user_bp.route("/profile")
 def profile():
    return render_template("프로필.html")
+
+
+# 로그인 세션 갱신
+def login_renew():
+   token = request.cookies.get("logintoken")
+   try:
+      payload = jwt.decode(token, KEY, algorithms=["HS256"])
+      payload["exp"] = datetime.utcnow() + timedelta(seconds = 60*60)
+
+      token_n = jwt.encode(payload, KEY, algorithms=["HS256"]) #.decode("utf-8")
+      response = make_response({"msg": "로그인 세션 갱신"})
+      response.set_cookie("logintoken", token_n, timedelta(seconds = 60*60))
+      return response
+   except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+      return print("로그인 세션이 만료되었습니다.")
 
 
 # 회원 목록 확인용 임시 도구

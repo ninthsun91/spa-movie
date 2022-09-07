@@ -1,5 +1,6 @@
 from flask import Flask, render_template, session
 from dotenv import load_dotenv
+from user import login_renew
 import os
 
 from components import components
@@ -29,10 +30,15 @@ def home():
    session["list_main"] = 0
    session["list_now"] = 0
    session["list_trend"] = 0
+   login_renew()
    return render_template("home.html")
+
+
 @app.route("/rev")
 def review():
+   login_renew()
    return render_template("review_page.html")
+
 
 if __name__ == "__main__":
    app.run("0.0.0.0", port=5000, debug=True)
