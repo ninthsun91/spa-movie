@@ -87,7 +87,7 @@ def userlist():
    users = db.users.find({}, {"_id": False})
    
    result = []
-   for user in users
+   for user in users:
       result.append(user)
       print(user)
    
