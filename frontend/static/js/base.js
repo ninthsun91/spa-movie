@@ -11,12 +11,14 @@ let ticking = false;
 function doSomething(scroll_pos) {
   if (scroll_pos === 0) {
     $("nav").css("height", "150px");
-    $("#logo").css("height", "100%");
-    $("#logo>*").css("opacity", "1");
+    $("#mainLogo").css("height", "100%");
+    $("#mainLogo>*").css("opacity", "1");
+    $("#subAppname").css("opacity", "0");
   } else {
     $("nav").css("height", "60px");
-    $("#logo").css("height", "0");
-    $("#logo>*").css("opacity", "0");
+    $("#mainLogo").css("height", "0px");
+    $("#mainLogo>*").css("opacity", "0");
+    $("#subAppname").css("opacity", "1");
   }
   console.log("scroll");
 }

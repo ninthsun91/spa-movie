@@ -15,28 +15,43 @@ nav {
   transition: all 1s;
 }
 nav .logo {
+  position: relative;
+}
+nav .logo .main-logo {
+  position: absolute;
   width: 200px;
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 15px;
   overflow: hidden;
+  height: 100%;
 }
-nav .logo > * {
+nav .logo .main-logo > * {
   transition: all 1s;
 }
-nav .logo .app-name {
+nav .logo .main-logo .app-name {
   color: white;
   cursor: pointer;
   padding: 10px 10px 10px 5px;
+  font-size: 22px;
 }
-nav .logo .logo-image {
+nav .logo .main-logo .logo-image {
   width: 60px;
   height: 60px;
   border-radius: 50%;
   background-color: aliceblue;
   cursor: pointer;
+}
+nav .logo .sub-appname {
+  width: 200px;
+  position: absolute;
+  opacity: 0;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 nav .menu {
   position: sticky;
