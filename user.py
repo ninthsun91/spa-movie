@@ -80,3 +80,15 @@ def sign_up():
    db.users.insert_one(profile)
 
    return jsonify({"msg": "success"})
+
+
+@user_bp.route("/userlist")
+def userlist():
+   users = db.users.find({}, {"_id": False})
+   
+   result = []
+   for user in users
+      result.append(user)
+      print(user)
+   
+   return jsonify({ "users": result })
