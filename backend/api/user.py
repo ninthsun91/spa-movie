@@ -26,9 +26,9 @@ user_bp = Blueprint("user", __name__)
 def sign_in():
    username = request.form["username"]
    password = request.form["password"]
-   if name_check(username) is not True:
+   if check_name(username) is not True:
       return jsonify({"msg": "아이디 형식은 알파벳,한글,숫자 3~15자 입니다."})
-   if pass_check(password) is not True:
+   if check_password(password) is not True:
       return jsonify({"msg": "비밀번호 형식은 알파벳,숫자 8~15자 입니다."})
 
    password_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
@@ -53,9 +53,9 @@ def sign_in():
 def sign_up():
    username = request.form["username"]
    password = request.form["password"]
-   if name_check(username) is not True:
+   if check_name(username) is not True:
       return jsonify({"msg": "아이디 형식은 알파벳,한글,숫자 3~15자 입니다."})
-   if pass_check(password) is not True:
+   if check_password(password) is not True:
       return jsonify({"msg": "비밀번호 형식은 알파벳,숫자 8~15자 입니다."})
 
    cnt = db.users.find_one({}, {"_id": False})
@@ -83,7 +83,7 @@ def profile_update():
       uid = payload["uid"]
       username = payload["username"]
       password = request.form["password"]
-      if pass_check(password) is not True:
+      if check_password(password) is not True:
          return jsonify({"msg": "비밀번호 형식은 알파벳,숫자 8~15자 입니다."})
       password_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
 

@@ -1,4 +1,3 @@
-from turtle import title
 from flask import Blueprint, render_template, request, jsonify, session
 from pymongo import MongoClient
 
@@ -249,15 +248,21 @@ def movie_add(movies):
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
         data = requests.get(url, headers=headers)
         soup = BeautifulSoup(data.text, 'html.parser')
+
         desc = soup.select_one("#content > div.article > div.section_group.section_group_frst > div:nth-child(1) > div > div.story_area > p")
+        image = soup.select_one("meta[property='og:image']")["content"].split("?type")[0]
+        pubDate = check_date(remove_tags(str(tag)).strip().replace("\n", ""))
+        if pubDate is None:
+            tag = soup.select_one("#content > div.article > div.mv_info_area > div.mv_info > strong").text
+            pubDate = "".join(filter(str.isdigit, tag))          
 
         movie = {
             "code": code,
-            "image": movie["image"],
+            "image": image,
             "title": title,
             "director": movie["director"],
             "actor": movie["actor"],
-            "pubDate": movie["pubDate"],
+            "pubDate": pubDate,
             "naverRating": movie["naverRating"],
             "userRating": "0.00",
             "description": remove_tags(str(desc)),
