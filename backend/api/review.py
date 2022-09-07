@@ -7,7 +7,7 @@ from bson.objectid import ObjectId
 from datetime import datetime
 from dotenv import load_dotenv
 
-from regex import *
+from ..util.validator import *
 
 
 load_dotenv()
@@ -41,10 +41,10 @@ def review_write():
     code = int(request.form["code"])
     title = request.form["title"]
 
-    if title_check(title) is not True:
+    if check_title(title) is not True:
         return jsonify({"msg": "제목은 특수문자 제외 3~30자입니다."})
     comment = request.form["comment"]
-    if comment_check(comment) is not True:
+    if check_comment(comment) is not True:
         return jsonify({"msg": "3글자 이상 작성해주세요."})
     userRating = request.form["userRating"]
 
@@ -65,8 +65,9 @@ def review_write():
             id = request.form["id"] if "id" in request.form.keys() else None
             up = db.reviews.update_one({"_id": ObjectId(id)}, {"$set": review}, upsert=True)
 
+            db.users.update_one({"username": username}, {"$addToSet": {"reviews": str(up.upserted_id)}})
             db.movies.update_one({"code": code}, {"$addToSet": {"reviews": str(up.upserted_id)}})
-            update_rating(code)
+            update_rating(code)            
 
             return jsonify({"msg": "리뷰를 등록했습니다!"})
         except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):

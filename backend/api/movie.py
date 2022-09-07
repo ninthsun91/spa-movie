@@ -10,7 +10,7 @@ from ordered_set import OrderedSet
 from bs4 import BeautifulSoup
 import requests
 
-from regex import *
+from ..util.validator import *
 
 load_dotenv()
 URL = os.environ.get("MongoDB_URL")
@@ -249,15 +249,21 @@ def movie_add(movies):
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
         data = requests.get(url, headers=headers)
         soup = BeautifulSoup(data.text, 'html.parser')
+
         desc = soup.select_one("#content > div.article > div.section_group.section_group_frst > div:nth-child(1) > div > div.story_area > p")
+        image = soup.select_one("meta[property='og:image']")["content"].split("?type")[0]
+        pubDate = check_date(remove_tags(str(tag)).strip().replace("\n", ""))
+        if pubDate is None:
+            tag = soup.select_one("#content > div.article > div.mv_info_area > div.mv_info > strong").text
+            pubDate = "".join(filter(str.isdigit, tag))          
 
         movie = {
             "code": code,
-            "image": movie["image"],
+            "image": image,
             "title": title,
             "director": movie["director"],
             "actor": movie["actor"],
-            "pubDate": movie["pubDate"],
+            "pubDate": pubDate,
             "naverRating": movie["naverRating"],
             "userRating": "0.00",
             "description": remove_tags(str(desc)),
@@ -280,7 +286,7 @@ def test():
     "birth": 1994,
     "skills": ["node.js", "python3"]
    }   
-   return render_template("TESTPAGE.html", a=a)
+   return render_template("test.html", a=a)
 
 # 네이버 영화DB 스크랩 -> DB 유지관리용. 웹사이트에는 사용 안될거에요
 @movie_bp.route("/scrap", methods=["GET"])

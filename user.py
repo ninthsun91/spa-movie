@@ -30,19 +30,15 @@ def sign_in():
    password_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
    user = db.users.find_one({"username": username, "password": password_hash})
    if user is not None:
-      print("hi1")
       uid = user["uid"]
       payload = {
          "uid": uid,
          "username": username,
          "exp": datetime.utcnow() + timedelta(seconds = 60*60)
       }
-      print("hi2")
-      print("hi3")
       token = jwt.encode(payload, KEY, algorithm="HS256") #.decode("utf-8")   # annotate while running in localhost
       response = make_response({"msg": "login done"})
       response.set_cookie("logintoken", token)
-      print("hi4")
       return response
    else:
       return jsonify({"msg": "아이디, 비밀번호가 틀렸습니다."})
