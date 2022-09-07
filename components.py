@@ -10,6 +10,7 @@ def review_card():
 @components.route("/postercard-v")
 def poster_card_v():
    return render_template("components/poster_card.html",movies=[1,2,3,4],direction="vertical")
+
 @components.route("/postercard-h")
 def poster_card_h():
    return render_template("components/poster_card.html",movies=[1,2,3,4],direction="horizontal")
