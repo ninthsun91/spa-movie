@@ -23,7 +23,7 @@ window.onpopstate = function ({ state }) {
 
 const loadRev = function () {
   pushHistory(PATH_NAME.REV);
-  loadPage(PATH_NAME.REV);
+  loadPage(PATH_NAME.REV, handleLoadRev);
 };
 const loadHome = function () {
   pushHistory(PATH_NAME.HOME);
