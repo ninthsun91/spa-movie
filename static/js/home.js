@@ -11,7 +11,7 @@ let numberIndicating = 0;
 let clickable = true;
 const calculating = (num) => (((num % 3) + 3) % 3) + 1;
 const shrinkSlug = function (num) {
-  slugs(calculating(num)).css("width", "15px");
+  slugs(calculating(num)).css("width", "7px");
 };
 const handleClickLeftChevron = function () {
   if (clickable) {

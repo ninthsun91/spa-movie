@@ -32,12 +32,12 @@
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: space-between;
-  width: 120px;
+  width: 90px;
 }
 .carousel .indicator-wrapper .indicator .slug {
-  width: 15px;
+  width: 7px;
   height: 7px;
-  border-radius: 5px;
+  border-radius: 3.5px;
   background-color: rgb(255, 255, 255, 0.7);
   transition: all 0.5s;
 }
