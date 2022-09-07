@@ -79,7 +79,7 @@ def sign_up():
 def profile_update():
    token = request.cookies.get("logintoken")
    try:
-      payload = jwt.decode(token, KEY, algorithms=["HS256"])
+      payload = jwt.decode(token, KEY, algorithms="HS256")
       uid = payload["uid"]
       username = payload["username"]
       password = request.form["password"]
@@ -105,7 +105,7 @@ def profile_update():
 def profile_reviews():
    token = request.cookies.get("logintoken")
    try:
-      payload = jwt.decode(token, KEY, algorithms=["HS256"])
+      payload = jwt.decode(token, KEY, algorithms="HS256")
       uid = payload["uid"]
 
       rids = db.users.find_one({"uid": uid}, {"_id": False, "reviews": True})["reviews"]     
@@ -128,10 +128,10 @@ def profile():
 def login_renew():
    token = request.cookies.get("logintoken")
    try:
-      payload = jwt.decode(token, KEY, algorithms=["HS256"])
+      payload = jwt.decode(token, KEY, algorithms="HS256")
       payload["exp"] = datetime.utcnow() + timedelta(seconds = 60*60)
 
-      token_n = jwt.encode(payload, KEY, algorithms=["HS256"]) #.decode("utf-8")
+      token_n = jwt.encode(payload, KEY, algorithm="HS256") #.decode("utf-8")
       response = make_response({"msg": "로그인 세션 갱신"})
       response.set_cookie("logintoken", token_n, timedelta(seconds = 60*60))
       return response
