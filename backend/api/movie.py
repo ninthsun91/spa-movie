@@ -1,16 +1,12 @@
 from flask import Blueprint, render_template, request, jsonify, session
 from pymongo import MongoClient
-
-import urllib.request
-import json
-import os
+from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from ordered_set import OrderedSet
-
-from bs4 import BeautifulSoup
+import os
 import requests
 
-from ..util.validator import *
+from ..util import *
 
 load_dotenv()
 URL = os.environ.get("MongoDB_URL")
@@ -24,49 +20,78 @@ db = client.spamovie
 movie_bp = Blueprint("movie", __name__)
 
 
-# 홈화면 메인 포스터
-@movie_bp.route("/carousel")
-def movie_carousel():
-    dir = request.args["dir"]
-    if dir=="right":
-        session["list_main"] += 1
-    elif dir=="left":
-        session["list_main"] -= 1    
-    if abs(session.get("list_main"))==10:
-        session["list_main"] = 0
-    page = session.get("list_main")
-    skip = page if page>=0 else 10 + page
-
-    pipeline = [
-        {
-            "$sort": {"time": -1}
-        }, {
-            "$project": {
-                "_id": 0,
-                "code": 1,
-                "title": 1,
-                "time": 1,
-            }
-        }, {"$limit": 50}
-    ]
-    review_search = db.reviews.aggregate(pipeline)
-    
-    codes = OrderedSet()
-    for review in review_search:
-        codes.add(review["code"])
-        if len(codes)==10:
-            break
-
-    code = list(codes)[skip]
-    movie = db.movies.find_one({"code": code}, {"_id": False})
+# 단일 영화 데이터 요청
+@movie_bp.route("/movie", methods=["GET"])
+def movie_view():
+    """
+    요청예시: GET, "/movie?code=999999"
+    code = 영화 code
+    반환: movie(:dic)
+        movie = { code, image, title, director, actor, pubDate, naverRating,
+                    userRating, description, reviews }
+    """
+    code = int(request.args["code"])
+    movie = movies_code(code)
 
     return jsonify({ "movie": movie })
 
 
-# 홈화면 최신 영화 목록
-@movie_bp.route("/movienow")
-def movie_now():
-    print(session)
+# 홈 메인 포스터 / 리뷰 최신 리뷰
+@movie_bp.route("/recent")      # 영화 1개, 3칸
+@movie_bp.route("/rev/recent")  # 리뷰 2개, 페이지네이션
+def list_recent():
+    """
+    요청예시: GET, "/recent?dir=left" or "/rev/recent?page=3"
+        dir = left | right, page = 1 이상의 자연수
+    반환: "/recent"     >   movie
+            movie = { code, image, title, director, actor, pubDate,
+                        naverRating, userRating, description, reviews }
+          "/rev/recent" >   { reviews: [Array(:dic, length=2)], max_page: max_page(:int) }
+            arry dic = { _id, code, username, title, comment, userRating, likes, time }
+            max_page = 최대 페이지 수 (전체리뷰 / 2)
+    """
+    reviews = reviews_time()
+
+    if "rev" in request.path.split("recent")[0]: # from /rev
+        if "page" in request.args:
+            page = int(request.args["page"]) 
+            session["review_recent"] = page        
+        else:
+            page = session.get("review_recnet")
+        skip = (page-1) * 2
+        max_page = int(len(reviews) / 2)
+
+        return jsonify({ "reviews": reviews[skip:skip+2], "max_page": max_page })
+    else:   # from /
+        dir = request.args["dir"]
+        if dir=="right":
+            session["list_recent"] += 1
+        elif dir=="left":
+            session["list_recent"] -= 1    
+        if abs(session.get("list_recent"))==3:
+            session["list_recent"] = 0
+        page = session.get("list_recent")
+        skip = page if page>=0 else 3 + page
+        
+        codes = OrderedSet()
+        for review in reviews:
+            codes.add(review["code"])
+            if len(codes)==3:
+                break
+        code = list(codes)[skip]
+
+        return jsonify({ "movie": movies_code(code) })
+
+
+# 홈 최신 영화 목록
+@movie_bp.route("/now")     # 영화 4개
+def list_now():
+    """
+    요청예시: GET, "/now?dir=right"
+    dir = left | right
+    반환: { movies: [Array(:dic, length=4)] }
+        dic = { code, image, title, director, actor, pubDate, naverRating }
+    """
     dir = request.args["dir"]
     if dir=="right":
         session["list_now"] += 1
@@ -78,205 +103,93 @@ def movie_now():
     skip = page if page>=0 else 10 + page
     skip = (page * 4) if page>=0 else (40 + (page * 4))
 
-    pipeline = [
-        {
-            "$search": {
-                "index": "movie_title",
-                "regex": {
-                    "query": "[0-9.]{4,10}",
-                    "path": "pubDate",
-                    "allowAnalyzedField": True
-                }
-            }
-        }, {
-            "$sort": { "pubDate": -1 }
-        }, {
-            "$project": {
-                "_id": 0,
-                "code": 1,
-                "image": 1,
-                "title": 1,
-                "director": 1,
-                "actor": 1,
-                "pubDate": 1,
-                "naverRating": 1,
-            }
-        }, {"$limit": 40}, {"$skip": skip}
-    ]
-    movies_search = db.movies.aggregate(pipeline)
+    movies = movies_pubDate(40, skip)
+    movies = movies[0:4]
+    for movie in movies:
+        [movie.pop(key) for key in ["userRating", "description", "reviews"]]
 
-    movies = []
-    for movie in movies_search:
-        movies.append(movie)
-
-    return jsonify({ "movies": movies[0:4] })
+    return jsonify({ "movies": movies })
 
 
-# 홈화면 트랜딩 영화 목록
-@movie_bp.route("/movietrend")
-def movie_trend():
+# 홈/리뷰 트랜딩 영화
+@movie_bp.route("/trend")       # 4개
+@movie_bp.route("/rev/trend")   # 3개
+def list_trend():
+    """
+    요청예시: GET, "/trend?dir=left" or "/rev/trend?dir=right"
+        dir = left | right
+    반환: { movies: [Array(:dic, length=4/3)]}
+        dic = { code, image, title, director, actor, pubDate, userRating, review_count}
+        review_cout = 리뷰 갯수
+    """
     dir = request.args["dir"]
-    if dir=="right":
-        session["list_trend"] += 1
-    elif dir=="left":
-        session["list_trend"] -= 1
-    if abs(session.get("list_trend"))==10:
-        session["list_trend"] = 0
-    page = session.get("list_trend")
-    skip = page if page>=0 else 10 + page
-    skip = (page * 4) if page>=0 else (40 + (page * 4))
+    if "rev" in request.path.split("trend")[0]: # from /rev
+        if dir=="right":
+            session["review_trend"] += 1
+        elif dir=="left":
+            session["review_trend"] -= 1
+        if abs(session.get("review_trend"))==10:
+            session["review_trend"] = 0
+        page = session.get("review_trend")
+        skip = page if page>=0 else 10 + page
+        skip = (page * 3) if page>=0 else (30 + (page * 3))
 
-    pipeline = [
-        {
-            "$project": {
-                "_id": 0,
-                "code": 1,
-                "image": 1,
-                "title": 1,
-                "director": 1,
-                "actor": 1,
-                "pubDate": 1,
-                "naverRating": 1,
-                "review_count": {"$size": "$reviews"}
-            }
-        }, {
-            "$sort": {
-                "review_count": -1,
-                "naverRating": -1
-            }
-        }, {"$limit": 40}, {"$skip": skip}
-    ]
-    movies_search = db.movies.aggregate(pipeline)
+        movies = movies_rcount(30, skip)
+        movies = movies[0:3]
+        for movie in movies:
+            [movie.pop(key) for key in ["naverRating", "description", "reviews"]]
+            
+        return jsonify({ "movies": movies })
+    else:   # from /
+        if dir=="right":
+            session["list_trend"] += 1
+        elif dir=="left":
+            session["list_trend"] -= 1
+        if abs(session.get("list_trend"))==10:
+            session["list_trend"] = 0
+        page = session.get("list_trend")
+        skip = page if page>=0 else 10 + page
+        skip = (page * 4) if page>=0 else (40 + (page * 4))
 
-    movies = []
-    for movie in movies_search:
-        movies.append(movie)
-        
-    return jsonify({ "movies": movies[0:4] })
-
-
-# 영화 상세
-@movie_bp.route("/movie", methods=["GET"])
-def movie_view():
-   code = int(request.args["code"])
-   movie = db.movies.find_one({"code": code}, {"_id": False})
-   
-   return render_template("movie.html", movie=movie)
+        movies = movies_rcount(40, skip)
+        movies = movies[0:4]
+        for movie in movies:
+            [movie.pop(key) for key in ["naverRating", "description", "reviews"]]
+            
+        return jsonify({ "movies": movies })
 
 
 # 영화 제목 검색
 @movie_bp.route("/search", methods=["POST"])
 def search_title():
+    """
+    요청예시: POST, "/search", data={ keyword(:str) }
+    keyword = 검색어
+    반환: { result: [Array(:dic, length=max20)] }
+        dic = { code, title, director, actor, pubDate }
+    """
     keyword = request.form["keyword"]
 
     naver = search_naver(keyword)    
     for n in naver:
-        n.pop("image")
-        n.pop("naverRating")
-    result = search_db(keyword) + naver
+        [n.pop(key) for key in ["image", "naverRating"]]
+    db = movies_title(keyword, 10)
+    for d in db:
+        [d.pop(key) for key in ["_id", "image", "naverRating", "userRating",
+                                    "description", "reviews"]]
 
-    return jsonify({ "result": result })
-
-
-# MongoDB 제목 검색
-def search_db(keyword):
-   pipeline = [
-      {
-        "$search": {
-            "index": "movie_title",
-            "text": {
-                "query": keyword,
-                "path": "title",
-            }
-        }
-      }, {
-         "$project": {
-            "_id": 0,
-            "code": 1,
-            "title": 1,
-            "director": 1,
-            "actor": 1,
-            "pubDate": 1,
-         }
-        }
-   ]
-   movies = db.movies.aggregate(pipeline)
-   result = []
-   for movie in movies:
-      result.append(movie)
-   return result
+    return jsonify({ "result": db + naver })
 
 
-# 네이버영화 검색 API
-def search_naver(keyword):
-    query = urllib.parse.quote(keyword)
-    url = NMV + query
 
-    request_movie = urllib.request.Request(url)
-    request_movie.add_header("X-Naver-Client-Id", CID)
-    request_movie.add_header("X-Naver-Client-Secret", CSC)
-    response = urllib.request.urlopen(request_movie)
+@movie_bp.route("/rev/test2")
+@movie_bp.route("/test2")
+def test2():
+    print(reviews_likes())
+    return reviews_likes()
 
-    rescode = response.getcode()
-    if rescode==200:
-        result = []
-        items = json.loads(response.read().decode("utf-8"))["items"]
-        for item in items:
-            summary = {
-            "title": remove_tags(item["title"]),
-            "code": int(item["link"].split("?code=")[1]),
-            "image": item["image"],
-            "director": item["director"].strip("|"),
-            "actor": item["actor"].strip("|"),
-            "pubDate": item["pubDate"],
-            "naverRating": item["userRating"],
-            }
-            result.append(summary)
-        movie_add(result[0:5])
-        return result
-    else:
-        return print(f"Error Code: {rescode}")
-
-
-# 네이버영화API 검색 결과 중 상위 5개만 DB에 등록
-def movie_add(movies):
-    for movie in movies:
-        title = movie["title"]
-        code = movie["code"]
-
-        url = f"https://movie.naver.com/movie/bi/mi/basic.naver?code={code}"
-        headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
-        data = requests.get(url, headers=headers)
-        soup = BeautifulSoup(data.text, 'html.parser')
-
-        desc = soup.select_one("#content > div.article > div.section_group.section_group_frst > div:nth-child(1) > div > div.story_area > p")
-        image = soup.select_one("meta[property='og:image']")["content"].split("?type")[0]
-        pubDate = check_date(remove_tags(str(tag)).strip().replace("\n", ""))
-        if pubDate is None:
-            tag = soup.select_one("#content > div.article > div.mv_info_area > div.mv_info > strong").text
-            pubDate = "".join(filter(str.isdigit, tag))          
-
-        movie = {
-            "code": code,
-            "image": image,
-            "title": title,
-            "director": movie["director"],
-            "actor": movie["actor"],
-            "pubDate": pubDate,
-            "naverRating": movie["naverRating"],
-            "userRating": "0.00",
-            "description": remove_tags(str(desc)),
-            "reviews": [],
-        }
-        find = db.movies.find_one({"code": code})
-
-        cnt = 0
-        if find is None:
-            db.movies.insert_one(movie)
-            cnt += 1
-    
-    return print(f"{cnt} movies added to DB")
+def test3(a :int):    
+    print(a)
 
 
 @movie_bp.route("/test", methods=["GET"])
@@ -337,3 +250,15 @@ def scrap():
             print(f"{title} Exists")
 
     return ""
+
+
+
+    # chromedriver = os.path.abspath("../driver/chromedriver.exe")
+    # options = webdriver.ChromeOptions() 
+    # options.add_experimental_option("excludeSwitches", ["enable-logging"])
+    # driver = webdriver.Chrome(executable_path="D:\GDrive\dev\hanghae\\toymovie\\backend\driver/chromedriver.exe", options=options)
+    # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+
+    # driver.get("http://naver.com")
+    # path = driver.current_url
+    # print(path)
