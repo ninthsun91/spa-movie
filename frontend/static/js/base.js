@@ -1,8 +1,8 @@
 $(function () {
   if (location.pathname === PATH_NAME.HOME) {
     handleLoadHome();
-  } else if (location.pathname === PATH_NAME.HOME) {
-    handleLoadRev;
+  } else if (location.pathname === PATH_NAME.REV) {
+    handleLoadRev();
   }
 });
 let last_known_scroll_position = 0;

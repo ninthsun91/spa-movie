@@ -22,3 +22,11 @@ const handleClickReviewEdit = function () {
   console.log("edit review");
   loadComponent("modalContent", "/components/edit");
 };
+const reviewMenuSlideUp = function () {
+  console.log("menu slide up");
+  $("#reviewMenu").css("bottom", "-20vh");
+};
+const reviewContainerWidthGrow = function () {
+  console.log("review container width grow");
+  $(".review-container").css("width", "100%");
+};

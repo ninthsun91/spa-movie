@@ -5,9 +5,11 @@
 }
 .board .review-menu {
   position: fixed;
+  bottom: -100vh;
   width: 200px;
   height: 100vh;
   background-color: rgb(160, 160, 160);
+  transition: all 1s;
 }
 .board .review-menu h1 {
   font-weight: 900;
@@ -56,6 +58,8 @@
   align-items: flex-end;
 }
 .board .review-viewer .review-wrapper {
+  display: flex;
+  flex-direction: column;
   margin: 20px 0 20px 250px;
   width: calc(100% - 300px);
   padding-bottom: 20px;
@@ -91,6 +95,7 @@
 }
 
 .board .review-viewer .review-wrapper .review-container {
+  width: 0px;
   border-top: solid 2px rgb(210, 210, 210);
   height: 0px;
   transition: all 0.5s;
@@ -99,6 +104,7 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  align-self: flex-end;
 }
 .board .review-viewer .review-wrapper .review-container.most-reviewed {
   flex-direction: row;

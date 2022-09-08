@@ -39,6 +39,10 @@ const handleLoadHome = function () {
 const handleLoadRev = function () {
   console.log("after load rev");
   setTitle(TITLE.REV);
+  setTimeout(function () {
+    reviewMenuSlideUp();
+    reviewContainerWidthGrow();
+  }, 300);
 };
 
 const loadComponent = function (tagId, pathname, complete = undefined) {
