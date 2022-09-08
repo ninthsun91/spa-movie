@@ -4,9 +4,9 @@
 <!--  -->
 {% block board %}
 
-<div id="makeReview" class="make-review" onclick="handleClickMakeReview()"><i class="bi bi-plus-lg"></i></div>
 <div id="reviewMenu" class="review-menu">
   <h1 id="reviewH1" onclick="handleClickReviewH1()">Review</h1>
+  <div class="divider first"></div>
   <ul>
     <li id="recentLi">
       <label id="recentLabel" for="recentCheckBox" onclick="handleClickRecentLabel()">recent</label>
@@ -16,6 +16,10 @@
     </li>
     <li id="mostLi"><label id="mostLabel" for="mostCheckBox" onclick="handleClickMostLabel()">movies</label></li>
   </ul>
+  <div class="divider second"></div>
+  <div class="create-review">
+    <div onclick="handleClickMakeReview()">create</div>
+  </div>
 </div>
 <div class="review-viewer">
   <div class="review-wrapper">

@@ -19,21 +19,42 @@
   cursor: pointer;
   padding-right: 20px;
   padding-top: 20px;
+  transition: all 0.3s;
+}
+.board .review-menu h1:hover {
+  text-shadow: 2px 3px 0px rgb(210, 210, 210);
+}
+.board .review-menu .divider {
+  background-color: rgb(30, 30, 30);
+}
+.board .review-menu .divider.first {
+  margin-top: 6px;
+  width: calc(100% - 12px);
+  height: 2px;
+}
+.board .review-menu .divider.second {
+  margin-top: 36px;
+  width: calc(100% - 28px);
+  height: 5px;
 }
 .board .review-menu ul {
-  margin-top: 30px;
+  margin-top: 36px;
   gap: 16px;
-  height: 150px;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
 }
 .board .review-menu ul li {
-  width: calc(100% + 20px);
+  width: 0px;
   padding-bottom: 10px;
   display: flex;
   justify-content: flex-end;
+  transition: all 0.2s;
+}
+.board .review-menu ul li:hover {
+  text-shadow: 2px 3px 0px rgb(210, 210, 210);
 }
 .board .review-menu label {
   color: black;
@@ -42,13 +63,28 @@
   font-size: 40px;
   margin-right: 20px;
 }
+.board .review-menu .create-review {
+  margin-top: 24px;
+  color: black;
+  font-weight: 900;
+  display: flex;
+  justify-content: flex-end;
+  font-size: 40px;
+  cursor: pointer;
+  margin-right: 20px;
+  transition: all 0.3s;
+}
+.board .review-menu .create-review:hover {
+  text-shadow: 2px 3px 0px rgb(210, 210, 210);
+}
+
 .board .make-review {
   cursor: pointer;
   color: white;
   width: 30px;
   height: 30px;
   position: fixed;
-  padding: 10px;
+  padding: 14px;
   font-size: 30px;
   border-radius: 50%;
   border: solid 2px white;
@@ -58,6 +94,13 @@
   align-items: center;
   right: 150px;
   bottom: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.board .make-review:hover {
+  box-shadow: 0px 0px 10px white;
+  box-shadow: 0px 0px 15px white;
 }
 .boar .review-viewer {
   display: flex;

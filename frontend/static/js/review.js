@@ -1,6 +1,6 @@
 const handleClickMakeReview = function () {
   console.log("review");
-  loadComponent("createReview", "/components/moviesearch");
+  loadComponent("createReview", "/components/moviesearch?tagId=createReview&cover=on");
 };
 const handleClickRecentLabel = function () {
   console.log("recent");
@@ -28,7 +28,7 @@ const handleClickMostLabel = function () {
 };
 const handleClickViewReview = function () {
   console.log("view review");
-  loadComponent("reviewViewer", "/components/view-review");
+  loadComponent("reviewViewer", "/components/view-review?tagId=reviewViewer");
 };
 const handleClickReviewEdit = function () {
   console.log("edit review");
@@ -48,8 +48,7 @@ const reviewContainerWidthGrow = function () {
   $(".review-container").css("width", "100%");
 };
 const toggleLi = function (tagId) {
-  $("#" + tagId).toggleClass("bg-white");
-  $("#" + tagId).toggleClass("box-shadow");
+  $("#" + tagId).toggleClass("review-li");
 };
 const scrollToTag = function (tagId) {
   const { top } = $("#" + tagId).offset();

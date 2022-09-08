@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template,request
 
 components = Blueprint("components", __name__)
 
@@ -16,19 +16,19 @@ def poster_card_h():
 
 @components.route("/signup")
 def sign_up():
-   return render_template("components/sign_up.html")
+   tag_id = request.args.get("tagid")
+   return render_template("components/sign_up.html",tag_to_empty=tag_id)
 
 @components.route("/signin")
 def sign_in():
-   return render_template("components/sign_in.html")
+   tag_id = request.args.get("tagid")
+   return render_template("components/sign_in.html",tag_to_empty=tag_id)
 
 @components.route("/moviesearch")
 def create():
-   return render_template("components/movieSearch.html",is_modal_covered=True)
-
-@components.route("/moviesearch-uncov")
-def create_uncov():
-   return render_template("components/movieSearch.html",is_modal_covered=False)
+   cover= request.args.get("cover")
+   tag_id = request.args.get("tagId")
+   return render_template("components/movieSearch.html",is_modal_covered=cover,tag_to_empty=tag_id)
 
 @components.route("/upsert")
 def upsert():
@@ -40,7 +40,8 @@ def popup_upsertied():
 
 @components.route("/view-review")
 def view_review():
-   return render_template("components/review.html")
+   tag_to_empty = request.args.get("tagId")
+   return render_template("components/review.html",tag_to_empty=tag_to_empty)
 
 @components.route("/edit")
 def edit():

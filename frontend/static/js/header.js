@@ -1,7 +1,7 @@
 const sign = () => $("#" + TAG_ID.SIGN);
 
 const handleClickSignIn = function () {
-  loadComponent(TAG_ID.SIGN, "/components/signin", function () {
+  loadComponent(TAG_ID.SIGN, "/components/signin?tagId=" + TAG_ID.SIGN, function () {
     sign().show();
   });
 };
@@ -9,7 +9,7 @@ const handleClickSignInCancel = function () {
   sign().hide();
 };
 const handleClickSignUp = function () {
-  loadComponent(TAG_ID.SIGN, "/components/signup", function () {
+  loadComponent(TAG_ID.SIGN, "/components/signup?tagId=" + TAG_ID.SIGN, function () {
     sign().show();
   });
 };
@@ -22,12 +22,12 @@ const hideSign = function () {
 };
 
 const handleClickReview = function () {
-  loadRev();
+  reloadPage(PATH_NAME.REV, handleLoadRev);
 };
 
 const handleClickLogo = function () {
   console.log("click logo");
-  loadHome();
+  reloadPage(PATH_NAME.HOME, handleLoadHome);
 };
 
 // my page
@@ -125,7 +125,7 @@ const handleSubmitSignUp = function (event) {
       method: "POST",
       success: function ({ msg }) {
         if (msg === "success") {
-          loadComponent(TAG_ID.SIGN, "/components/signin", function () {
+          loadComponent(TAG_ID.SIGN, "/components/signin?tagId=" + TAG_ID.SIGN, function () {
             sign().show();
           });
         }

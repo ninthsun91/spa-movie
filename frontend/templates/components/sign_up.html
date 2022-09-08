@@ -4,12 +4,28 @@
   <form onsubmit="handleSubmitSignUp(event)">
     <div class="input-wrapper">
       <label for="signUpId">id</label>
-      <input oninput="handleInputSignUpId(event)" id="signUpId" type="text" required minlength="3" maxlength="15" />
+      <input
+        oninput="handleInputSignUpId(event)"
+        id="signUpId"
+        type="text"
+        required
+        minlength="3"
+        maxlength="15"
+        autocomplete="username"
+      />
     </div>
 
     <div class="input-wrapper">
       <label for="signUpPw">password</label>
-      <input oninput="handleInputSignUpPw(event)" id="signUpPw" type="password" required minlength="8" maxlength="15" />
+      <input
+        oninput="handleInputSignUpPw(event)"
+        id="signUpPw"
+        type="password"
+        required
+        minlength="8"
+        maxlength="15"
+        autocomplete="password"
+      />
     </div>
 
     <div class="input-wrapper">
@@ -21,6 +37,7 @@
         required
         minlength="8"
         maxlength="15"
+        autocomplete="password"
       />
     </div>
 

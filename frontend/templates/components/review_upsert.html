@@ -1,14 +1,20 @@
-<div style="display: flex; flex-direction: column; align-items: center; gap: 10px">
-  <h2 id="upsertTitle">{{title}}</h2>
-  <h3 id="movie-title">{{movie_title}}</h3>
-  <form
-    onsubmit="handleSubmitMovieUpsirt(event)"
-    style="display: flex; flex-direction: column; align-items: center; justify-content: center"
-  >
-    <textarea name="" id="" cols="30" rows="10"></textarea>
-    <div style="display: flex">
-      <button>submit</button>
+<section class="upsert-plate">
+  <header>
+    <h2 id="upsertTitle">{{title}}</h2>
+    <div class="divider"></div>
+  </header>
+  <form onsubmit="handleSubmitMovieUpsirt(event)">
+    <div class="input-wrapper">
+      <label for="reviewTitle">title</label>
+      <input id="reviewTitle" type="text" value="{{movie_title}}" />
+    </div>
+    <div class="input-wrapper">
+      <label for="reviewContent">content</label>
+      <textarea id="reviewContent" cols="30" rows="10"></textarea>
+    </div>
+    <div class="button-wrapper" style="display: flex">
       <input type="button" value="cancel" onclick="handleClickMovieUpsirtCancel('{{make_edit}}')" />
+      <button>submit</button>
     </div>
   </form>
-</div>
+</section>
