@@ -48,8 +48,7 @@ const reviewContainerWidthGrow = function () {
   $(".review-container").css("width", "100%");
 };
 const toggleLi = function (tagId) {
-  $("#" + tagId).toggleClass("bg-white");
-  $("#" + tagId).toggleClass("box-shadow");
+  $("#" + tagId).toggleClass("review-li");
 };
 const scrollToTag = function (tagId) {
   const { top } = $("#" + tagId).offset();
