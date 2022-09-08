@@ -1,0 +1,76 @@
+/* .modal-content .movie-search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+} */
+.modal-content .movie-search {
+  background-color: rgb(240, 240, 240);
+  width: 100%;
+  height: 100%;
+}
+.modal-content .movie-search header {
+  width: 100%;
+  height: 130px;
+  background-color: rgb(30, 30, 30);
+  font-style: italic;
+  font-weight: 900;
+  font-size: 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+.modal-content .movie-search header h2 {
+  margin: 12px 0 0 44px;
+  padding: 0 0 4px 24px;
+  border-bottom: solid 1.5px white;
+  width: 100%;
+}
+.modal-content .movie-search header .divider {
+  margin: 6px 0 0 96px;
+  height: 2.5px;
+  width: 100%;
+  background-color: white;
+}
+.modal-content .movie-search form {
+  margin-top: 12px;
+  color: rgb(30, 30, 30);
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 72px;
+  align-items: center;
+}
+.modal-content .movie-search form label {
+  border-left: solid 1px rgb(30, 30, 30);
+  border-top: solid 1px rgb(30, 30, 30);
+  border-bottom: solid 1px rgb(30, 30, 30);
+  padding: 0 12px;
+  line-height: 34px;
+  height: 34px;
+  font-size: 20px;
+  font-weight: 900;
+  background-color: white;
+}
+.modal-content .movie-search form input {
+  border: none;
+  border-top: solid 1px rgb(30, 30, 30);
+  border-bottom: solid 1px rgb(30, 30, 30);
+  height: 26px;
+  font-size: 20px;
+  color: rgb(30, 30, 30);
+  padding: 4px 8px;
+}
+.modal-content .movie-search form input:focus {
+  outline: none;
+}
+.modal-content .movie-search form button {
+  line-height: 20px;
+  height: 36px;
+  color: white;
+  font-weight: 800;
+  font-size: 20px;
+  border: none;
+  background-color: rgb(30, 30, 30);
+  cursor: pointer;
+}
