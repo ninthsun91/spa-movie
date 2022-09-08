@@ -1,14 +1,13 @@
 from flask import Blueprint, request, jsonify, make_response
 from pymongo import MongoClient
-
-import jwt
-import hashlib
-import os
 from bson.objectid import ObjectId
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
+import jwt
+import hashlib
+import os
 
-from ..util.validator import *
+from ..util import *
 
 
 load_dotenv()
@@ -24,6 +23,12 @@ user_bp = Blueprint("user", __name__)
 # 로그인
 @user_bp.route("/signin", methods=["POST"])
 def sign_in():
+   """
+   요청예시: POST, "/signin", data = { username, password }
+   반환: logintoken or msg
+      logintoken = 로그인 정보를 담은 jwt 토큰
+      msg = 실패 메시지 (입력 형식 실패, 인증 실패)
+   """
    username = request.form["username"]
    password = request.form["password"]
    if check_name(username) is not True:
@@ -51,6 +56,11 @@ def sign_in():
 # 회원가입
 @user_bp.route("/signup", methods=["POST"])
 def sign_up():
+   """
+   요청예시: POST, "/signup", data = { username, password }
+   반환: msg
+      msg = 성공 메시지 / 실패 메시지 (입력 형식 실패)
+   """
    username = request.form["username"]
    password = request.form["password"]
    if check_name(username) is not True:
@@ -71,12 +81,18 @@ def sign_up():
    }
    db.users.insert_one(profile)
 
-   return jsonify({"msg": "success"})
+   return jsonify({"msg": "회원가입을 축하합니다."})
 
 
 # 프로필 수정
 @user_bp.route("/profile", methods=["POST"])
 def profile_update():
+   """
+   요청예시: POST, "/profile", data = { password, ..args }
+      수정하려는 데이터 항목은 얼마든지 추가하고 얘기만 해주세요.
+   반환: msg
+      msg = 성공 메시지 / 실패 메시지 (입력 형식 실패, 로그인 만료)
+   """
    token = request.cookies.get("logintoken")
    try:
       payload = jwt.decode(token, KEY, algorithms="HS256")
@@ -103,6 +119,12 @@ def profile_update():
 # 사용자 작성 리뷰 전송
 @user_bp.route("/profile/reviews")
 def profile_reviews():
+   """
+   요청예시: GET, "/profile/reviews"
+      쿼리스트링 불필요
+   반환: { reviews: [Array(:dic, length=?)] } or msg
+      dic = { _id, code, username, title, comment, userRating, likes, time}
+   """
    token = request.cookies.get("logintoken")
    try:
       payload = jwt.decode(token, KEY, algorithms="HS256")
@@ -111,15 +133,17 @@ def profile_reviews():
       rids = db.users.find_one({"uid": uid}, {"_id": False, "reviews": True})["reviews"]     
       reviews = []
       for rid in rids:
-         reviews.append(db.reviews.find_one({"_id": ObjectId(rid)}))
+         review = db.reviews.find_one({"_id": ObjectId(rid)})
+         review["_id"] = str(review["_id"])
+         reviews.append(review)
       
       return jsonify({ "reviews": reviews })
-   except:
+   except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
       return jsonify({ "msg": "로그인 세션이 만료되었습니다." })
 
 
 
-# 로그인 세션 갱신
+# 로그인 세션 갱신   >> 현재 동작 안함
 def login_renew():
    token = request.cookies.get("logintoken")
    try:
