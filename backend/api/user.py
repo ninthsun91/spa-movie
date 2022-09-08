@@ -1,23 +1,15 @@
 from flask import Blueprint, request, jsonify, make_response
-from pymongo import MongoClient
 from bson.objectid import ObjectId
 from datetime import datetime, timedelta
-from dotenv import load_dotenv
 import jwt
 import hashlib
-import os
 
+from ..config import *
 from ..util import *
 
 
-load_dotenv()
-URL = os.environ.get("MongoDB_URL")
-KEY = os.environ.get("HASH_KEY")
-
-client = MongoClient(URL, tls=True, tlsAllowInvalidCertificates=True)
-db = client.spamovie
-
 user_bp = Blueprint("user", __name__)
+db = Pymongo.db
 
 
 # 로그인
@@ -45,7 +37,7 @@ def sign_in():
          "username": username,
          "exp": datetime.utcnow() + timedelta(seconds = 60*60)
       }
-      token = jwt.encode(payload, KEY, algorithm="HS256") #.decode("utf-8")   # annotate while running in localhost
+      token = jwt.encode(payload, Env.HKY, algorithm="HS256") #.decode("utf-8")   # annotate while running in localhost
       response = make_response({"msg": "login done"})
       response.set_cookie("logintoken", token, timedelta(seconds = 60*60))
       return response
@@ -94,7 +86,7 @@ def profile_update():
    """
    token = request.cookies.get("logintoken")
    try:
-      payload = jwt.decode(token, KEY, algorithms="HS256")
+      payload = jwt.decode(token, Env.HKY, algorithms="HS256")
 
       uid = payload["uid"]
       username = payload["username"]
@@ -139,7 +131,7 @@ def profile_reviews():
    """
    token = request.cookies.get("logintoken")
    try:
-      payload = jwt.decode(token, KEY, algorithms="HS256")
+      payload = jwt.decode(token, Env.HKY, algorithms="HS256")
       uid = payload["uid"]
 
       rids = db.users.find_one({"uid": uid}, {"_id": False, "reviews": True})["reviews"]     

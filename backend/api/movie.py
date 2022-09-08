@@ -1,21 +1,12 @@
 from flask import Blueprint, render_template, request, jsonify, session
-from pymongo import MongoClient
-from dotenv import load_dotenv
 from ordered_set import OrderedSet
-import os
 
+from ..config import *
 from ..util import *
 
-load_dotenv()
-URL = os.environ.get("MongoDB_URL")
-NMV = os.environ.get("NMovie_Search")
-CID = os.environ.get("Client_ID")
-CSC = os.environ.get("Client_Secret")
-
-client = MongoClient(URL, tls=True, tlsAllowInvalidCertificates=True)
-db = client.spamovie
 
 movie_bp = Blueprint("movie", __name__)
+db = Pymongo.db
 
 
 # 단일 영화 데이터 요청
@@ -200,7 +191,6 @@ def search_title():
 @movie_bp.route("/rev/test2")
 @movie_bp.route("/test2")
 def test2():
-
     return ""
 
 def test3(a :int):    
