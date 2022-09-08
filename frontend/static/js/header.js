@@ -22,11 +22,11 @@ const hideSign = function () {
 };
 
 const handleClickReview = function () {
-  loadRev();
+  reloadPage(PATH_NAME.REV, handleLoadRev);
 };
 const handleClickLogo = function () {
   console.log("click logo");
-  loadHome();
+  reloadPage(PATH_NAME.HOME, handleLoadHome);
 };
 
 const signUpId = () => $("#" + TAG_ID.SIGN_UP_ID);

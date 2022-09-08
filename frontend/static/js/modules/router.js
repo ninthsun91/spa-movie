@@ -12,23 +12,23 @@ window.onpopstate = function ({ state }) {
   }
 };
 
-const loadRev = function () {
-  window.scrollTo(0, 0);
-  if (location.pathname === PATH_NAME.REV) {
-  } else {
-    setTimeout(function () {
-      pushHistory(PATH_NAME.REV);
-      loadPage(PATH_NAME.REV, handleLoadRev);
-    }, 1000);
+const reloadPage = function (pathName, handler) {
+  const isAtTop = window.scrollY < 90;
+  const isPathSame = location.pathname === pathName;
+  if (isAtTop && isPathSame) {
   }
-};
-const loadHome = function () {
-  window.scrollTo(0, 0);
-  if (location.pathname === PATH_NAME.HOME) {
-  } else {
+  if (!isAtTop && isPathSame) {
+    window.scrollTo(0, 0);
+  }
+  if (isAtTop && !isPathSame) {
+    pushHistory(pathName);
+    loadPage(pathName, handler);
+  }
+  if (!isAtTop && !isPathSame) {
+    window.scrollTo(0, 0);
     setTimeout(function () {
-      pushHistory(PATH_NAME.HOME);
-      loadPage(PATH_NAME.HOME, handleLoadHome);
+      pushHistory(pathName);
+      loadPage(pathName, handler);
     }, 1000);
   }
 };
