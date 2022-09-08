@@ -17,4 +17,4 @@ def review():
 
 @home_bp.route("/profile")
 def profile():
-   return render_template("my-page.html")
+   return render_template("my_page.html")
