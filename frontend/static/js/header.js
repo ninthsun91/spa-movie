@@ -24,10 +24,18 @@ const hideSign = function () {
 const handleClickReview = function () {
   loadRev();
 };
+
 const handleClickLogo = function () {
   console.log("click logo");
   loadHome();
 };
+
+// my page
+const handleClickProfile = function () {
+  console.log('click profile');
+  loadMyPage();
+}
+
 
 const signUpId = () => $("#" + TAG_ID.SIGN_UP_ID);
 const signUpPw = () => $("#" + TAG_ID.SIGN_UP_PW);

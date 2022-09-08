@@ -11,12 +11,10 @@ def home():
     session["list_trend"] = 0
     return render_template("home.html")
 
-
 @home_bp.route("/rev")
 def review():
     return render_template("review_page.html")
 
-
 @home_bp.route("/profile")
 def profile():
-   return render_template("프로필.html")
+   return render_template("my-page.html")

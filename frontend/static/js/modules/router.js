@@ -1,6 +1,7 @@
 const loadPage = (pathname, complete = undefined) => {
   $("#App").load(`${pathname} #AppContainer`, complete);
 };
+
 const pushHistory = (pathname) => history.pushState({ pathname }, "", location.origin + pathname);
 history.replaceState({ pathname: location.pathname }, "");
 window.onpopstate = function ({ state }) {
@@ -32,6 +33,19 @@ const loadHome = function () {
     }, 1000);
   }
 };
+
+//my page
+const loadMyPage = function () {
+   window.scrollTo(0, 0);
+     if (location.pathname === PATH_NAME.PROFILE) {
+  } else {
+    setTimeout(function () {
+      pushHistory(PATH_NAME.PROFILE);
+      loadPage(PATH_NAME.PROFILE, handleLoadHome);
+    }, 1000);
+  }
+}
+
 const handleLoadHome = function () {
   console.log("after load home");
 

@@ -1,6 +1,8 @@
 const PATH_NAME = {
   HOME: "/",
   REV: "/rev",
+  //my page
+  PROFILE: "/profile"
 };
 const TITLE = {
   HOME: "Home",
