@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template,request
 
+
 components = Blueprint("components", __name__)
+
 
 @components.route("/reviewcard")
 def review_card():

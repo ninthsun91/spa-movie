@@ -1,12 +1,11 @@
-import os
-from dotenv import load_dotenv
+from .env import Env
 
-load_dotenv(override=True)
 
 class Config(object):
-    ENV = os.getenv("FLASK_DEBUG")
-    SECRET_KEY = os.getenv("SECRET_KEY")
+    ENV = Env.DBG
+    SECRET_KEY = Env.SKY
     SESSION_COOKIE_NAME = "Toy Movie"
+
 
 class devConfig(Config):
     # SERVER_NAME = "0.0.0.0"
