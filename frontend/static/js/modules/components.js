@@ -3,8 +3,9 @@ const moviesSearched = () => $("#moviesSearched");
 const searchLeft = () => $("#searchLeft");
 const searchRight = () => $("#searchRight");
 const popupPlace = () => $("#popupPlace");
-const handleClickModalBack = function () {
-  modalBackground().hide();
+const handleClickModalBack = function (tagToEmpty) {
+  $("#" + tagToEmpty).empty();
+  // modalBackground().hide();
 };
 const handleSubmitSearchMovie = function (event) {
   event.preventDefault();
@@ -49,10 +50,10 @@ const handleSubmitMovieUpsirt = function (event) {
 };
 const handleClickMovieUpsirtCancel = function (makeEdit) {
   if (makeEdit === "make") {
-    loadComponent("modalContent", "/components/moviesearch-uncov");
+    loadComponent("modalContent", "/components/moviesearch?cover=off");
     console.log("movie make cancel");
   } else {
-    loadComponent("reviewViewer", "/components/view-review");
+    loadComponent("reviewViewer", "/components/view-review?tagId=reviewViewer");
     console.log("movie edit cancel");
   }
 };

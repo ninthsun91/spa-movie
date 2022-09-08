@@ -1,4 +1,4 @@
-{%if is_modal_covered==true %}{% extends "inheritance/modal.html"%} {%block content%}
+{%if is_modal_covered=="on" %}{% extends "inheritance/modal.html"%} {%block content%}
 <div style="display: flex; flex-direction: column; align-items: center; gap: 10px">
   <h2 id="modalTitle">영화를 먼저 골라주세요</h2>
   <form onsubmit="handleSubmitSearchMovie(event)">
