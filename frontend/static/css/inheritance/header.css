@@ -5,7 +5,7 @@ main {
 }
 nav {
   position: fixed;
-  width: calc(100vw - 40px);
+  width: 100vw;
   height: 150px;
   background-color: rgb(30, 30, 30);
   display: flex;
