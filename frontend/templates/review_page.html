@@ -6,30 +6,34 @@
 
 <div id="makeReview" class="make-review" onclick="handleClickMakeReview()"><i class="bi bi-plus-lg"></i></div>
 <div id="reviewMenu" class="review-menu">
-  <h1>Review</h1>
+  <h1 id="reviewH1" onclick="handleClickReviewH1()">Review</h1>
   <ul>
-    <li><label for="review-radio1" onclick="handleClickRecentReview()">recent</label></li>
-    <li><label for="review-radio2" onclick="handleClickPopularReview()">popular</label></li>
-    <li><label for="review-radio3" onclick="handleClickMostReviewed()">movies</label></li>
+    <li id="recentLi">
+      <label id="recentLabel" for="recentCheckBox" onclick="handleClickRecentLabel()">recent</label>
+    </li>
+    <li id="popularLi">
+      <label id="popularLabel" for="popolarCheckBox" onclick="handleClickPopularLabel()">popular</label>
+    </li>
+    <li id="mostLi"><label id="mostLabel" for="mostCheckBox" onclick="handleClickMostLabel()">movies</label></li>
   </ul>
 </div>
 <div class="review-viewer">
   <div class="review-wrapper">
-    <input type="checkbox" name="review" id="review-radio1" />
+    <input type="checkbox" name="review" id="recentCheckBox" />
     <div class="heading">
       <h2>최근 작성된 리뷰</h2>
     </div>
     <div id="recentReview" class="review-container"></div>
   </div>
   <div class="review-wrapper">
-    <input type="checkbox" name="review" id="review-radio2" />
+    <input type="checkbox" name="review" id="popolarCheckBox" />
     <div class="heading">
       <h2>인기 많은 리뷰</h2>
     </div>
     <div id="popularReview" class="review-container"></div>
   </div>
   <div class="review-wrapper">
-    <input type="checkbox" name="review" id="review-radio3" />
+    <input type="checkbox" name="review" id="mostCheckBox" />
     <div class="heading">
       <h2>리뷰가 많이 달린 영화</h2>
     </div>
