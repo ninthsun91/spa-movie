@@ -13,6 +13,7 @@ nav {
   padding: 0 20px;
   box-shadow: 0px 0px 10px rgb(255, 255, 255, 0.5);
   transition: all 1s;
+  z-index: 9999;
 }
 nav .logo {
   position: relative;
@@ -29,10 +30,10 @@ nav .logo .main-logo {
 }
 nav .logo .main-logo > * {
   transition: all 1s;
+  cursor: pointer;
 }
 nav .logo .main-logo .app-name {
   color: white;
-  cursor: pointer;
   padding: 10px 10px 10px 5px;
   font-size: 22px;
 }
@@ -41,7 +42,6 @@ nav .logo .main-logo .logo-image {
   height: 60px;
   border-radius: 50%;
   background-color: aliceblue;
-  cursor: pointer;
 }
 nav .logo .sub-appname {
   width: 200px;
@@ -52,6 +52,9 @@ nav .logo .sub-appname {
   justify-content: center;
   align-items: center;
   height: 100%;
+  transition: all 1s;
+  cursor: pointer;
+  z-index: -1;
 }
 nav .menu {
   position: sticky;

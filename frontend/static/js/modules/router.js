@@ -13,15 +13,24 @@ window.onpopstate = function ({ state }) {
 };
 
 const loadRev = function () {
-  pushHistory(PATH_NAME.REV);
-  loadPage(PATH_NAME.REV, handleLoadRev);
+  if (location.pathname === PATH_NAME.REV) {
+    window.scrollTo(0, 0);
+  } else {
+    pushHistory(PATH_NAME.REV);
+    loadPage(PATH_NAME.REV, handleLoadRev);
+  }
 };
 const loadHome = function () {
-  pushHistory(PATH_NAME.HOME);
-  loadPage(PATH_NAME.HOME, handleLoadHome);
+  if (location.pathname === PATH_NAME.HOME) {
+    window.scrollTo(0, 0);
+  } else {
+    pushHistory(PATH_NAME.HOME);
+    loadPage(PATH_NAME.HOME, handleLoadHome);
+  }
 };
 const handleLoadHome = function () {
   console.log("after load home");
+
   setTitle(TITLE.HOME);
   loadComponent("movieListNow", "/components/postercard-v");
   loadComponent("movieListTrending", "/components/postercard-v");

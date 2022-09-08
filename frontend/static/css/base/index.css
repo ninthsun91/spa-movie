@@ -13,11 +13,13 @@
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 4px;
+  background-color: rgb(120, 120, 120);
   box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.4);
 }
 html {
   overflow: -moz-scrollbars-vertical;
   overflow-y: scroll;
+  scroll-behavior: smooth;
 }
 #AppContainer {
   min-height: 100vh;

@@ -25,6 +25,7 @@ const handleClickReview = function () {
   loadRev();
 };
 const handleClickLogo = function () {
+  console.log("click logo");
   loadHome();
 };
 
