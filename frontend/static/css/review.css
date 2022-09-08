@@ -25,18 +25,20 @@
   text-shadow: 2px 3px 0px rgb(210, 210, 210);
 }
 .board .review-menu .divider {
-  margin-top: 28px;
-  width: calc(100% - 20px);
   background-color: rgb(30, 30, 30);
 }
 .board .review-menu .divider.first {
-  height: 3px;
+  margin-top: 6px;
+  width: calc(100% - 12px);
+  height: 2px;
 }
 .board .review-menu .divider.second {
+  margin-top: 36px;
+  width: calc(100% - 28px);
   height: 5px;
 }
 .board .review-menu ul {
-  margin-top: 24px;
+  margin-top: 36px;
   gap: 16px;
   height: fit-content;
   display: flex;
