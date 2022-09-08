@@ -1,0 +1,77 @@
+{% extends "inheritance/center_board.html" %}
+<!--  -->
+{% block title %}My page{% endblock %}
+<!--  -->
+{% block board %}
+    <div class="my-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-5">
+                    {# My page content #}
+
+                    {# User Profile #}
+                    <section class="user-profile">
+                        {# User Profile Image #}
+                        <div class="user-profile__image">
+                            <img src="http://www.gepower.co.kr/common/img/default_profile.png" alt="Profile image">
+                        </div>
+                        {# User Profile Description #}
+                        <div class="user-profile__decs">
+                            <h1>서지영</h1>
+                            <dl>
+                                <dt class="sr-only">이메일</dt>
+                                <dd>mhdj222@naver.com</dd>
+                            </dl>
+                        </div>
+                        {# User Profile Button #}
+                        <button class="user-information__button" type="button">수정</button>
+                    </section>
+
+                </div>
+                <div class="col-12 col-md-7">
+
+                    {# User Information #}
+                    <section class="user-information">
+                        {# User Information - Profile Image #}
+                        <h3 class="user-information__title">기본정보</h3>
+                        <div class="user-information__image">
+                            <img src="http://www.gepower.co.kr/common/img/default_profile.png" alt="Profile image">
+                            <div class="user-information__profile">
+                                <h1>서지영</h1>
+                                <dl>
+                                    <div class="user-information__email">
+                                        <dt class="sr-only">이메일</dt>
+                                        <dd>mhdj222@naver.com</dd>
+                                    </div>
+                                </dl>
+                            </div>
+                        </div>
+                        {# User Information - Description #}
+                        <div class="user-information__desc">
+                            <dl>
+                                <div class="user-information__phone-number">
+                                    <span class="material-symbols-outlined">phone_iphone</span>
+                                    <dt class="sr-only">핸드폰 번호</dt>
+                                    <dd>010-0000-0000</dd>
+                                </div>
+                                <div class="user-information__address">
+                                    <span class="material-symbols-outlined">home</span>
+                                    <dt class="sr-only">주소</dt>
+                                    <dd>경기도 용인시 수지구</dd>
+                                </div>
+                                <div class="user-information__instagram">
+                                    <span class="material-symbols-outlined">numbers</span>
+                                    <dt class="sr-only">인스타그램</dt>
+                                    <dd><a href="https://www.instagram.com/cgv_korea/" target="_blank">Instagram</a></dd>
+                                </div>
+                            </dl>
+                        </div>
+
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+<!--  -->
