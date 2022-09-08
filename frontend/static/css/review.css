@@ -27,8 +27,13 @@
 .board .review-menu .divider {
   margin-top: 28px;
   width: calc(100% - 20px);
-  height: 3px;
   background-color: rgb(30, 30, 30);
+}
+.board .review-menu .divider.first {
+  height: 3px;
+}
+.board .review-menu .divider.second {
+  height: 5px;
 }
 .board .review-menu ul {
   margin-top: 24px;

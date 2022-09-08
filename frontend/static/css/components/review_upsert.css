@@ -1,0 +1,95 @@
+.modal-content .upsert-plate {
+  background-color: rgb(240, 240, 240);
+  width: 100%;
+  height: 100%;
+}
+.modal-content .upsert-plate header {
+  width: 100%;
+  height: 130px;
+  background-color: rgb(30, 30, 30);
+  font-style: italic;
+  font-weight: 900;
+  font-size: 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+.modal-content .upsert-plate header h2 {
+  margin: 12px 0 0 44px;
+  padding: 0 0 4px 24px;
+  border-bottom: solid 1.5px white;
+  width: 100%;
+}
+.modal-content .upsert-plate header .divider {
+  margin: 6px 0 0 96px;
+  height: 2.5px;
+  width: 100%;
+  background-color: white;
+}
+.modal-content .upsert-plate form {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+.modal-content .upsert-plate form .input-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 60%;
+}
+
+.modal-content .upsert-plate form .input-wrapper label {
+  color: rgb(30, 30, 30);
+  font-size: 16px;
+  align-self: flex-start;
+  font-weight: 800;
+}
+.modal-content .upsert-plate form .input-wrapper input {
+  width: 100%;
+  height: 36px;
+  border: none;
+  padding: 4px 8px;
+}
+.modal-content .upsert-plate form .input-wrapper textarea {
+  width: 100%;
+  height: 9.25em;
+  border: none;
+  resize: none;
+  padding: 12px 8px;
+}
+.modal-content .upsert-plate form .button-wrapper {
+  width: 100%;
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+.modal-content .upsert-plate form .button-wrapper > * {
+  width: 28%;
+  display: block;
+  border: none;
+  padding: 8px 0;
+  cursor: pointer;
+  font-size: 16px;
+}
+.modal-content .upsert-plate form .button-wrapper input {
+  background-color: white;
+}
+.modal-content .upsert-plate form .button-wrapper input:hover {
+  outline: rgb(180, 180, 180) solid 2px;
+  outline-offset: 3px;
+}
+.modal-content .upsert-plate form .button-wrapper button {
+  background-color: rgb(30, 30, 30);
+  color: white;
+}
+.modal-content .upsert-plate form .button-wrapper button:hover {
+  outline: rgb(60, 60, 60) solid 2px;
+  outline-offset: 3px;
+}
