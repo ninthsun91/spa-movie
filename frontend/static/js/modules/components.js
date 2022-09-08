@@ -50,7 +50,7 @@ const handleSubmitMovieUpsirt = function (event) {
 };
 const handleClickMovieUpsirtCancel = function (makeEdit) {
   if (makeEdit === "make") {
-    loadComponent("modalContent", "/components/moviesearch?cover=off");
+    loadComponent("modalContent", "/components/moviesearch?tagId=modalContent&cover=off");
     console.log("movie make cancel");
   } else {
     loadComponent("reviewViewer", "/components/view-review?tagId=reviewViewer");

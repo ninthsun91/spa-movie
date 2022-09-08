@@ -30,10 +30,6 @@ def create():
    tag_id = request.args.get("tagId")
    return render_template("components/movieSearch.html",is_modal_covered=cover,tag_to_empty=tag_id)
 
-# @components.route("/moviesearch-uncov")
-# def create_uncov():
-#    return render_template("components/movieSearch.html",is_modal_covered=False)
-
 @components.route("/upsert")
 def upsert():
    return render_template("components/review_upsert.html",movie_title="tenet create",title="Make Review",make_edit="make") 
