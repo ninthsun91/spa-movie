@@ -16,11 +16,13 @@ def poster_card_h():
 
 @components.route("/signup")
 def sign_up():
-   return render_template("components/sign_up.html")
+   tag_id = request.args.get("tagid")
+   return render_template("components/sign_up.html",tag_to_empty=tag_id)
 
 @components.route("/signin")
 def sign_in():
-   return render_template("components/sign_in.html")
+   tag_id = request.args.get("tagid")
+   return render_template("components/sign_in.html",tag_to_empty=tag_id)
 
 @components.route("/moviesearch")
 def create():
