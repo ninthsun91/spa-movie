@@ -37,8 +37,8 @@ def movie_view():
 
 
 # 홈 메인 포스터 / 리뷰 최신 리뷰
-@movie_bp.route("/recent")      # 영화 1개, 3칸
-@movie_bp.route("/rev/recent")  # 리뷰 2개, 페이지네이션
+@movie_bp.route("/recent")
+@movie_bp.route("/recentrev")
 def list_recent():
     """
     요청예시: GET, "/recent?dir=left" or "/rev/recent?page=3"
@@ -46,30 +46,33 @@ def list_recent():
     반환: "/recent"     >   movie
             movie = { code, image, title, director, actor, pubDate,
                         naverRating, userRating, description, reviews }
-          "/rev/recent" >   { reviews: [Array(:dic, length=2)], max_page: max_page(:int) }
+          "/recentrev" >   { reviews: [Array(:dic, length=2)], max_page: max_page(:int) }
             arry dic = { _id, code, username, title, comment, userRating, likes, time }
             max_page = 최대 페이지 수 (전체리뷰 / 2)
     """
     reviews = reviews_time()
 
-    if "rev" in request.path.split("recent")[0]: # from /rev
+    if "rev" in request.path:   # from /rev
         if "page" in request.args:
-            page = int(request.args["page"]) 
+            page = int(request.args["page"])
             session["review_recent"] = page        
         else:
-            page = session.get("review_recnet")
+            page = session.get("review_recent")
         skip = (page-1) * 2
         max_page = int(len(reviews) / 2)
 
         return jsonify({ "reviews": reviews[skip:skip+2], "max_page": max_page })
-    else:   # from /
-        dir = request.args["dir"]
-        if dir=="right":
-            session["list_recent"] += 1
-        elif dir=="left":
-            session["list_recent"] -= 1    
+    else:                       # from /
+        if "dir" in request.args:
+            dir = request.args["dir"]
+            if dir=="right":
+                dir = request.args["dir"]
+                session["list_recent"] += 1
+            elif dir=="left":
+                dir = request.args["dir"]
+                session["list_recent"] -= 1    
         if abs(session.get("list_recent"))==3:
-            session["list_recent"] = 0
+                session["list_recent"] = 0
         page = session.get("list_recent")
         skip = page if page>=0 else 3 + page
         
@@ -84,7 +87,7 @@ def list_recent():
 
 
 # 홈 최신 영화 목록
-@movie_bp.route("/now")     # 영화 4개
+@movie_bp.route("/now")
 def list_now():
     """
     요청예시: GET, "/now?dir=right"
@@ -92,11 +95,14 @@ def list_now():
     반환: { movies: [Array(:dic, length=4)] }
         dic = { code, image, title, director, actor, pubDate, naverRating }
     """
-    dir = request.args["dir"]
-    if dir=="right":
-        session["list_now"] += 1
-    elif dir=="left":
-        session["list_now"] -= 1    
+    if "dir" in request.args:
+        dir = request.args["dir"]
+        if dir=="right":
+            dir = request.args["dir"]
+            session["list_now"] += 1
+        elif dir=="left":
+            dir = request.args["dir"]
+            session["list_now"] -= 1 
     if abs(session.get("list_now"))==10:
         session["list_now"] = 0
     page = session.get("list_now")
@@ -112,8 +118,8 @@ def list_now():
 
 
 # 홈/리뷰 트랜딩 영화
-@movie_bp.route("/trend")       # 4개
-@movie_bp.route("/rev/trend")   # 3개
+@movie_bp.route("/trend")
+@movie_bp.route("/trendrev")
 def list_trend():
     """
     요청예시: GET, "/trend?dir=left" or "/rev/trend?dir=right"
@@ -122,12 +128,15 @@ def list_trend():
         dic = { code, image, title, director, actor, pubDate, userRating, review_count}
         review_cout = 리뷰 갯수
     """
-    dir = request.args["dir"]
-    if "rev" in request.path.split("trend")[0]: # from /rev
-        if dir=="right":
-            session["review_trend"] += 1
-        elif dir=="left":
-            session["review_trend"] -= 1
+    if "rev" in request.path:           # from /rev
+        if "dir" in request.args:
+            dir = request.args["dir"]
+            if dir=="right":
+                dir = request.args["dir"]
+                session["review_trend"] += 1
+            elif dir=="left":
+                dir = request.args["dir"]
+                session["review_trend"] -= 1 
         if abs(session.get("review_trend"))==10:
             session["review_trend"] = 0
         page = session.get("review_trend")
@@ -140,11 +149,15 @@ def list_trend():
             [movie.pop(key) for key in ["naverRating", "description", "reviews"]]
             
         return jsonify({ "movies": movies })
-    else:   # from /
-        if dir=="right":
-            session["list_trend"] += 1
-        elif dir=="left":
-            session["list_trend"] -= 1
+    else:                               # from /
+        if "dir" in request.args:
+            dir = request.args["dir"]
+            if dir=="right":
+                dir = request.args["dir"]
+                session["list_trend"] += 1
+            elif dir=="left":
+                dir = request.args["dir"]
+                session["list_trend"] -= 1 
         if abs(session.get("list_trend"))==10:
             session["list_trend"] = 0
         page = session.get("list_trend")
