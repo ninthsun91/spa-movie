@@ -26,9 +26,6 @@ def poster_card_v():
    movies = movies[0:4]
    for movie in movies:
       [movie.pop(key) for key in ["userRating", "description", "reviews"]]
-   # movies = response.json()["movies"]
-#    dictFromServer = response.json()
-#    print( dictFromServer)
    return render_template("components/poster_card.html",movies=movies,direction="vertical")
 
 @components.route("/postercard-h")

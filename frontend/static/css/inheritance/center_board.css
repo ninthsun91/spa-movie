@@ -4,4 +4,7 @@
   height: 100%;
   color: white;
   margin: 0 auto;
+  height: fit-content;
+  min-height: 50vh;
+  padding-bottom: 20px;
 }
