@@ -27,13 +27,14 @@
 {% elif direction == 'horizontal' %}
 <!-- -->
 {% for item in movies %}
-<section
-  style="width: 600px; height: 100px; display: flex; border: solid 1px salmon; padding: 20px; cursor: pointer"
-  onclick="handleClickMovieUpsert()"
->
-  <div style="flex: 3; border: solid 1px springgreen; height: 100%"></div>
-  <div style="flex: 1; border: solid 1px springgreen; height: 100%"></div>
-</section>
+<div class="poster-horizontal">
+  <section class="poster-plate" onclick="handleClickMovieUpsert()">
+    <div class="poster-wrapper"><img src="{{item.image}}" height="420" width="320" class="poster-Image" /></div>
+
+    <!-- <div style="flex: 3; border: solid 1px springgreen; height: 100%"></div> -->
+    <!-- <div style="flex: 1; border: solid 1px springgreen; height: 100%"></div> -->
+  </section>
+</div>
 {% endfor %}
 <!-- -->
 {% endif %}

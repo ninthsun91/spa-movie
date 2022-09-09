@@ -42,3 +42,24 @@
   line-height: 0;
   vertical-align: top;
 }
+.poster-horizontal {
+  margin: 10px 0;
+  padding: 0 40px;
+}
+.poster-horizontal .poster-plate {
+  background-color: white;
+  width: 100%;
+  display: flex;
+  padding: 5px;
+  cursor: pointer;
+  height: 360px;
+  position: relative;
+  box-shadow: 1px 2px 5px rgb(0, 0, 0, 0.3);
+}
+.poster-horizontal .poster-plate .poster-wrapper {
+  position: absolute;
+  inset: -0.8rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
