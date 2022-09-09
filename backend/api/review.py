@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, session
+from flask import Blueprint, jsonify, request
 from bson.objectid import ObjectId
 from datetime import datetime
 

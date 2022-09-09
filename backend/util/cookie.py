@@ -59,6 +59,7 @@ def session_dir(session_name, query, max_page, num_show=1):
     # return skip
     return (page * num_show) if page>=0 else ((max_page + page) * num_show)
 
+
 def session_page(session_name, query):
     if "page" in query:
         page = int(query["page"])
