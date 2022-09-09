@@ -86,8 +86,8 @@
   position: relative;
   background-color: white;
   height: 2px;
-  width: 85%;
-  margin-left: 120px;
+  width: 75%;
+  margin-left: 10%;
 }
 .movies-grouped > div .divider h2 {
   display: block;

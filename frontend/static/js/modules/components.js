@@ -19,7 +19,7 @@ const handleSubmitSearchMovie = function (event) {
   //   },
   // });
   setTimeout(function () {
-    loadComponent("moviesSearched", "/components/postercard-h");
+    loadComponent("moviesSearched", "/components/postercard?direction=horizontal&count=4");
     searchLeft().show();
     searchRight().show();
   }, 1000);

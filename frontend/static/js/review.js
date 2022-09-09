@@ -20,7 +20,7 @@ const handleClickPopularLabel = function () {
 };
 const handleClickMostLabel = function () {
   console.log("postercard");
-  loadComponent("mostReviewed", "/components/postercard-v");
+  loadComponent("mostReviewed", "/components/postercard?direction=vertical&count=6");
   toggleLi("mostLi");
   setTimeout(function () {
     scrollToTag("mostReviewed");

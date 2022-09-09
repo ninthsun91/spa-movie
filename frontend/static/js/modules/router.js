@@ -36,22 +36,22 @@ const reloadPage = function (pathName, handler) {
 
 //my page
 const loadMyPage = function () {
-   window.scrollTo(0, 0);
-     if (location.pathname === PATH_NAME.PROFILE) {
+  window.scrollTo(0, 0);
+  if (location.pathname === PATH_NAME.PROFILE) {
   } else {
     setTimeout(function () {
       pushHistory(PATH_NAME.PROFILE);
       loadPage(PATH_NAME.PROFILE, handleLoadHome);
     }, 1000);
   }
-}
+};
 
 const handleLoadHome = function () {
   console.log("after load home");
 
   setTitle(TITLE.HOME);
-  loadComponent("movieListNow", "/components/postercard-v");
-  loadComponent("movieListTrending", "/components/postercard-v");
+  loadComponent("movieListNow", "/components/postercard?direction=vertical&count=5");
+  loadComponent("movieListTrending", "/components/postercard?direction=vertical&count=5");
   numberIndicating = 0;
 };
 const handleLoadRev = function () {
