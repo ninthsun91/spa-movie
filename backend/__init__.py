@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from .config import config
 
 
@@ -12,6 +12,10 @@ def router(flask_app: Flask):
    flask_app.register_blueprint(movie_bp, url_prefix="/")
    flask_app.register_blueprint(review_bp, url_prefix="/")
    flask_app.register_blueprint(user_bp, url_prefix="/")
+
+   @flask_app.errorhandler(404)
+   def page_not_found(e):
+      return render_template("others/404.html"), 404
 
 
 def create_app():
