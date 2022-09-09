@@ -1,3 +1,3 @@
 from .searchdb import *
-from .token import *
+from .cookie import *
 from .validator import *
