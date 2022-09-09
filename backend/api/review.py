@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, request, session
 from bson.objectid import ObjectId
 from datetime import datetime
-import jwt
 
 from ..config import *
 from ..util import *
@@ -51,32 +50,27 @@ def review_write():
         return jsonify({"msg": "3글자 이상 작성해주세요."})
     userRating = request.form["userRating"]
 
-    token = request.cookies.get("logintoken")
-    if token is not None:
-        try: 
-            payload = jwt.decode(token, Env.HKY, algorithms=["HS256"])
-            username = payload["username"]
-            review = {
-                "code": code,
-                "username": username,
-                "title": title,
-                "comment": comment,
-                "userRating": userRating,
-                "likes": [],
-                "time": str(datetime.now()).split(".")[0],
-            }
-            id = request.form["id"] if "id" in request.form.keys() else None
-            up = db.reviews.update_one({"_id": ObjectId(id)}, {"$set": review}, upsert=True)
+    payload = token_check()
+    if type(payload) is str:
+        return jsonify({ "msg": payload })
+    username = payload["username"]
+    review = {
+        "code": code,
+        "username": username,
+        "title": title,
+        "comment": comment,
+        "userRating": userRating,
+        "likes": [],
+        "time": str(datetime.now()).split(".")[0],
+    }
+    id = request.form["id"] if "id" in request.form.keys() else None
+    up = db.reviews.update_one({"_id": ObjectId(id)}, {"$set": review}, upsert=True)
 
-            db.users.update_one({"username": username}, {"$addToSet": {"reviews": str(up.upserted_id)}})
-            db.movies.update_one({"code": code}, {"$addToSet": {"reviews": str(up.upserted_id)}})
-            update_rating(code)
+    db.users.update_one({"username": username}, {"$addToSet": {"reviews": str(up.upserted_id)}})
+    db.movies.update_one({"code": code}, {"$addToSet": {"reviews": str(up.upserted_id)}})
+    update_rating(code)
 
-            return jsonify({"msg": "리뷰를 등록했습니다!"})
-        except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-            return jsonify({"msg": "로그인이 만료되었습니다."})
-    else:
-        return jsonify({"msg": "로그인을 먼저 해주세요."})
+    return jsonify({"msg": "리뷰를 등록했습니다!"})
 
 
 # 인기 많은 리뷰
@@ -129,23 +123,18 @@ def review_like():
         msg = 좋아요 증감 결과 / 로그인 만료
     """
     id = request.form["id"]
-    token = request.cookies.get("logintoken")
-    if token is not None:
-        try: 
-            payload = jwt.decode(token, Env.HKY, algorithms=["HS256"])
-            uid = payload["uid"]
+    payload = token_check()
+    if type(payload) is str:
+      return jsonify({ "msg": payload })
+    uid = payload["uid"]
 
-            review = db.reviews.find_one({"_id": ObjectId(id)})
-            likes = set(review["likes"])
-            if uid not in likes:
-                likes.add(uid)
-                db.reviews.update_one({"_id": id}, {"$set": {"likes": list(likes)}})
-                return jsonify({"msg": "좋아요+1"})
-            else:
-                likes.remove(uid)
-                db.reviews.update_one({"_id": id}, {"$set": {"likes": list(likes)}})
-                return jsonify({"msg": "좋아요-1"})
-        except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-            return jsonify({"msg": "로그인이 만료되었습니다."})
+    review = db.reviews.find_one({"_id": ObjectId(id)})
+    likes = set(review["likes"])
+    if uid not in likes:
+        likes.add(uid)
+        db.reviews.update_one({"_id": id}, {"$set": {"likes": list(likes)}})
+        return jsonify({"msg": "좋아요+1"})
     else:
-        return jsonify({"msg": "로그인을 먼저 해주세요."})
+        likes.remove(uid)
+        db.reviews.update_one({"_id": id}, {"$set": {"likes": list(likes)}})
+        return jsonify({"msg": "좋아요-1"})

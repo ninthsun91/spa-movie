@@ -48,6 +48,8 @@ def create():
 
 @components.route("/upsert")
 def upsert():
+   # if login_check():
+   #    abort(401)
    return render_template("components/review_upsert.html",movie_title="tenet create",title="Make Review",make_edit="make") 
 
 @components.route("/popup-upsertied")
@@ -61,5 +63,6 @@ def view_review():
 
 @components.route("/edit")
 def edit():
-   print("edit")
+   # if login_check():
+   #    abort(401)
    return render_template("components/review_upsert.html",movie_title="tenet edit",title="Edit Review",make_edit="edit")

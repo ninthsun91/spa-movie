@@ -191,10 +191,15 @@ def search_title():
 @movie_bp.route("/rev/test2")
 @movie_bp.route("/test2")
 def test2():
+    payload = token_check()
+    print(payload, type(payload))
+    if type(payload) is str:
+        print("string")
     return ""
 
-def test3(a :int):    
-    print(a)
+def test3():    
+    return ""
+    
 
 
 @movie_bp.route("/test", methods=["GET"])
