@@ -1,22 +1,14 @@
 from flask import Blueprint, jsonify, request, session
-from pymongo import MongoClient
 from bson.objectid import ObjectId
 from datetime import datetime
-from dotenv import load_dotenv
 import jwt
-import os
 
+from ..config import *
 from ..util import *
 
 
-load_dotenv()
-URL = os.environ.get("MongoDB_URL")
-KEY = os.environ.get("HASH_KEY")
-
-client = MongoClient(URL, tls=True, tlsAllowInvalidCertificates=True)
-db = client.spamovie
-
 review_bp = Blueprint("review", __name__)
+db = Pymongo.db
 
 
 # 영화별 리뷰 상세리스트
@@ -62,7 +54,7 @@ def review_write():
     token = request.cookies.get("logintoken")
     if token is not None:
         try: 
-            payload = jwt.decode(token, KEY, algorithms=["HS256"])
+            payload = jwt.decode(token, Env.HKY, algorithms=["HS256"])
             username = payload["username"]
             review = {
                 "code": code,
@@ -140,7 +132,7 @@ def review_like():
     token = request.cookies.get("logintoken")
     if token is not None:
         try: 
-            payload = jwt.decode(token, KEY, algorithms=["HS256"])
+            payload = jwt.decode(token, Env.HKY, algorithms=["HS256"])
             uid = payload["uid"]
 
             review = db.reviews.find_one({"_id": ObjectId(id)})

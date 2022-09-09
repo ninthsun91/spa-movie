@@ -1,23 +1,12 @@
 from flask import Blueprint, render_template, request, jsonify, session
-from pymongo import MongoClient
-from bs4 import BeautifulSoup
-from dotenv import load_dotenv
 from ordered_set import OrderedSet
-import os
-import requests
 
+from ..config import *
 from ..util import *
 
-load_dotenv()
-URL = os.environ.get("MongoDB_URL")
-NMV = os.environ.get("NMovie_Search")
-CID = os.environ.get("Client_ID")
-CSC = os.environ.get("Client_Secret")
-
-client = MongoClient(URL, tls=True, tlsAllowInvalidCertificates=True)
-db = client.spamovie
 
 movie_bp = Blueprint("movie", __name__)
+db = Pymongo.db
 
 
 # 단일 영화 데이터 요청
@@ -52,7 +41,8 @@ def list_recent():
     """
     reviews = reviews_time()
 
-    if "rev" in request.path:   # from /rev
+    # from /rev
+    if "rev" in request.path:
         if "page" in request.args:
             page = int(request.args["page"])
             session["review_recent"] = page        
@@ -62,7 +52,8 @@ def list_recent():
         max_page = int(len(reviews) / 2)
 
         return jsonify({ "reviews": reviews[skip:skip+2], "max_page": max_page })
-    else:                       # from /
+    # from /
+    else:
         if "dir" in request.args:
             dir = request.args["dir"]
             if dir=="right":
@@ -128,7 +119,8 @@ def list_trend():
         dic = { code, image, title, director, actor, pubDate, userRating, review_count}
         review_cout = 리뷰 갯수
     """
-    if "rev" in request.path:           # from /rev
+    # from /rev
+    if "rev" in request.path:
         if "dir" in request.args:
             dir = request.args["dir"]
             if dir=="right":
@@ -149,7 +141,8 @@ def list_trend():
             [movie.pop(key) for key in ["naverRating", "description", "reviews"]]
             
         return jsonify({ "movies": movies })
-    else:                               # from /
+    # from /
+    else:
         if "dir" in request.args:
             dir = request.args["dir"]
             if dir=="right":
@@ -198,8 +191,7 @@ def search_title():
 @movie_bp.route("/rev/test2")
 @movie_bp.route("/test2")
 def test2():
-    print(reviews_likes())
-    return reviews_likes()
+    return ""
 
 def test3(a :int):    
     print(a)
@@ -214,10 +206,14 @@ def test():
    }   
    return render_template("test.html", a=a)
 
+
 # 네이버 영화DB 스크랩 -> DB 유지관리용. 웹사이트에는 사용 안될거에요
 @movie_bp.route("/scrap", methods=["GET"])
 def scrap():
     print("scrap")
+
+    from bs4 import BeautifulSoup
+    import requests
 
     url = "https://movie.naver.com/movie/sdb/rank/rmovie.naver?sel=cnt&tg=0&date=20220901"
     headers = {
@@ -263,15 +259,3 @@ def scrap():
             print(f"{title} Exists")
 
     return ""
-
-
-
-    # chromedriver = os.path.abspath("../driver/chromedriver.exe")
-    # options = webdriver.ChromeOptions() 
-    # options.add_experimental_option("excludeSwitches", ["enable-logging"])
-    # driver = webdriver.Chrome(executable_path="D:\GDrive\dev\hanghae\\toymovie\\backend\driver/chromedriver.exe", options=options)
-    # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-
-    # driver.get("http://naver.com")
-    # path = driver.current_url
-    # print(path)
