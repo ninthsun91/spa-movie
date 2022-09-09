@@ -1,8 +1,5 @@
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request, jsonify
 from bson.objectid import ObjectId
-from datetime import datetime, timedelta
-import jwt
-import hashlib
 
 from ..config import *
 from ..util import *
@@ -28,19 +25,9 @@ def sign_in():
    if check_password(password) is not True:
       return jsonify({"msg": "비밀번호 형식은 알파벳,숫자 8~15자 입니다."})
 
-   password_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
-   user = db.users.find_one({"username": username, "password": password_hash})
+   user = db.users.find_one({"username": username, "password": password_hash(password)})
    if user is not None:
-      uid = user["uid"]
-      payload = {
-         "uid": uid,
-         "username": username,
-         "exp": datetime.utcnow() + timedelta(seconds = 60*60)
-      }
-      token = jwt.encode(payload, Env.HKY, algorithm="HS256") #.decode("utf-8")   # annotate while running in localhost
-      response = make_response({"msg": "login done"})
-      response.set_cookie("logintoken", token, timedelta(seconds = 60*60))
-      return response
+      return create_token(user)
    else:
       return jsonify({"msg": "아이디, 비밀번호가 틀렸습니다."})
 
@@ -64,11 +51,10 @@ def sign_up():
    uid = cnt["cnt"] + 1
    db.users.update_one({}, {"$set": {"cnt": uid}})
 
-   password_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
    profile = {
       "uid": uid,
       "username": username,
-      "password": password_hash,
+      "password": password_hash(password),
       "reviews": []
    }
    db.users.insert_one(profile)
@@ -84,40 +70,37 @@ def profile_update():
    반환: msg
       msg = 성공 메시지 / 실패 메시지 (입력 형식 실패, 로그인 만료)
    """
-   token = request.cookies.get("logintoken")
-   try:
-      payload = jwt.decode(token, Env.HKY, algorithms="HS256")
+   payload = token_check()
+   if type(payload) is str:
+      return jsonify({ "msg": payload })
 
-      uid = payload["uid"]
-      username = payload["username"]
-      password = request.form["password"]
-      if check_password(password) is not True:
-         return jsonify({ "msg": "비밀번호 형식은 알파벳,숫자 8~15자 입니다." })
-      password_hash = hashlib.sha256(password.encode("utf-8")).hexdigest()
-      email = request.form["email"]
-      if check_email(email) is not True:
-         return jsonify({ "msg": "잘못된 이메일 형식입니다." })
-      contact = request.form["contact"]
-      if check_contact(contact) is not True:
-         return jsonify({ "msg": "잘못된 전화번호 형식입니다." })
-      address = request.form["address"]
-      instagram = request.form["instagram"]
+   uid = payload["uid"]
+   username = payload["username"]
+   password = request.form["password"]
+   if check_password(password) is not True:
+      return jsonify({ "msg": "비밀번호 형식은 알파벳,숫자 8~15자 입니다." })
+   email = request.form["email"]
+   if check_email(email) is not True:
+      return jsonify({ "msg": "잘못된 이메일 형식입니다." })
+   contact = request.form["contact"]
+   if check_contact(contact) is not True:
+      return jsonify({ "msg": "잘못된 전화번호 형식입니다." })
+   address = request.form["address"]
+   instagram = request.form["instagram"]
 
-      profile = {
-         "uid": uid,
-         "username": username,
-         "password": password_hash,
-         "email": email,
-         "contact": contact,
-         "address": address,
-         "instagram": instagram,
-         # etc
-      }
-      db.users.update_one({"uid": uid}, profile, upsert=True)
+   profile = {
+      "uid": uid,
+      "username": username,
+      "password": password_hash(password),
+      "email": email,
+      "contact": contact,
+      "address": address,
+      "instagram": instagram,
+      # etc
+   }
+   db.users.update_one({"uid": uid}, profile, upsert=True)
 
-      return jsonify({ "msg": "프로필을 수정했습니다." })
-   except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-      return jsonify({ "msg": "로그인 세션이 만료되었습니다." })
+   return jsonify({ "msg": "프로필을 수정했습니다." })
 
 
 # 사용자 작성 리뷰 전송
@@ -129,21 +112,19 @@ def profile_reviews():
    반환: { reviews: [Array(:dic, length=?)] } or msg
       dic = { _id, code, username, title, comment, userRating, likes, time}
    """
-   token = request.cookies.get("logintoken")
-   try:
-      payload = jwt.decode(token, Env.HKY, algorithms="HS256")
-      uid = payload["uid"]
+   payload = token_check()
+   if type(payload) is str:
+      return jsonify({ "msg": payload })
 
-      rids = db.users.find_one({"uid": uid}, {"_id": False, "reviews": True})["reviews"]     
-      reviews = []
-      for rid in rids:
-         review = db.reviews.find_one({"_id": ObjectId(rid)})
-         review["_id"] = str(review["_id"])
-         reviews.append(review)
-      
-      return jsonify({ "reviews": reviews })
-   except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-      return jsonify({ "msg": "로그인 세션이 만료되었습니다." })
+   uid = payload["uid"]
+   rids = db.users.find_one({"uid": uid}, {"_id": False, "reviews": True})["reviews"]
+   reviews = []
+   for rid in rids:
+      review = db.reviews.find_one({"_id": ObjectId(rid)})
+      review["_id"] = str(review["_id"])
+      reviews.append(review)
+   
+   return jsonify({ "reviews": reviews })
 
 
 # 회원 목록 확인용 임시 도구
