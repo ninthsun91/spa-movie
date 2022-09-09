@@ -43,34 +43,19 @@ def list_recent():
 
     # from /rev
     if "rev" in request.path:
-        if "page" in request.args:
-            page = int(request.args["page"])
-            session["review_recent"] = page        
-        else:
-            page = session.get("review_recent")
-        skip = (page-1) * 2
+        skip = session_page("review_recent", request.args)
         max_page = int(len(reviews) / 2)
 
         return jsonify({ "reviews": reviews[skip:skip+2], "max_page": max_page })
     # from /
     else:
-        if "dir" in request.args:
-            dir = request.args["dir"]
-            if dir=="right":
-                dir = request.args["dir"]
-                session["list_recent"] += 1
-            elif dir=="left":
-                dir = request.args["dir"]
-                session["list_recent"] -= 1    
-        if abs(session.get("list_recent"))==3:
-                session["list_recent"] = 0
-        page = session.get("list_recent")
-        skip = page if page>=0 else 3 + page
+        max_page = 3
+        skip = session_dir("home_recent", request.args, max_page)
         
         codes = OrderedSet()
         for review in reviews:
             codes.add(review["code"])
-            if len(codes)==3:
+            if len(codes)==max_page:
                 break
         code = list(codes)[skip]
 
@@ -86,22 +71,12 @@ def list_now():
     반환: { movies: [Array(:dic, length=4)] }
         dic = { code, image, title, director, actor, pubDate, naverRating }
     """
-    if "dir" in request.args:
-        dir = request.args["dir"]
-        if dir=="right":
-            dir = request.args["dir"]
-            session["list_now"] += 1
-        elif dir=="left":
-            dir = request.args["dir"]
-            session["list_now"] -= 1 
-    if abs(session.get("list_now"))==10:
-        session["list_now"] = 0
-    page = session.get("list_now")
-    skip = page if page>=0 else 10 + page
-    skip = (page * 4) if page>=0 else (40 + (page * 4))
+    max_page = 10
+    num_show = 4
+    skip = session_dir("home_now", request.args, max_page, num_show)
 
-    movies = movies_pubDate(40, skip)
-    movies = movies[0:4]
+    movies = movies_pubDate(max_page*num_show, skip)
+    movies = movies[0:num_show]
     for movie in movies:
         [movie.pop(key) for key in ["userRating", "description", "reviews"]]
 
@@ -121,44 +96,24 @@ def list_trend():
     """
     # from /rev
     if "rev" in request.path:
-        if "dir" in request.args:
-            dir = request.args["dir"]
-            if dir=="right":
-                dir = request.args["dir"]
-                session["review_trend"] += 1
-            elif dir=="left":
-                dir = request.args["dir"]
-                session["review_trend"] -= 1 
-        if abs(session.get("review_trend"))==10:
-            session["review_trend"] = 0
-        page = session.get("review_trend")
-        skip = page if page>=0 else 10 + page
-        skip = (page * 3) if page>=0 else (30 + (page * 3))
+        max_page = 10
+        num_show = 3
+        skip = session_dir("review_trend", request.args, max_page, num_show)
 
-        movies = movies_rcount(30, skip)
-        movies = movies[0:3]
+        movies = movies_rcount(max_page*num_show, skip)
+        movies = movies[0:num_show]
         for movie in movies:
             [movie.pop(key) for key in ["naverRating", "description", "reviews"]]
             
         return jsonify({ "movies": movies })
     # from /
     else:
-        if "dir" in request.args:
-            dir = request.args["dir"]
-            if dir=="right":
-                dir = request.args["dir"]
-                session["list_trend"] += 1
-            elif dir=="left":
-                dir = request.args["dir"]
-                session["list_trend"] -= 1 
-        if abs(session.get("list_trend"))==10:
-            session["list_trend"] = 0
-        page = session.get("list_trend")
-        skip = page if page>=0 else 10 + page
-        skip = (page * 4) if page>=0 else (40 + (page * 4))
+        max_page = 10
+        num_show = 4
+        skip = session_dir("home_trend", request.args, max_page, num_show)
 
-        movies = movies_rcount(40, skip)
-        movies = movies[0:4]
+        movies = movies_rcount(max_page*num_show, skip)
+        movies = movies[0:num_show]
         for movie in movies:
             [movie.pop(key) for key in ["naverRating", "description", "reviews"]]
             
@@ -191,10 +146,8 @@ def search_title():
 @movie_bp.route("/rev/test2")
 @movie_bp.route("/test2")
 def test2():
-    payload = token_check()
-    print(payload, type(payload))
-    if type(payload) is str:
-        print("string")
+    print(int(10.11))
+
     return ""
 
 def test3():    

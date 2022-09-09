@@ -7,9 +7,9 @@ from flask import session
 좌우 리스트는 0
 """
 def initialize_home_session():
-    session["list_recent"] = 0
-    session["list_now"] = 0
-    session["list_trend"] = 0
+    session["home_recent"] = 0
+    session["home_now"] = 0
+    session["home_trend"] = 0
 
 
 def initialize_review_session():
