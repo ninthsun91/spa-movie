@@ -1,6 +1,7 @@
 section.review-card {
   color: black;
   height: 72px;
+  min-width: 730px;
   width: calc(100% - 120px);
   display: flex;
   justify-content: space-between;
@@ -69,7 +70,7 @@ section .review-infor {
   align-items: flex-start;
   font-size: 14px;
   font-weight: 900;
-  width: 200px;
+  width: 140px;
 }
 section .review-infor .username {
   font-size: 18px;

@@ -1,5 +1,5 @@
 {% for reivew in reviews %}
-<section class="review-card">
+<section class="review-card" onclick="handleClickViewReview()">
   <div class="about-movie">
     <img src="{{reivew.movie.image}}" height="240" width="180" />
     <div class="title">{{reivew.movie.title}}</div>
@@ -13,25 +13,5 @@
     <div class="username">{{reivew.username}}</div>
     <div>{{reivew.time}}</div>
   </div>
-  <!-- <div>
-    <div
-      style="
-        border: solid 2px greenyellow;
-        color: white;
-        width: 125px;
-        height: 125px;
-        margin-bottom: 10px;
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      "
-      id="viewReview"
-      onclick="handleClickViewReview()"
-    >
-      확인하기
-    </div>
-    <div style="border: solid 2px greenyellow; color: white; width: 125px; height: 125px"></div>
-  </div> -->
 </section>
 {% endfor %}

@@ -7,6 +7,14 @@
   background-color: rgb(18, 18, 18);
   box-shadow: 2px 2px 8px rgba(255, 255, 255, 0.2);
 }
+.poster-plate .img-frame {
+  overflow: hidden;
+}
+
+.poster-plate .img-frame:hover img {
+  transform: scale(1.2);
+  transition: all 0.3s;
+}
 .poster-plate .movie-content {
   height: 20%;
   display: flex;

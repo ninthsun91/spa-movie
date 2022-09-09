@@ -2,7 +2,9 @@
 <!-- -->
 {% for item in movies %}
 <section class="poster-plate">
-  <img src="{{item.image}}" height="360" width="280" />
+  <div class="img-frame">
+    <img src="{{item.image}}" height="360" width="280" />
+  </div>
   <div class="movie-content">
     <div class="movie-title">{{item.title}}</div>
     <div class="rating">
@@ -22,7 +24,9 @@
 {% for item in movies %}
 <div class="poster-horizontal">
   <section class="poster-plate" onclick="handleClickMovieUpsert()">
-    <div class="poster-wrapper"><img src="{{item.image}}" height="420" width="320" class="poster-Image" /></div>
+    <div class="poster-wrapper">
+      <div class="img-frame"><img src="{{item.image}}" height="420" width="320" class="poster-Image" /></div>
+    </div>
 
     <div style="flex: 2; height: 100%"></div>
     <div class="poster-details">
