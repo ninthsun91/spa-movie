@@ -1,11 +1,27 @@
 {% if direction == 'vertical' %}
 <!-- -->
 {% for item in movies %}
-<section style="width: 200px; height: 400px; border: solid 1px salmon; padding: 20px">
-  <div style="height: 80%; border: solid 1px springgreen"></div>
-  <div style="height: 20%; border: solid 1px springgreen"></div>
+<section class="poster-plate">
+  <img src="{{item.image}}" height="288" width="200" />
+  <div class="movie-content">
+    <div class="movie-title">{{item.title}}</div>
+    <div class="rating">
+      <div class="star-wrapper">
+        <div class="star-rating">
+          <span style="width: calc({{item.naverRating}} / 10 * 100%)"></span>
+        </div>
+      </div>
+      <div class="star-score">{{item.naverRating}} 점</div>
+    </div>
+  </div>
 </section>
-
+<!-- {'actor': '톰 크루즈|제니퍼 코넬리|마일즈 텔러', 
+'code': 81888, 
+'director': '조셉 코신스키',
+ 'image': 'https://movie-phinf.pstatic.net/20220509_176/1652081912471yhg3N_JPEG/movie_image.jpg', 
+ 'naverRating': '9.76',
+  'pubDate': '2022.06.22',
+   'title': '탑건: 매버릭'} -->
 {% endfor %}
 <!-- -->
 {% elif direction == 'horizontal' %}

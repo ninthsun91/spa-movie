@@ -1,0 +1,43 @@
+.poster-plate {
+  color: white;
+  width: 240px;
+  height: 400px;
+  padding: 20px;
+  background-color: rgb(26, 26, 26);
+  box-shadow: 2px 2px 8px rgba(255, 255, 255, 0.2);
+}
+.poster-plate .movie-content {
+  height: 20%;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.poster-plate .movie-content .movie-title {
+  margin: 5px 0;
+  font-size: 16px;
+  font-weight: 800;
+}
+.poster-plate .movie-content .rating {
+  display: flex;
+  justify-content: flex-start;
+}
+.poster-plate .movie-content .rating .star-wrapper {
+  width: 90px;
+}
+.poster-plate .movie-content .rating .star-wrapper .star-rating {
+  width: 205px;
+  transform: scale(0.4) translateX(-150px) translateY(-28px);
+}
+.poster-plate .movie-content .rating .star-wrapper .star-rating,
+.poster-plate .movie-content .rating .star-wrapper .star-rating span {
+  display: inline-block;
+  height: 39px;
+  overflow: hidden;
+  background: url(https://mblogthumb-phinf.pstatic.net/20160204_110/inyoung313_1454565091623XyBJm_PNG/star.png?type=w2)
+    no-repeat;
+}
+.poster-plate .movie-content .rating .star-wrapper .star-rating span {
+  background-position: left bottom;
+  line-height: 0;
+  vertical-align: top;
+}
