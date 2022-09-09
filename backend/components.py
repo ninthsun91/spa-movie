@@ -17,6 +17,7 @@ def poster_card():
     movies = movies[0:count]
     for movie in movies:
         [movie.pop(key) for key in ["userRating", "description", "reviews"]]
+    print(movies)
     return render_template("components/poster_card.html",movies=movies,direction=direction)
 
 

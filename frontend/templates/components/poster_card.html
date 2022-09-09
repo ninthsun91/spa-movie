@@ -31,8 +31,26 @@
   <section class="poster-plate" onclick="handleClickMovieUpsert()">
     <div class="poster-wrapper"><img src="{{item.image}}" height="420" width="320" class="poster-Image" /></div>
 
-    <!-- <div style="flex: 3; border: solid 1px springgreen; height: 100%"></div> -->
-    <!-- <div style="flex: 1; border: solid 1px springgreen; height: 100%"></div> -->
+    <div style="flex: 2; height: 100%"></div>
+    <div class="poster-details">
+      <div class="title-wrapper">
+        <div class="title">{{item.title}}</div>
+        <div class="divider"></div>
+      </div>
+      <div class="rating">
+        <div class="star-wrapper">
+          <div class="star-rating">
+            <span style="width: calc({{item.naverRating}} / 10 * 100%)"></span>
+          </div>
+        </div>
+        <div class="star-score">{{item.naverRating}}</div>
+      </div>
+      <div class="details">
+        <div class="director"><span>감독</span> {{item.director}}</div>
+        <div class="actors"><span>출연</span> {{item.actor}}</div>
+        <div class="release-date"><span>개봉일</span> {{item.pubDate}}</div>
+      </div>
+    </div>
   </section>
 </div>
 {% endfor %}
