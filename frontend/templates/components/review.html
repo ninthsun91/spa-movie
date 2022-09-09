@@ -1,33 +1,15 @@
 {% extends "inheritance/modal.html"%}
 <!-- -->
 {% block content%}
-<div style="width: 100%; height: 100%; border: solid 2px DeepPink; color: deeppink">
-  <h2 style="font-size: 40px">tenet</h2>
-  <div
-    class="content-container"
-    style="
-      border: solid 2px white;
-      height: 80%;
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 5px;
-    "
-  >
-    <div
-      style="
-        flex: 1;
-        height: 80%;
-        border: solid 2px gold;
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        padding: 5px;
-      "
-    >
-      <div style="flex: 5; border: solid 2px lightsteelblue">포스터</div>
-      <div style="flex: 1; border: solid 2px lightsteelblue; padding: 5px">영화제목</div>
+<div class="reviewPlate">
+  <header>
+    <h2>Review</h2>
+    <div class="divider"></div>
+  </header>
+  <div class="content-container">
+    <div class="about-movie">
+      <div class="poster-wrapper"><img src="{{data.movie.image}}" width="100" height="200" /></div>
+      <div class="title">{{data.movie.title}}</div>
     </div>
     <div
       style="

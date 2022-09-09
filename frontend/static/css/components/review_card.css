@@ -1,4 +1,4 @@
-section.review-card {
+.review-card {
   color: black;
   height: 72px;
   min-width: 730px;
@@ -11,15 +11,15 @@ section.review-card {
   background-color: rgb(210, 210, 210);
   cursor: pointer;
 }
-section.review-card:hover {
+.review-card .review-card:hover {
   background-color: rgb(255, 255, 255);
   box-shadow: 0px 0px 15px white;
 }
-section .about-movie {
+.review-card .about-movie {
   position: relative;
   width: 220px;
 }
-section .about-movie img {
+.review-card .about-movie img {
   position: absolute;
   z-index: -1;
   opacity: 0;
@@ -27,25 +27,25 @@ section .about-movie img {
   left: -200px;
   transition: all 0.5s;
 }
-section .about-movie:hover img {
+.review-card .about-movie:hover img {
   z-index: 2;
   opacity: 0.8;
   left: -100px;
 }
-section .about-movie .title {
+.review-card .about-movie .title {
   font-size: 18px;
   font-weight: 900;
   display: flex;
   justify-content: flex-end;
 }
-section .about-movie .rating {
+.review-card .about-movie .rating {
   margin-top: 4px;
   font-size: 12px;
   font-weight: 900;
   display: flex;
   justify-content: flex-end;
 }
-section .about-movie .divider {
+.review-card .about-movie .divider {
   position: absolute;
   top: -6px;
   right: -16px;
@@ -53,16 +53,16 @@ section .about-movie .divider {
   width: 4px;
   height: 38px;
 }
-section .review-summary {
+.review-card .review-summary {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-section .review-summary .title {
+.review-card .review-summary .title {
   font-size: 20px;
   font-weight: 900;
 }
-section .review-infor {
+.review-card .review-infor {
   display: flex;
   height: 100%;
   flex-direction: column;
@@ -72,6 +72,6 @@ section .review-infor {
   font-weight: 900;
   width: 140px;
 }
-section .review-infor .username {
+.review-card .review-infor .username {
   font-size: 18px;
 }

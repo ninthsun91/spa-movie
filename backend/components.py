@@ -10,6 +10,7 @@ components = Blueprint("components", __name__)
 def review_card():
     reviews = reviews_time()
     for index, review in enumerate(reviews) :
+        print(review)
         movie = movies_code(review["code"])
         reviews[index]["movie"] = movie
     return render_template("components/review_card.html",reviews=reviews)
@@ -54,7 +55,11 @@ def popup_upsertied():
 @components.route("/view-review")
 def view_review():
     tag_to_empty = request.args.get("tagId")
-    return render_template("components/review.html",tag_to_empty=tag_to_empty)
+    review_id = request.args.get("reviewId")
+    review_data = reviews_id(review_id)
+    movie = movies_code(review_data["code"])
+    review_data["movie"] = movie
+    return render_template("components/review.html",tag_to_empty=tag_to_empty,data=review_data)
 
 @components.route("/edit")
 def edit():

@@ -1,0 +1,54 @@
+.reviewPlate {
+  width: 100%;
+  height: 100%;
+}
+.reviewPlate header {
+  width: 100%;
+  height: 130px;
+  background-color: rgb(30, 30, 30);
+  font-style: italic;
+  font-weight: 900;
+  font-size: 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+.reviewPlate header h2 {
+  margin: 12px 0 0 44px;
+  padding: 0 0 4px 24px;
+  border-bottom: solid 1.5px white;
+  width: 100%;
+}
+.reviewPlate header .divider {
+  margin: 6px 0 0 96px;
+  height: 2.5px;
+  width: 100%;
+  background-color: white;
+}
+.reviewPlate .content-container {
+  background-color: rgb(240, 240, 240);
+  height: 80%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+}
+.reviewPlate .content-container .about-movie {
+  flex: 1;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.reviewPlate .content-container .about-movie .poster-wrapper {
+  flex: 5;
+  border: solid 2px lightsteelblue;
+}
+.reviewPlate .content-container .about-movie .title {
+  color: black;
+  flex: 1;
+  border: solid 2px lightsteelblue;
+  padding: 5px;
+}

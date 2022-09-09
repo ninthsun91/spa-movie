@@ -26,9 +26,9 @@ const handleClickMostLabel = function () {
     scrollToTag("mostReviewed");
   }, 500);
 };
-const handleClickViewReview = function () {
+const handleClickViewReview = function (reviewId) {
   console.log("view review");
-  loadComponent("reviewViewer", "/components/view-review?tagId=reviewViewer");
+  loadComponent("reviewViewer", `/components/view-review?tagId=reviewViewer&reviewId=${reviewId}`);
 };
 const handleClickReviewEdit = function () {
   console.log("edit review");

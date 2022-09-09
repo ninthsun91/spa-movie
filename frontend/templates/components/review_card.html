@@ -1,17 +1,17 @@
-{% for reivew in reviews %}
-<section class="review-card" onclick="handleClickViewReview()">
+{% for review in reviews %}
+<section class="review-card" onclick="handleClickViewReview('{{review._id}}')">
   <div class="about-movie">
-    <img src="{{reivew.movie.image}}" height="240" width="180" />
-    <div class="title">{{reivew.movie.title}}</div>
-    <div class="rating">작성자 평점 {{reivew.userRating}}</div>
+    <img src="{{review.movie.image}}" height="240" width="180" />
+    <div class="title">{{review.movie.title}}</div>
+    <div class="rating">작성자 평점 {{review.userRating}}</div>
     <div class="divider"></div>
   </div>
   <div class="review-summary">
-    <div class="title">{{reivew.title}}</div>
+    <div class="title">{{review.title}}</div>
   </div>
   <div class="review-infor">
-    <div class="username">{{reivew.username}}</div>
-    <div>{{reivew.time}}</div>
+    <div class="username">{{review.username}}</div>
+    <div>{{review.time}}</div>
   </div>
 </section>
 {% endfor %}
