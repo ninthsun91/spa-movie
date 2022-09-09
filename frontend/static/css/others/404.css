@@ -76,6 +76,12 @@
     margin-top: 0px;
     margin-bottom: 25px;
   }
+
+  .redirect :hover {
+    color: blue;
+    font-weight: bold;
+    text-decoration: underline;
+  }
   
   @media only screen and (max-width: 767px) {
     .notfound .notfound-404 {
