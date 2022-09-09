@@ -1,11 +1,19 @@
-{% for item in movies %}
-<section style="width: 660px; height: 260px; display: flex; padding: 20px; gap: 10px">
-  <div style="width: 130px">
-    <div style="border: solid 2px greenyellow; color: white; height: 190px; margin-bottom: 10px"></div>
-    <div style="border: solid 2px greenyellow; color: white; height: 60px"></div>
+{% for reivew in reviews %}
+<section class="review-card">
+  <div class="about-movie">
+    <img src="{{reivew.movie.image}}" height="240" width="180" />
+    <div class="title">{{reivew.movie.title}}</div>
+    <div class="rating">작성자 평점 {{reivew.userRating}}</div>
+    <div class="divider"></div>
   </div>
-  <div style="width: 385px"><div style="border: solid 2px greenyellow; color: white; height: 100%"></div></div>
-  <div>
+  <div class="review-summary">
+    <div class="title">{{reivew.title}}</div>
+  </div>
+  <div class="review-infor">
+    <div class="username">{{reivew.username}}</div>
+    <div>{{reivew.time}}</div>
+  </div>
+  <!-- <div>
     <div
       style="
         border: solid 2px greenyellow;
@@ -24,6 +32,6 @@
       확인하기
     </div>
     <div style="border: solid 2px greenyellow; color: white; width: 125px; height: 125px"></div>
-  </div>
+  </div> -->
 </section>
 {% endfor %}

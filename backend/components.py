@@ -12,8 +12,7 @@ def review_card():
     for index, review in enumerate(reviews) :
         movie = movies_code(review["code"])
         reviews[index]["movie"] = movie
-    print(reviews)
-    return render_template("components/review_card.html",movies=reviews)
+    return render_template("components/review_card.html",reviews=reviews)
 
 @components.route("/postercard")
 def poster_card():
