@@ -22,7 +22,7 @@ def movies_title(keyword, limit=None, skip=0):
     pipeline = [
         {
         "$search": {
-            "index": "movie_title",
+            "index": "spa_movies",
             "text": {
                 "query": keyword,
                 "path": "title",
@@ -30,12 +30,9 @@ def movies_title(keyword, limit=None, skip=0):
         }
         }, {"$limit": limit}, {"$skip": skip}
     ]
-    movies = db.movies.aggregate(pipeline)
 
-    result = []
-    for movie in movies:
-        result.append(movie)
-    return result
+    # return movies (title matching keyword)
+    return list(db.movies.aggregate(pipeline))
 
 
 # MongoDB 영화 pubDate 검색. 개봉순 정렬
@@ -45,7 +42,7 @@ def movies_pubDate(limit=None, skip=0):
     pipeline = [
         {
             "$search": {
-                "index": "movie_title",
+                "index": "spa_movies",
                 "exists": {
                     "path": "pubDate"
                 }
@@ -58,13 +55,9 @@ def movies_pubDate(limit=None, skip=0):
             }
         }, {"$limit": limit}, {"$skip": skip}
     ]
-    movies_search = db.movies.aggregate(pipeline)
 
-    movies = []
-    for movie in movies_search:
-        movies.append(movie)
-    
-    return movies
+    # return movies (sort by pubDate)
+    return list(db.movies.aggregate(pipeline))
 
 
 # MongoDB 영화 검색. reviews 개수 정렬
@@ -95,12 +88,8 @@ def movies_rcount(limit=None, skip=0):
         }, {"$limit": limit}, {"$skip": skip}
     ]
 
-    movies_search = db.movies.aggregate(pipeline)
-    movies = []
-    for movie in movies_search:
-        movies.append(movie)
-
-    return movies
+    # return movies (sort by reveiw count)
+    return list(db.movies.aggregate(pipeline))
 
 
 # MongoDB 리뷰 _id 검색
@@ -121,13 +110,13 @@ def reviews_time(limit=None, skip=0):
         }, {"$limit": limit}, {"$skip": skip}
     ]
 
-    reviews_search = db.reviews.aggregate(pipeline)
-    reviews = []
-    for review in reviews_search:
+    reviews = list(db.reviews.aggregate(pipeline))
+    for review in reviews:
         review["_id"] = str(review["_id"])
-        reviews.append(review)
 
+    # return reviews (sort by last updated time)
     return reviews
+
 
 # MongoDB 리뷰 검색. 좋아요순 정렬
 def reviews_likes(limit=None, skip=0):
@@ -150,12 +139,11 @@ def reviews_likes(limit=None, skip=0):
         }, {"$limit": limit}, {"$skip": skip}
     ]
 
-    reviews_search = db.reviews.aggregate(pipeline)
-    reviews = []
-    for review in reviews_search:
+    reviews = list(db.reviews.aggregate(pipeline))
+    for review in reviews:
         review["_id"] = str(review["_id"])
-        reviews.append(review)
 
+    # return reviews (sort by likes count)
     return reviews
 
 

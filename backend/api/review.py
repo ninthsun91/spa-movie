@@ -19,8 +19,7 @@ def review_view():
     반환: { reviews: [Array(:dic, length=?)] }
         dic = { _id, code, username, title, comment, userRating, likes, time }
     """
-    # code = int(request.args["code"])
-    code = 999999
+    code = int(request.args["code"])
     movie = db.movies.find_one({"code": code}, {"_id": False})
 
     rids = movie["reviews"]
@@ -48,7 +47,7 @@ def review_write():
     comment = request.form["comment"]
     if check_comment(comment) is not True:
         return jsonify({"msg": "3글자 이상 작성해주세요."})
-    userRating = request.form["userRating"]
+    userRating = int(float(request.form["userRating"]))
 
     payload = token_check()
     if type(payload) is str:
@@ -85,12 +84,7 @@ def list_popular():
     """
     reviews = reviews_likes()
 
-    if "page" in request.args:
-        page = int(request.args["page"])
-        session["review_popular"] = page
-    else:
-        page = session.get("review_popular")
-    skip = (page-1) * 2    
+    skip = session_page("review_popular", request.args)
     max_page = len(reviews) / 2
 
     return jsonify({ "reviews": reviews[skip:skip+2], "max_page": max_page })
