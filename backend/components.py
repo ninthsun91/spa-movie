@@ -42,15 +42,13 @@ def poster_card():
         keyword = request.args.get("keyword")
         naver = search_naver(keyword)    
         for n in naver:
-            [n.pop(key) for key in ["image", "naverRating"]]
+            [n.pop(key) for key in ["naverRating"]]
         db = movies_title(keyword, 10)
         for d in db:
-            [d.pop(key) for key in ["_id", "image", "naverRating", "userRating","description", "reviews"]]
+            [d.pop(key) for key in ["_id", "naverRating", "userRating","description", "reviews"]]
         movies = db + naver
         print("movies! : ",movies)
     movies = movies[0:count]
-    for movie in movies:
-        [movie.pop(key) for key in ["userRating", "description", "reviews"]]
     return render_template("components/poster_card.html",movies=movies,direction=direction)
 
 
