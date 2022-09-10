@@ -45,31 +45,17 @@ def token_check():
         return "로그인 세션이 만료되었습니다."
 
 
-# 카드리스트의 페이지 세션쿠키를 갱신하고 skip값으로 리턴 (좌우 페이지)
-def session_dir(session_name, query, max_page, show=1):
+
+
+
+
+def session_page(session_name, query, show):
     """
-    : session_name = "recent" | "now" | "trend" | "trendrev"
+    : session_name = "recent" | "now" | "trend" | "trendrev" | "recentrev" | "popular" | "search"
     : query = query string
-    """
-    if "dir" in query:
-        dir = query["dir"]
-        if dir=="right":
-            session[session_name] += 1
-        elif dir=="left":
-            session[session_name] -= 1 
-    if abs(session.get(session_name))==max_page:
-        session[session_name] = 0
-    page = session.get(session_name)
+    : show = 한번에 보여주는 개수
 
-    # return skip
-    return (page * show) if page>=0 else ((max_page + page) * show)
-
-
-# 카드리스트의 페이지 세션쿠키를 갱신하고 skip값으로 리턴 (페이지네이션)
-def session_page(session_name, query):
-    """
-    : session_name = "recentrev" | "popular"
-    : query = query string
+    return skip(:int)
     """
     if "page" in query:
         page = int(query["page"])
@@ -78,4 +64,26 @@ def session_page(session_name, query):
         page = session.get(session_name)
     
     # return skip
-    return (page-1) * 2
+    return (page-1) * show
+
+
+
+# DEPRECATED
+# 카드리스트의 페이지 세션쿠키를 갱신하고 skip값으로 리턴 (좌우 페이지)
+# def session_dir(session_name, query, max_page, show=1):
+#     """
+#     : session_name = "recent" | "now" | "trend" | "trendrev"
+#     : query = query string
+#     """
+#     if "dir" in query:
+#         dir = query["dir"]
+#         if dir=="right":
+#             session[session_name] += 1
+#         elif dir=="left":
+#             session[session_name] -= 1 
+#     if abs(session.get(session_name))==max_page:
+#         session[session_name] = 0
+#     page = session.get(session_name)
+
+#     # return skip
+#     return (page * show) if page>=0 else ((max_page + page) * show)

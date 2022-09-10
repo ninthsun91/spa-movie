@@ -108,25 +108,24 @@ def list_trend():
 
 
 # 영화 제목 검색
-@movie_bp.route("/search", methods=["POST"])
+@movie_bp.route("/search")
 def search_title():
     """
     요청예시
-        : POST, "/search", data={ keyword(:str) }
-        : keyword = 검색어
+        : GET, "/search?page=page", 
+        : page = 검색결과 페이지 넘버. 자연수
     반환
         : { result: [Array(:dic, length=max10)] }
         : 반환 원하는 필드는 아래 field 리스트에 기입
-        : 전체필드 = [ "_id", "code", "title", "director", "actor", "pubDate",
+        : 전체필드 = [ "code", "title", "director", "actor", "pubDate",
                 "naverRating", "userRating", "description", "reviews" ]
     """
-    keyword = request.form["keyword"]
+    keyword = session.get("keyword")
 
-    search_naver(keyword)
     field = ["code", "image", "title", "director", "actor", "pubDate", "naverRating"]
-    movies = movie_field(movies_title(keyword, 10), field)
-
-    return jsonify({ "result": movies })
+    result = movies_title(field, keyword, page=request.args)
+    
+    return jsonify( result )
 
 
 
@@ -134,7 +133,8 @@ def search_title():
 @movie_bp.route("/rev/test2")
 @movie_bp.route("/test2")
 def test2():
-    test3(request.args)
+
+    print(CardList["search"])
 
     return ""
 

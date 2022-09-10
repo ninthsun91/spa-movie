@@ -165,114 +165,6 @@ def movie_main(limit=None, skip=0):
     return [movies_code(code)]
 
 
-"""
-process card list
-"""
-
-# class MovieCard:
-#     def __init__(self, get, show, max_page, skip=0):
-#         self.get = get
-#         self.show = show
-#         self.max_page = max_page
-#         self.skip = skip
-
-# class ReviewCard:
-#     def __init__(self, get, show, skip=0):
-#         self.get = get
-#         self.show = show
-#         self.skip = skip
-
-# class CardList:
-#     recent = MovieCard(reviews_time, 1, 3)
-#     now = MovieCard(movies_pubDate, 4, 10)
-#     trend = MovieCard(movies_rcount, 4, 10)
-#     trendrev = MovieCard(movies_rcount, 3, 10)
-
-#     recentrev = ReviewCard(reviews_time, 2)
-#     popular = ReviewCard(reviews_likes, 2)
-
-
-CardList = {
-    "recent": {
-        "get": movie_main,
-        "show": 1,
-        "max_page": 3,
-    }, "now": {
-        "get": movies_pubDate,
-        "show": 4,
-        "max_page": 10,
-    }, "trend": {
-        "get": movies_rcount,
-        "show": 4,
-        "max_page": 10,
-    }, "trendrev": {
-        "get": movies_rcount,
-        "show": 3,
-        "max_page": 10,
-    }, "recentrev": {
-        "get": reviews_time,
-        "show": 2,
-    }, "popular": {
-        "get": reviews_likes,
-        "show": 2,
-    },
-}
-
-
-
-
-
-def movie_card(query: str, field: list, page=None):
-    """
-    : query = recent | now | trend | trendrev
-    : field = 반환을 원하는 데이터 필드
-    : page = request.args. 페이지 요청 관련 QS. 없으면 첫페이지 데이터 반환
-
-    return { movies, max_page }
-    """
-    get = CardList[query]["get"]
-    max_page = CardList[query]["max_page"]
-    show = CardList[query]["show"]
-
-    if "dir" in page: 
-        skip = session_dir(query, page, max_page, show)
-    elif "page" in page:
-        skip = session_page(query, page)
-    elif page == None or len(page) == 0:
-        skip = 0
-
-    movies = get(max_page*show, skip)
-    result = movie_field(movies[0:show], field)
-
-    return { "movies": result, "max_page": max_page }
-
-
-def review_card(query: str, field: list, page=None):
-    """
-    : query = recentrev | popular
-    : field = 반환을 원하는 데이터 필드
-    : page = request.args. 페이지 요청 관련 QS. 없으면 첫페이지 데이터 반환
-
-    return { reviews, max_page }
-    """
-    get = CardList[query]["get"]
-    show = CardList[query]["show"]
-    reviews = get()
-    max_page = len(reviews) / show
-
-    if "dir" in page: 
-        skip = session_dir(query, page, max_page, show)
-    elif "page" in page:
-        skip = session_page(query, page)
-    elif page == None or len(page) == 0:
-        skip = 0
-
-    result = review_field(reviews[skip:skip+show], field)
-
-    return { "reviews": result, "max_page": max_page }
-
-
-
 
 
 
@@ -281,7 +173,9 @@ title search by keword
 """
 
 
-def movies_title(keyword, limit=None, skip=0):
+
+
+def search_db(keyword, limit=None, skip=0):
     """
     keyword로 영화제목 DB 검색
     """
@@ -289,13 +183,17 @@ def movies_title(keyword, limit=None, skip=0):
         limit = get_size("movies")
     pipeline = [
         {
-        "$search": {
-            "index": "spa_movies",
-            "text": {
-                "query": keyword,
-                "path": "title",
+            "$search": {
+                "index": "spa_movies",
+                "text": {
+                    "query": keyword,
+                    "path": "title",
+                }
             }
-        }
+        }, {
+            "$project": {
+                "_id": 0
+            }
         }, {"$limit": limit}, {"$skip": skip}
     ]
 
@@ -377,6 +275,115 @@ def movie_add(movies):
             cnt += 1
     
     return print(f"{cnt} movies added to DB")
+
+
+
+"""
+process card list
+"""
+
+
+CardList = {
+    "recent": {
+        "get": movie_main,
+        "show": 1,
+        "max_page": 3,
+    }, "now": {
+        "get": movies_pubDate,
+        "show": 4,
+        "max_page": 10,
+    }, "trend": {
+        "get": movies_rcount,
+        "show": 4,
+        "max_page": 10,
+    }, "trendrev": {
+        "get": movies_rcount,
+        "show": 3,
+        "max_page": 10,
+    }, "recentrev": {
+        "get": reviews_time,
+        "show": 2,
+        # "max_page": 10,
+    }, "popular": {
+        "get": reviews_likes,
+        "show": 2,
+        # "max_page": 10,
+    }, 
+}
+
+
+def movies_title(field, keyword, page=None):
+    """
+    : keyword = 검색어
+    : page = request.args. 페이지 요청 관련 QS. 없으면 첫페이지 데이터 반환
+    """
+    search_naver(keyword)
+
+    show = 4
+    if page == None or len(page) == 0:
+        skip = 0
+    elif "page" in page:
+        skip = session_page("search", page, show)
+
+    movies = movie_field(search_db(keyword, skip=skip), field)
+    max_page = len(movies) / show
+
+    return { "movies": movies, "max_page": max_page }
+
+
+def movie_card(query: str, field: list, page=None, keyword=None):
+    """
+    : query = recent | now | trend | trendrev
+    : field = 반환을 원하는 데이터 필드
+    : page = request.args. 페이지 요청 관련 QS. 없으면 첫페이지 데이터 반환
+
+    return { movies, max_page }
+    """
+    if query == "search":
+        session["keyword"] = keyword
+        return movies_title(field, keyword, page)
+
+    get = CardList[query]["get"]
+    max_page = CardList[query]["max_page"]
+    show = CardList[query]["show"]
+
+    # if "dir" in page: 
+    #     skip = session_dir(query, page, max_page, show)
+    if page == None or len(page) == 0:
+        skip = 0
+    elif "page" in page:
+        skip = session_page(query, page, show)
+
+    movies = get(max_page*show, skip)
+    result = movie_field(movies[0:show], field)
+
+    return { "movies": result, "max_page": max_page }
+
+
+def review_card(query: str, field: list, page=None):
+    """
+    : query = recentrev | popular
+    : field = 반환을 원하는 데이터 필드
+    : page = request.args. 페이지 요청 관련 QS. 없으면 첫페이지 데이터 반환
+
+    return { reviews, max_page }
+    """
+    get = CardList[query]["get"]
+    show = CardList[query]["show"]
+    reviews = get()
+    max_page = len(reviews) / show
+
+    # if "dir" in page: 
+    #     skip = session_dir(query, page, max_page, show)
+    if page == None or len(page) == 0:
+        skip = 0
+    elif "page" in page:
+        skip = session_page(query, page, show)
+
+    result = review_field(reviews[skip:skip+show], field)
+
+    return { "reviews": result, "max_page": max_page }
+
 
 
 
