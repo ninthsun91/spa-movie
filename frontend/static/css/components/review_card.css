@@ -1,5 +1,5 @@
 .review-card {
-  color: black;
+  color: rgb(232, 232, 232);
   height: 72px;
   min-width: 730px;
   width: calc(100% - 120px);
@@ -8,12 +8,14 @@
   padding: 6px 20px 6px 0;
   margin-left: 100px;
   gap: 2px;
-  background-color: rgb(210, 210, 210);
+  background-color: rgb(24, 24, 24);
+  box-shadow: 0px 0px 1px white;
   cursor: pointer;
 }
-.review-card .review-card:hover {
-  background-color: rgb(255, 255, 255);
-  box-shadow: 0px 0px 15px white;
+.review-card:hover {
+  color: white;
+  background-color: rgb(18, 18, 18);
+  box-shadow: 0px 0px 12px white;
 }
 .review-card .about-movie {
   position: relative;
@@ -26,10 +28,11 @@
   top: -30px;
   left: -200px;
   transition: all 0.5s;
+  box-shadow: 3px 3px 0px rgb(7, 7, 7);
 }
 .review-card .about-movie:hover img {
   z-index: 2;
-  opacity: 0.8;
+  opacity: 1;
   left: -100px;
 }
 .review-card .about-movie .title {
