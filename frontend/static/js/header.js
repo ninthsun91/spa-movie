@@ -1,4 +1,5 @@
 const sign = () => $("#" + TAG_ID.SIGN);
+const profile = () => $("#" + PROFILE);
 
 const handleClickSignIn = function () {
   loadComponent(TAG_ID.SIGN, "/components/signin?tagId=" + TAG_ID.SIGN, function () {
@@ -31,10 +32,22 @@ const handleClickLogo = function () {
 };
 
 // my page
-const handleClickProfile = function () {
+const handleClickMyPage = function () {
   console.log('click profile');
   loadMyPage();
 }
+
+// profile
+const handleClickProfile = function () {
+  loadComponent(TAG_ID.PROFILE, "/components/profile?tagId=" + TAG_ID.PROFILE, function () {
+    profile().show();
+  });
+};
+
+const hideProfile = function () {
+  profile().hide();
+  profile().empty();
+};
 
 
 const signUpId = () => $("#" + TAG_ID.SIGN_UP_ID);
