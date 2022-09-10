@@ -28,7 +28,7 @@
   top: -30px;
   left: -200px;
   transition: all 0.5s;
-  box-shadow: 3px 3px 0px rgb(7, 7, 7);
+  box-shadow: 6px 8px 0px rgb(232, 232, 232);
 }
 .review-card .about-movie:hover img {
   z-index: 2;

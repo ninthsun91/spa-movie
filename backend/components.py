@@ -1,3 +1,4 @@
+from cmath import rect
 from flask import Blueprint, render_template,request
 
 from .util import *
@@ -8,18 +9,31 @@ components = Blueprint("components", __name__)
 
 @components.route("/reviewcard")
 def review_card():
-    reviews = reviews_time()
-    for index, review in enumerate(reviews) :
-        print(review)
-        movie = movies_code(review["code"])
-        reviews[index]["movie"] = movie
+    type = request.args.get("type")
+    if type=="recent" :
+        reviews = reviews_time()
+        for index, review in enumerate(reviews) :
+            print(review)
+            movie = movies_code(review["code"])
+            reviews[index]["movie"] = movie
+    elif type=="popular" : 
+        reviews = reviews_likes()
+        for index, review in enumerate(reviews) :
+            print(review)
+            movie = movies_code(review["code"])
+            reviews[index]["movie"] = movie
     return render_template("components/review_card.html",reviews=reviews)
 
 @components.route("/postercard")
 def poster_card():
+    
+    type = request.args.get("type")
     direction = request.args.get("direction")
     count = int(request.args.get("count"))
-    movies = movies_pubDate(40)
+    if(type =="most_reviewed"):
+        movies = movies_rcount(40)
+    elif(type == "new") :
+        movies = movies_pubDate(40)
     movies = movies[0:count]
     for movie in movies:
         [movie.pop(key) for key in ["userRating", "description", "reviews"]]

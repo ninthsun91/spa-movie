@@ -50,8 +50,8 @@ const handleLoadHome = function () {
   console.log("after load home");
 
   setTitle(TITLE.HOME);
-  loadComponent("movieListNow", "/components/postercard?direction=vertical&count=5");
-  loadComponent("movieListTrending", "/components/postercard?direction=vertical&count=5");
+  loadComponent("movieListNow", "/components/postercard?direction=vertical&count=5&type=new");
+  loadComponent("movieListTrending", "/components/postercard?direction=vertical&count=5&type=most_reviewed");
   numberIndicating = 0;
 };
 const handleLoadRev = function () {
