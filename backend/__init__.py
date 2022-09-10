@@ -7,11 +7,11 @@ def router(flask_app: Flask):
    from .components import components
    from .api import movie_bp, review_bp, user_bp
 
-   flask_app.register_blueprint(home_bp, url_prefix="/")
+   flask_app.register_blueprint(home_bp)
    flask_app.register_blueprint(components, url_prefix="/components")
-   flask_app.register_blueprint(movie_bp, url_prefix="/")
-   flask_app.register_blueprint(review_bp, url_prefix="/")
-   flask_app.register_blueprint(user_bp, url_prefix="/")
+   flask_app.register_blueprint(movie_bp)
+   flask_app.register_blueprint(review_bp)
+   flask_app.register_blueprint(user_bp)
 
    @flask_app.errorhandler(404)
    def page_not_found(e):
