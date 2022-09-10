@@ -8,6 +8,7 @@ review_ext = Blueprint("review_ext", __name__)
 
 @review_ext.route("/reviewcard")
 def review_list():
+    print("REVIEWCARD")
     query = request.args.get("type")
 
     field = [ "_id", "code", "username", "title", "comment",
@@ -16,23 +17,34 @@ def review_list():
     reviews = result["reviews"]
     max_page = result["max_page"]
 
+    for review in reviews:
+        movie = movies_code(int(review["code"]))
+        review["m_title"] = movie["title"]
+        review["image"] = movie["image"]
+
     return render_template("components/review_card.html", reviews=reviews)
 
 
-# def review_card():
+# @review_ext.route("/reviewcard")
+# def review_list():
 #     type = request.args.get("type")
 #     if type=="recent" :
 #         reviews = reviews_time()
-#         for index, review in enumerate(reviews) :
+#         for review in reviews :
 #             print(review)
-#             movie = movies_code(review["code"])
-#             reviews[index]["movie"] = movie
+#             movie = movies_code(int(review["code"]))
+#             reviews["movie"] = movie
 #     elif type=="popular" : 
 #         reviews = reviews_likes()
-#         for index, review in enumerate(reviews) :
+#         for review in reviews :
 #             print(review)
-#             movie = movies_code(review["code"])
-#             reviews[index]["movie"] = movie
+#             movie = movies_code(int(review["code"]))
+#             reviews["movie"] = movie
+
+#     print(reviews)
+#     print(type(reviews))
+
+#     # return reviews
 
 #     return render_template("components/review_card.html", reviews=reviews)
 

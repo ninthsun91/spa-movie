@@ -37,7 +37,7 @@ def users_uid():
     payload = token_check()
     if payload is not None:
         uid = payload.get("uid")
-        
+
         return db.users.find_one({"uid": uid}, {"_id": False})
 
 
@@ -309,11 +309,11 @@ CardList = {
         "max_page": 10,
     }, "recentrev": {
         "get": reviews_time,
-        "show": 2,
+        "show": 8,
         # "max_page": 10,
     }, "popular": {
         "get": reviews_likes,
-        "show": 2,
+        "show": 8,
         # "max_page": 10,
     }, 
 }

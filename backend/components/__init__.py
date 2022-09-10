@@ -4,7 +4,7 @@ from .review_ext import review_ext
 from .user_ext import user_ext
 
 
-components = Blueprint("components", __name__)
-components.register_blueprint(home_ext)
-components.register_blueprint(review_ext)
-components.register_blueprint(user_ext)
+components_bp = Blueprint("components", __name__)
+components_bp.register_blueprint(home_ext)
+components_bp.register_blueprint(review_ext)
+components_bp.register_blueprint(user_ext)

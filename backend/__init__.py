@@ -3,12 +3,12 @@ from .config import config
 
 
 def router(flask_app: Flask):
-   from .home import home_bp
-   from .components import components
+   from .main import main_bp
+   from .components import components_bp
    from .api import movie_bp, review_bp, user_bp
 
-   flask_app.register_blueprint(home_bp)
-   flask_app.register_blueprint(components, url_prefix="/components")
+   flask_app.register_blueprint(main_bp)
+   flask_app.register_blueprint(components_bp, url_prefix="/components")
    flask_app.register_blueprint(movie_bp)
    flask_app.register_blueprint(review_bp)
    flask_app.register_blueprint(user_bp)

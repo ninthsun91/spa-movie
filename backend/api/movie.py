@@ -134,9 +134,44 @@ def search_title():
 @movie_bp.route("/test2")
 def test2():
 
-    print(CardList["search"])
+    # # reviews = reviews_likes()
+    # # print(type(reviews), len(reviews))
 
-    return ""
+    # query = request.args.get("type")
+    # if query=="recent" :
+    #     reviews = reviews_time()
+    #     for review in reviews :
+    #         print(review)
+    #         movie = movies_code(int(review["code"]))
+    #         review["movie"] = movie
+    # elif query=="popular" : 
+    #     reviews = reviews_likes()
+    #     print(type(reviews), len(reviews))
+    #     for review in reviews :
+    #         # print(review)
+    #         movie = movies_code(int(review["code"]))
+    #         print(movie)
+    #         review["movie"] = movie["image"]
+
+    # # print(reviews)
+    # # print(type(reviews))
+
+    query = request.args.get("type")
+
+    field = [ "_id", "code", "username", "title", "comment",
+        "userRating", "likes", "time" ]
+    result = review_card(query, field)
+    reviews = result["reviews"]
+    max_page = result["max_page"]
+
+    for review in reviews:
+        movie = movies_code(int(review["code"]))
+        review["m_title"] = movie["title"]
+        review["image"] = movie["image"]
+
+
+
+    return jsonify({ "reviews": reviews })
 
 def test3(a):
     

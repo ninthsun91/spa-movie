@@ -8,6 +8,7 @@ home_ext = Blueprint("home_ext", __name__)
 
 @home_ext.route("/postercard")
 def poster_list():
+    print("HOOOOOOOOOOOME")
     direction = request.args.get("direction")
     query = request.args.get("type")
     field = [ "code", "image", "title", "director", "actor", "pubDate", "naverRating" ]
