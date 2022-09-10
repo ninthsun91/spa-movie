@@ -62,6 +62,8 @@ const handleLoadHome = function () {
 const handleLoadRev = function () {
     console.log("after load rev");
     setTitle(TITLE.REV);
+    loadComponent("recentReview", "/components/reviewcard?type=recent");
+    loadComponent("popularReview", "/components/reviewcard?type=popular");
     setTimeout(function () {
         reviewMenuSlideUp();
         reviewContainerWidthGrow();
@@ -69,7 +71,7 @@ const handleLoadRev = function () {
 };
 
 const loadComponent = function (tagId, pathname, complete = undefined) {
-    $("#" + tagId).load(`${pathname}`, complete);
+    $("#" + tagId).load(`${pathname}`, complete, ()=>console.log(`${tagId} loaded`));
 };
 
 const setTitle = function (title) {

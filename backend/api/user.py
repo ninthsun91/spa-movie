@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify
 from bson.objectid import ObjectId
 
-from ..config import *
+from ..config import Pymongo
+from ..database import user_uid
 from ..util import *
 
 
@@ -11,7 +12,7 @@ db = Pymongo.db
 
 @user_bp.route("/user")
 def user_info():
-   user = users_uid()
+   user = user_uid()
 
    return jsonify({ "user": user })
 
