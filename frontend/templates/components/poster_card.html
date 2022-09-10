@@ -1,7 +1,7 @@
 {% if direction == 'vertical' %}
 <!-- -->
 {% for item in movies %}
-<section class="poster-plate">
+<section class="poster-plate" onclick="handleClickMoviePoster('{{item.code}}')">
   <div class="img-frame">
     <img src="{{item.image}}" height="360" width="280" />
   </div>

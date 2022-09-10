@@ -1,0 +1,13 @@
+{%if is_modal_covered=="on" %}<!-- -->
+{% extends "inheritance/modal.html"%}<!-- -->
+{%block content%}
+
+<!-- -->{%block will_be_covered%}<!-- -->
+<!-- -->{%endblock%}<!-- -->
+
+{%endblock%}<!-- -->
+{% elif is_modal_covered=="off" %}<!-- -->
+
+{%block will_be_covered%} {%endblock%}
+<!-- -->
+{% endif %}

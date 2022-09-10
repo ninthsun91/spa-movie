@@ -7,12 +7,14 @@ from flask import session
 좌우 리스트는 0
 """
 def initialize_home_session():
-    session["home_recent"] = 0
-    session["home_now"] = 0
-    session["home_trend"] = 0
+    session["recent"] = 1
+    session["now"] = 1
+    session["trend"] = 1
 
 
 def initialize_review_session():
-    session["review_recent"] = 1
-    session["review_trend"] = 0
-    session["review_popular"] = 1
+    session["recentrev"] = 1
+    session["trendrev"] = 1
+    session["popular"] = 1
+    session["search"] = 1
+    session["keyword"] = ""

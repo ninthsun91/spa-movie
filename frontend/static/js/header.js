@@ -39,7 +39,7 @@ const handleClickMyPage = function () {
 
 // profile
 const handleClickProfile = function () {
-  loadComponent(TAG_ID.PROFILE, "/components/profile?tagId=" + TAG_ID.PROFILE, function () {
+  loadComponent(TAG_ID.PROFILE, "/components/profile/update?tagId=" + TAG_ID.PROFILE, function () {
     profile().show();
   });
 };

@@ -1,0 +1,48 @@
+{% extends "inheritance/modal.html"%}{%block content%}
+<div class="movie-plate">
+  <header>
+    <h2>Reviews On Movie</h2>
+    <div class="divider"></div>
+  </header>
+  <div class="content-container">
+    <div class="about-movie">
+      <div class="poster-wrapper"><img src="{{movie.image}}" width="255" height="388" /></div>
+      <div class="title">
+        <div class="divider"></div>
+      </div>
+    </div>
+    <div class="about-review">
+      <div class="main">
+        <div class="title"><span>{{movie.title}}</span></div>
+        <div class="divider"></div>
+        <!-- -->
+        {% for review in reviews %}
+        <div class="infor">
+          <div class="rating">
+            <div class="star-wrapper">
+              <div class="star-rating">
+                <span style="width: calc({{review.userRating}} / 10 * 100%)"></span>
+              </div>
+            </div>
+            <div class="star-score">
+              <div class="label">작성자 평점</div>
+              <div class="rate">{{review.userRating}} <span>점</span></div>
+            </div>
+          </div>
+          <div class="title">{{review.title}}</div>
+          <div class="details">
+            <div class="user"><span>id </span>{{review.username}}</div>
+            <div class="pub"><span>created </span>{{review.time}}</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        {% endfor %}
+        <!-- -->
+      </div>
+      <div class="ui">
+        <div class="wrapper"></div>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%}
