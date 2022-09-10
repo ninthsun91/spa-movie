@@ -46,8 +46,8 @@ def review_list():
 @contents_ext.route("/view-review")
 def view_review():
     tag_to_empty = request.args.get("tagId")
-    review_id = request.args.get("reviewId")
-    review_data = review_id(review_id)
+    r_id = request.args.get("reviewId")
+    review_data = review_id(r_id)
     movie = movie_code(review_data["code"])
     review_data["movie"] = movie
     review_data["likecount"] = len(review_data["likes"])

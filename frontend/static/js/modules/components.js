@@ -10,7 +10,7 @@ const handleSubmitSearchMovie = function (event) {
   event.preventDefault();
   console.log("search movie");
   keyword = $("#movieTitle").val();
-  loadComponent("moviesSearched", `/components/postercard?direction=horizontal&count=4&type=search&keyword=${keyword}`);
+  loadComponent("moviesSearched", `/components/postercard?direction=horizontal&count=4&type=search&keyword=${encodeURIComponent(keyword)}`);
   searchLeft().show();
   searchRight().show();
 };
