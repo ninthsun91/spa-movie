@@ -34,10 +34,6 @@ def poster_card():
         movies = movies_rcount(40)
     elif(type == "new") :
         movies = movies_pubDate(40)
-# File "d:\dev\spa-movie\backend\components.py", line 49, in <listcomp>
-#     [movie.pop(key) for key in ["userRating", "description", "reviews"]]
-# KeyError: 'userRating'
-# 이렇게 생긴오류가 뜹니다 
     elif(type =="search"):
         keyword = request.args.get("keyword")
         naver = search_naver(keyword)    
@@ -47,8 +43,8 @@ def poster_card():
         for d in db:
             [d.pop(key) for key in ["_id", "naverRating", "userRating","description", "reviews"]]
         movies = db + naver
-        print("movies! : ",movies)
     movies = movies[0:count]
+    print("movies! : ",movies)
     return render_template("components/poster_card.html",movies=movies,direction=direction)
 
 
@@ -72,7 +68,8 @@ def create():
 def upsert():
     # if login_check():
     #    abort(401)
-    return render_template("components/review_upsert.html",movie_title="tenet create",title="Make Review",make_edit="make") 
+    tag_to_empty = request.args.get("tagId")
+    return render_template("components/review_upsert.html",tag_to_empty=tag_to_empty,movie_title="tenet create",title="Make Review",make_edit="make") 
 
 @components.route("/popup-upsertied")
 def popup_upsertied():
@@ -93,3 +90,11 @@ def edit():
     # if login_check():
     #    abort(401)
     return render_template("components/review_upsert.html",movie_title="tenet edit",title="Edit Review",make_edit="edit")
+
+@components.route("/movie-with-reviews")
+def movie_with_reviews():
+    tag_to_empty = request.args.get("tagId")
+    movieId = request.args.get("movieId")
+    movie = movies_code(int(movieId))
+    reviews = [reviews_id(review_id) for review_id in movie["reviews"]]
+    return render_template("components/movie_with_reviews.html",tag_to_empty=tag_to_empty,movie=movie,reviews=reviews)

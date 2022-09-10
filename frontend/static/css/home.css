@@ -97,7 +97,12 @@
   background-color: rgb(30, 30, 30);
   padding: 0 20px;
 }
-.movies-grouped > div .movie-list {
+.movies-grouped > div .list-wrapper {
+  overflow: auto;
+  height: 100%;
+}
+.movies-grouped > div .list-wrapper .movie-list {
+  min-width: fit-content;
   width: calc(100% - 60px);
   height: 90%;
   padding: 10px 0;

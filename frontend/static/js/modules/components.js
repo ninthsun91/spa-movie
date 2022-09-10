@@ -23,7 +23,7 @@ const handleClickSearchRight = function () {
 
 const handleClickMovieUpsert = function () {
   console.log("upsert");
-  loadComponent("modalContent", "/components/upsert");
+  loadComponent("modalContent", "/components/upsert?tagId=modalContent");
   searchLeft().hide();
   searchRight().hide();
 };
@@ -43,7 +43,7 @@ const handleClickMovieUpsirtCancel = function (makeEdit) {
     loadComponent("modalContent", "/components/moviesearch?tagId=modalContent&cover=off");
     console.log("movie make cancel");
   } else {
-    loadComponent("reviewViewer", "/components/view-review?tagId=reviewViewer");
+    loadComponent("reviewViewer", "/components/view-review?tagId=reviewViewer&cover=on");
     console.log("movie edit cancel");
   }
 };
@@ -59,4 +59,9 @@ const handleClickReviewLike = function () {
 };
 const handleClickReviewDelete = function () {
   console.log("delete");
+};
+const handleClickMoviePoster = function (code) {
+  console.log(code);
+  loadComponent("modalPlace", `/components/movie-with-reviews?tagId=modalPlace&movieId=${code}`);
+  console.log("poster");
 };
