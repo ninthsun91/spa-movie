@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 
-from .config import *
+from .config.session import *
 
 
 home_bp = Blueprint("home", __name__)
