@@ -4,31 +4,31 @@ const handleClickMakeReview = function () {
 };
 const handleClickRecentLabel = function () {
   console.log("recent");
-  loadComponent("recentReview", "/components/reviewcard");
+  loadComponent("recentReview", "/components/reviewcard?type=recent");
   toggleLi("recentLi");
   setTimeout(function () {
     scrollToTag("recentReview");
-  }, 500);
+  }, 300);
 };
 const handleClickPopularLabel = function () {
   console.log("popular");
-  loadComponent("popularReview", "/components/reviewcard");
+  loadComponent("popularReview", "/components/reviewcard?type=popular");
   toggleLi("popularLi");
   setTimeout(function () {
     scrollToTag("popularReview");
-  }, 500);
+  }, 300);
 };
 const handleClickMostLabel = function () {
   console.log("postercard");
-  loadComponent("mostReviewed", "/components/postercard-v");
+  loadComponent("mostReviewed", "/components/postercard?direction=vertical&count=6&type=most_reviewed");
   toggleLi("mostLi");
   setTimeout(function () {
     scrollToTag("mostReviewed");
-  }, 500);
+  }, 300);
 };
-const handleClickViewReview = function () {
+const handleClickViewReview = function (reviewId) {
   console.log("view review");
-  loadComponent("reviewViewer", "/components/view-review?tagId=reviewViewer");
+  loadComponent("reviewViewer", `/components/view-review?tagId=reviewViewer&reviewId=${reviewId}`);
 };
 const handleClickReviewEdit = function () {
   console.log("edit review");

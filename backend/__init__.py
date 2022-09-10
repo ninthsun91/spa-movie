@@ -1,19 +1,21 @@
-from flask import Flask
+from flask import Flask, render_template
 from .config import config
 
 
 def router(flask_app: Flask):
    from .home import home_bp
    from .components import components
-   from .api.movie import movie_bp
-   from .api.review import review_bp
-   from .api.user import user_bp
+   from .api import movie_bp, review_bp, user_bp
 
    flask_app.register_blueprint(home_bp, url_prefix="/")
    flask_app.register_blueprint(components, url_prefix="/components")
    flask_app.register_blueprint(movie_bp, url_prefix="/")
    flask_app.register_blueprint(review_bp, url_prefix="/")
    flask_app.register_blueprint(user_bp, url_prefix="/")
+
+   @flask_app.errorhandler(404)
+   def page_not_found(e):
+      return render_template("others/404.html"), 404
 
 
 def create_app():

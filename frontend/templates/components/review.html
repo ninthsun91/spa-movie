@@ -1,56 +1,49 @@
 {% extends "inheritance/modal.html"%}
 <!-- -->
 {% block content%}
-<div style="width: 100%; height: 80%; border: solid 2px DeepPink; color: deeppink">
-  <h2 style="font-size: 40px">tenet</h2>
-  <div
-    class="content-container"
-    style="
-      border: solid 2px white;
-      height: 80%;
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 5px;
-    "
-  >
-    <div
-      style="
-        flex: 1;
-        height: 80%;
-        border: solid 2px gold;
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        padding: 5px;
-      "
-    >
-      <div style="flex: 5; border: solid 2px lightsteelblue">포스터</div>
-      <div style="flex: 1; border: solid 2px lightsteelblue; padding: 5px">영화제목</div>
+<div class="reviewPlate">
+  <header>
+    <h2>Review</h2>
+    <div class="divider"></div>
+  </header>
+  <div class="content-container">
+    <div class="about-movie">
+      <div class="poster-wrapper"><img src="{{data.movie.image}}" width="255" height="388" /></div>
+      <div class="title">
+        <div class="value">{{data.movie.title}}</div>
+        <div class="divider"></div>
+      </div>
     </div>
-    <div
-      style="
-        flex: 3;
-        height: 80%;
-        border: solid 2px gold;
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        padding: 5px;
-      "
-    >
-      <div style="flex: 5; border: solid 2px lightsteelblue">리뷰</div>
-      <div style="flex: 1; border: solid 2px lightsteelblue; display: flex; gap: 5px; padding: 5px">
-        <div style="flex: 3; border: solid 2px MediumSeaGreen">좋아요</div>
-        <div
-          style="flex: 2; border: solid 2px MediumSeaGreen; cursor: pointer"
-          id="reviewEdit"
-          onclick="handleClickReviewEdit()"
-        >
-          리뷰수정
+    <div class="about-review">
+      <div class="main">
+        <div class="title"><span>{{data.title}}</span></div>
+        <div class="divider"></div>
+        <div class="infor">
+          <div class="rating">
+            <div class="star-wrapper">
+              <div class="star-rating">
+                <span style="width: calc({{data.userRating}} / 10 * 100%)"></span>
+              </div>
+            </div>
+            <div class="star-score"><div class="label">작성자 평점</div><div class="rate">{{data.userRating}} <span>점</span></div></div>
+          </div>
+          <div class="details">
+            <div class="user"><span>id </span>{{data.username}}</div>
+            <div class="pub"><span>created </span>{{data.time}}</div>
+          </div>
         </div>
-        <div style="flex: 2; border: solid 2px MediumSeaGreen">리뷰삭제</div>
+        <div class="divider"></div>
+        <div class="content">{{data.comment}}</div>
+      </div>
+      <div class="ui">
+        <div class="wrapper">
+          <div class="like" onclick="handleClickReviewLike()">
+            <i class="icon bi bi-hand-thumbs-up"></i>
+            <div id="likeScore" class="score">{{data.likecount}}</div>
+          </div>
+          <div class="edit" id="reviewEdit" onclick="handleClickReviewEdit()">Edit</div>
+          <div class="remove"onclick="handleClickReviewDelete()"">Delete</div>
+        </div>
       </div>
     </div>
   </div>

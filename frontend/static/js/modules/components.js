@@ -5,24 +5,14 @@ const searchRight = () => $("#searchRight");
 const popupPlace = () => $("#popupPlace");
 const handleClickModalBack = function (tagToEmpty) {
   $("#" + tagToEmpty).empty();
-  // modalBackground().hide();
 };
 const handleSubmitSearchMovie = function (event) {
   event.preventDefault();
   console.log("search movie");
-  // $.ajax({
-  //   url: "/search",
-  //   method: "POST",
-  //   data: { keyword: "tenet" },
-  //   success: function (response) {
-  //     console.log(response);
-  //   },
-  // });
-  setTimeout(function () {
-    loadComponent("moviesSearched", "/components/postercard-h");
-    searchLeft().show();
-    searchRight().show();
-  }, 1000);
+  keyword = $("#movieTitle").val();
+  loadComponent("moviesSearched", `/components/postercard?direction=horizontal&count=4&type=search&keyword=${keyword}`);
+  searchLeft().show();
+  searchRight().show();
 };
 const handleClickSearchLeft = function () {
   console.log("left");
@@ -60,4 +50,13 @@ const handleClickMovieUpsirtCancel = function (makeEdit) {
 const handleClickPopupConfirm = function () {
   popupPlace().hide();
   clearTimeout(timeout);
+};
+
+const handleClickReviewLike = function () {
+  console.log("like");
+  const score = +$("#likeScore").text();
+  $("#likeScore").text(score + 1);
+};
+const handleClickReviewDelete = function () {
+  console.log("delete");
 };

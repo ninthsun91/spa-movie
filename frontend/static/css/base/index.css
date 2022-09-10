@@ -1,9 +1,13 @@
 @import url("../inheritance/header.css");
 @import url("../home.css");
 @import url("../inheritance/center_board.css");
-@import url("../review.css");
+@import url("../review_page.css");
 @import url("../components/review_upsert.css");
 @import url("../components/movie_search.css");
+@import url("../components/poster_card.css");
+@import url("../components/review_card.css");
+@import url("../components/review.css");
+@import url("../others/404.css");
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
 
 ::-webkit-scrollbar {

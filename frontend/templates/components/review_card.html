@@ -1,29 +1,17 @@
-{% for item in movies %}
-<section style="width: 660px; height: 260px; display: flex; padding: 20px; gap: 10px">
-  <div style="width: 130px">
-    <div style="border: solid 2px greenyellow; color: white; height: 190px; margin-bottom: 10px"></div>
-    <div style="border: solid 2px greenyellow; color: white; height: 60px"></div>
+{% for review in reviews %}
+<section class="review-card" onclick="handleClickViewReview('{{review._id}}')">
+  <div class="about-movie">
+    <img src="{{review.movie.image}}" height="240" width="180" />
+    <div class="title">{{review.movie.title}}</div>
+    <div class="rating">작성자 평점 {{review.userRating}}</div>
+    <div class="divider"></div>
   </div>
-  <div style="width: 385px"><div style="border: solid 2px greenyellow; color: white; height: 100%"></div></div>
-  <div>
-    <div
-      style="
-        border: solid 2px greenyellow;
-        color: white;
-        width: 125px;
-        height: 125px;
-        margin-bottom: 10px;
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      "
-      id="viewReview"
-      onclick="handleClickViewReview()"
-    >
-      확인하기
-    </div>
-    <div style="border: solid 2px greenyellow; color: white; width: 125px; height: 125px"></div>
+  <div class="review-summary">
+    <div class="title">{{review.title}}</div>
+  </div>
+  <div class="review-infor">
+    <div class="username">{{review.username}}</div>
+    <div>{{review.time}}</div>
   </div>
 </section>
 {% endfor %}
