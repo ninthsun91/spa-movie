@@ -24,12 +24,11 @@
                             </dl>
                         </div>
                         {# User Profile Button #}
-                        <button class="user-information__button" type="button">수정</button>
+                        <button class="user-information__button" type="button" onclick="handleClickProfile()">수정</button>
                     </section>
 
                 </div>
                 <div class="col-12 col-md-7">
-
                     {# User Information #}
                     <section class="user-information">
                         {# User Information - Profile Image #}
@@ -73,5 +72,6 @@
             </div>
         </div>
     </div>
+   <section id="profile" class="sign" onclick="hideProfile()"></section>
 {% endblock %}
 <!--  -->
