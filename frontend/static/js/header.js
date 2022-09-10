@@ -1,5 +1,5 @@
 const sign = () => $("#" + TAG_ID.SIGN);
-const profile = () => $("#" + PROFILE);
+const profile = () => $("#" + TAG_ID.PROFILE);
 
 const handleClickSignIn = function () {
   loadComponent(TAG_ID.SIGN, "/components/signin?tagId=" + TAG_ID.SIGN, function () {
