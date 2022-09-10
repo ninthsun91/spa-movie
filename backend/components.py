@@ -63,9 +63,6 @@ def profile_update():
     
     return render_template("components/profile.html", user=user, tagId=tagId)
 
-
-
-
 @components.route("/signup")
 def sign_up():
     tag_id = request.args.get("tagid")

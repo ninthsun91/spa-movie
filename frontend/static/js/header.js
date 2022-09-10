@@ -49,6 +49,10 @@ const hideProfile = function () {
   profile().empty();
 };
 
+const handleClickProfileCancel = function () {
+  profile().hide();
+};
+
 
 const signUpId = () => $("#" + TAG_ID.SIGN_UP_ID);
 const signUpPw = () => $("#" + TAG_ID.SIGN_UP_PW);
