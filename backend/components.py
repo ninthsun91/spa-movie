@@ -59,6 +59,7 @@ def view_review():
     review_data = reviews_id(review_id)
     movie = movies_code(review_data["code"])
     review_data["movie"] = movie
+    review_data["likecount"] = len(review_data["likes"])
     return render_template("components/review.html",tag_to_empty=tag_to_empty,data=review_data)
 
 @components.route("/edit")

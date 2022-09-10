@@ -34,6 +34,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 5px;
+  color: black;
 }
 .reviewPlate .content-container .about-movie {
   flex: 1;
@@ -43,12 +44,155 @@
   gap: 5px;
 }
 .reviewPlate .content-container .about-movie .poster-wrapper {
+  position: relative;
+  z-index: 2;
   flex: 5;
-  border: solid 2px lightsteelblue;
+}
+.reviewPlate .content-container .about-movie .poster-wrapper img {
+  box-shadow: 8px 12px 0px rgb(30, 30, 30);
 }
 .reviewPlate .content-container .about-movie .title {
-  color: black;
+  position: relative;
   flex: 1;
-  border: solid 2px lightsteelblue;
+  font-size: 24px;
+  font-weight: 900;
+  margin-top: 12px;
+  padding: 6px 12px;
+  gap: 6px;
+}
+.reviewPlate .content-container .about-movie .title .value {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.reviewPlate .content-container .about-movie .title .divider {
+  position: absolute;
+  top: 36px;
+  left: 30%;
+  width: 300%;
+  height: 4px;
+  background-color: rgb(30, 30, 30);
+}
+.reviewPlate .content-container .about-review {
+  flex: 3;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   padding: 5px;
+}
+.reviewPlate .content-container .about-review .main {
+  flex: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.reviewPlate .content-container .about-review .main .divider {
+  margin-left: -30px;
+  width: 100%;
+  height: 3px;
+  background-color: rgb(30, 30, 30);
+}
+.reviewPlate .content-container .about-review .main .title {
+  flex: 1.1;
+  display: flex;
+  align-items: flex-end;
+}
+.reviewPlate .content-container .about-review .main .title span {
+  padding: 0 12px 6px 42px;
+  font-weight: 900;
+  font-size: 24px;
+}
+.reviewPlate .content-container .about-review .main .infor {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 12px;
+}
+.reviewPlate .content-container .about-review .main .infor .rating {
+  width: 35%;
+  position: relative;
+}
+.reviewPlate .content-container .about-review .main .infor .rating .star-wrapper {
+  position: absolute;
+  left: -12px;
+  top: 6px;
+}
+.reviewPlate .content-container .about-review .main .infor .rating .star-wrapper .star-rating {
+  transform: scale(0.8);
+}
+.reviewPlate .content-container .about-review .main .infor .rating .star-score {
+  font-size: 24px;
+  position: absolute;
+  right: 0px;
+  height: 100%;
+  width: 86px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.reviewPlate .content-container .about-review .main .infor .rating .star-score .label {
+  font-size: 14px;
+}
+.reviewPlate .content-container .about-review .main .infor .rating .star-score .rate {
+  font-weight: 800;
+}
+.reviewPlate .content-container .about-review .main .infor .rating .star-score .rate > span {
+  font-size: 14px;
+}
+.reviewPlate .content-container .about-review .main .infor .details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  justify-content: center;
+}
+.reviewPlate .content-container .about-review .main .infor .details span {
+  font-weight: 900;
+}
+.reviewPlate .content-container .about-review .main .content {
+  flex: 4;
+  padding: 12px;
+}
+.reviewPlate .content-container .about-review .ui {
+  position: relative;
+  z-index: 2;
+  color: white;
+  flex: 1;
+}
+.reviewPlate .content-container .about-review .ui .wrapper {
+  background-color: rgb(30, 30, 30);
+  height: 100%;
+  margin-left: 50%;
+  display: flex;
+  gap: 12px;
+  padding: 5px;
+}
+.reviewPlate .content-container .about-review .ui .wrapper > * {
+  height: 100%;
+  flex: 1;
+  cursor: pointer;
+  border: solid 2px transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  font-weight: 900;
+}
+.reviewPlate .content-container .about-review .ui .wrapper > *:hover {
+  border: solid 2px white;
+}
+.reviewPlate .content-container .about-review .ui .wrapper .like {
+  gap: 12px;
+}
+.reviewPlate .content-container .about-review .ui .wrapper .like .icon {
+  font-size: 40px;
+}
+.reviewPlate .content-container .about-review .ui .wrapper .like .score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
 }

@@ -61,3 +61,12 @@ const handleClickPopupConfirm = function () {
   popupPlace().hide();
   clearTimeout(timeout);
 };
+
+const handleClickReviewLike = function () {
+  console.log("like");
+  const score = +$("#likeScore").text();
+  $("#likeScore").text(score + 1);
+};
+const handleClickReviewDelete = function () {
+  console.log("delete");
+};
