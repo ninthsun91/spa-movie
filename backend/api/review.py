@@ -2,7 +2,8 @@ from flask import Blueprint, jsonify, request
 from bson.objectid import ObjectId
 from datetime import datetime
 
-from ..config import *
+from ..config import Pymongo
+from ..database import *
 from ..util import *
 
 
@@ -25,7 +26,7 @@ def review_view():
     rids = movie["reviews"]
     reviews = []
     for rid in rids:
-        reviews.append(reviews_id(rid))
+        reviews.append(review_id(rid))
 
     return jsonify({ "reviews": reviews })
 

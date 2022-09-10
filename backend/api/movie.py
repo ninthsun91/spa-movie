@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify
-
-from ..config import *
-from ..util import *
+from ..config import Pymongo
+from ..database import *
 
 
 movie_bp = Blueprint("movie", __name__)
@@ -20,7 +19,7 @@ def movie_view():
                     userRating, description, reviews }
     """
     code = int(request.args["code"])
-    movie = movies_code(code)
+    movie = movie_code(code)
 
     return jsonify({ "movie": movie })
 
@@ -31,8 +30,8 @@ def movie_view():
 def list_recent():
     """
     요청예시
-        : GET, "/recent?dir=left" or "/rev/recent?page=3"
-        : dir = left | right, page = 1 이상의 자연수
+        : GET, "/recent?page=page", "/recentrev?page=page"
+        : page = 검색결과 페이지 넘버. 자연수
     반환
         : { movies|reviews, max_page }
         : 반환 원하는 필드는 아래 field 리스트에 기입
@@ -59,15 +58,13 @@ def list_recent():
         return jsonify( result )
 
 
-
-
 # 홈 최신 영화 목록
 @movie_bp.route("/now")
 def list_now():
     """
     요청예시
-        : GET, "/now?dir=right"
-        : dir = left | right
+        : GET, "/now?page=page", 
+        : page = 검색결과 페이지 넘버. 자연수
     반환
         : { movies: [Array(:dic, length=4)] }
         : 반환 원하는 필드는 아래 field 리스트에 기입
@@ -86,8 +83,8 @@ def list_now():
 def list_trend():
     """
     요청예시
-        : GET, "/trend?dir=left" or "/rev/trend?dir=right"
-        : dir = left | right
+        : GET, "/trend?page=page", "/trendrev?page=page"
+        : page = 검색결과 페이지 넘버. 자연수
     반환
         : { movies: [Array(:dic, length=4/3)]}
         : 반환 원하는 필드는 아래 field 리스트에 기입
@@ -130,48 +127,12 @@ def search_title():
 
 
 
-@movie_bp.route("/rev/test2")
+
+
 @movie_bp.route("/test2")
 def test2():
 
-    # # reviews = reviews_likes()
-    # # print(type(reviews), len(reviews))
-
-    # query = request.args.get("type")
-    # if query=="recent" :
-    #     reviews = reviews_time()
-    #     for review in reviews :
-    #         print(review)
-    #         movie = movies_code(int(review["code"]))
-    #         review["movie"] = movie
-    # elif query=="popular" : 
-    #     reviews = reviews_likes()
-    #     print(type(reviews), len(reviews))
-    #     for review in reviews :
-    #         # print(review)
-    #         movie = movies_code(int(review["code"]))
-    #         print(movie)
-    #         review["movie"] = movie["image"]
-
-    # # print(reviews)
-    # # print(type(reviews))
-
-    query = request.args.get("type")
-
-    field = [ "_id", "code", "username", "title", "comment",
-        "userRating", "likes", "time" ]
-    result = review_card(query, field)
-    reviews = result["reviews"]
-    max_page = result["max_page"]
-
-    for review in reviews:
-        movie = movies_code(int(review["code"]))
-        review["m_title"] = movie["title"]
-        review["image"] = movie["image"]
-
-
-
-    return jsonify({ "reviews": reviews })
+    return ""
 
 def test3(a):
     
@@ -188,57 +149,3 @@ def test():
     "skills": ["node.js", "python3"]
    }   
    return render_template("test.html", a=a)
-
-
-# 네이버 영화DB 스크랩 -> DB 유지관리용. 웹사이트에는 사용 안될거에요
-@movie_bp.route("/scrap", methods=["GET"])
-def scrap():
-    print("scrap")
-
-    from bs4 import BeautifulSoup
-    import requests
-
-    url = "https://movie.naver.com/movie/sdb/rank/rmovie.naver?sel=cnt&tg=0&date=20220901"
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
-    data = requests.get(url, headers=headers)
-    soup = BeautifulSoup(data.text, 'html.parser')
-
-    # #old_content > table > tbody > tr:nth-child(2) > td.title
-    body = soup.select_one("#old_content > table > tbody")
-    # old_content > table > tbody > tr:nth-child(2) > td.title > div > a
-    tags = body.select("tr > td.title > div > a")
-    for tag in tags:
-        title = tag["title"]
-        code = int(tag["href"].split("code=")[1])
-
-        naver = search_naver(title)[0]
-
-        url = f"https://movie.naver.com/movie/bi/mi/basic.naver?code={code}"
-        data = requests.get(url, headers=headers)
-        soup = BeautifulSoup(data.text, 'html.parser')
-        desc = soup.select_one("#content > div.article > div.section_group.section_group_frst > div:nth-child(1) > div > div.story_area > p")
-        pubDate = soup.select_one("#content > div.article > div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(4)")
-                                   #content > div.article > div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(3) > a:nth-child(1)
-                                   #content > div.article > div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(3)
-        movie = {
-            "code": code,
-            "image": naver["image"],
-            "title": title,
-            "director": naver["director"],
-            "actor": naver["actor"],
-            "pubDate": remove_tags(str(pubDate)).strip().replace("\n", "")[0:10],
-            "naverRating": naver["naverRating"],
-            "userRating": "0.00",
-            "description": remove_tags(str(desc)),
-            "reviews": [],
-        }
-        find = db.movies.find_one({"code": code})
-        # print(movie)
-        if find is None:
-            print(f"{title} None")
-            db.movies.insert_one(movie)
-        else:
-            print(f"{title} Exists")
-
-    return ""

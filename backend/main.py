@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 
 from .config.session import *
-from .util import *
+from .database import user_uid
 
 
 main_bp = Blueprint("main", __name__)
@@ -21,5 +21,5 @@ def review():
 
 @main_bp.route("/profile")
 def profile():
-    user = users_uid()
+    user = user_uid()
     return render_template("my_page.html", user=user)
