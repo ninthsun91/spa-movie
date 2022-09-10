@@ -8,21 +8,34 @@ from .api.review import *
 components = Blueprint("components", __name__)
 
 @components.route("/reviewcard")
-def review_card():
-    type = request.args.get("type")
-    if type=="recent" :
-        reviews = reviews_time()
-        for index, review in enumerate(reviews) :
-            print(review)
-            movie = movies_code(review["code"])
-            reviews[index]["movie"] = movie
-    elif type=="popular" : 
-        reviews = reviews_likes()
-        for index, review in enumerate(reviews) :
-            print(review)
-            movie = movies_code(review["code"])
-            reviews[index]["movie"] = movie
-    return render_template("components/review_card.html",reviews=reviews)
+def review_list():
+    query = request.args.get("type")
+
+    field = [ "_id", "code", "username", "title", "comment",
+        "userRating", "likes", "time" ]
+    result = review_card(query, field)
+    reviews = result["reviews"]
+    max_page = result["max_page"]
+
+    return render_template("components/review_card.html", reviews=reviews)
+
+# def review_card():
+#     type = request.args.get("type")
+#     if type=="recent" :
+#         reviews = reviews_time()
+#         for index, review in enumerate(reviews) :
+#             print(review)
+#             movie = movies_code(review["code"])
+#             reviews[index]["movie"] = movie
+#     elif type=="popular" : 
+#         reviews = reviews_likes()
+#         for index, review in enumerate(reviews) :
+#             print(review)
+#             movie = movies_code(review["code"])
+#             reviews[index]["movie"] = movie
+
+#     return render_template("components/review_card.html", reviews=reviews)
+
 
 @components.route("/postercard")
 def poster_list():
@@ -40,29 +53,9 @@ def poster_list():
         movies = result["movies"]
         max_page = result["max_page"]
 
-    return render_template("components/poster_card.html",movies=movies,direction=direction)
+    return render_template("components/poster_card.html", movies=movies, direction=direction)
 
-# def poster_card():
-#     type = request.args.get("type")
-#     direction = request.args.get("direction")
-#     count = int(request.args.get("count"))
-    
-#     if(type =="most_reviewed"):
-#         movies = movies_rcount(40)
-#     elif(type == "new") :
-#         movies = movies_pubDate(40)
-#     elif(type =="search"):
-#         keyword = request.args.get("keyword")
-#         naver = search_naver(keyword)    
-#         for n in naver:
-#             [n.pop(key) for key in ["naverRating"]]
-#         db = movies_title(keyword, 10)
-#         for d in db:
-#             [d.pop(key) for key in ["_id", "naverRating", "userRating","description", "reviews"]]
-#         movies = db + naver
-#     movies = movies[0:count]
-#     print("movies! : ",movies)
-#     return render_template("components/poster_card.html",movies=movies,direction=direction)
+
 
 
 @components.route("/signup")
