@@ -57,6 +57,12 @@ def poster_list():
 
 
 
+@components.route("/profile/update")
+def profile_update():
+    return render_template("components/profile.html")
+
+
+
 
 @components.route("/signup")
 def sign_up():
@@ -124,51 +130,3 @@ def movie_with_reviews():
         [movie.pop(key) for key in ["userRating", "description", "reviews"]]
 
     # return render_template("components/poster_card.html",movies=movies,direction=direction)
-
-
-
-# @components.route("/reviewcard")
-# def review_card():
-#     type = request.args.get("type")
-#     if type=="recent" :
-#         reviews = reviews_time()
-#         for index, review in enumerate(reviews) :
-#             print(review)
-#             movie = movies_code(review["code"])
-#             reviews[index]["movie"] = movie
-#     elif type=="popular" : 
-#         reviews = reviews_likes()
-#         for index, review in enumerate(reviews) :
-#             print(review)
-#             movie = movies_code(review["code"])
-#             reviews[index]["movie"] = movie
-#     return render_template("components/review_card.html",reviews=reviews)
-
-# @components.route("/postercard")
-# def poster_card():
-#     type = request.args.get("type")
-#     direction = request.args.get("direction")
-#     count = int(request.args.get("count"))
-    
-#     if(type =="most_reviewed"):
-#         movies = movies_rcount(40)
-#     elif(type == "new") :
-#         movies = movies_pubDate(40)
-# # File "d:\dev\spa-movie\backend\components.py", line 49, in <listcomp>
-# #     [movie.pop(key) for key in ["userRating", "description", "reviews"]]
-# # KeyError: 'userRating'
-# # 이렇게 생긴오류가 뜹니다 
-#     elif(type =="search"):
-#         keyword = request.args.get("keyword")
-#         naver = search_naver(keyword)    
-#         for n in naver:
-#             [n.pop(key) for key in ["image", "naverRating"]]
-#         db = movies_title(keyword, 10)
-#         for d in db:
-#             [d.pop(key) for key in ["_id", "image", "naverRating", "userRating","description", "reviews"]]
-#         movies = db + naver
-#         print("movies! : ",movies)
-#     movies = movies[0:count]
-#     for movie in movies:
-#         [movie.pop(key) for key in ["userRating", "description", "reviews"]]
-#     return render_template("components/poster_card.html",movies=movies,direction=direction)

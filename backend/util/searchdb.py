@@ -336,6 +336,7 @@ def movie_card(query: str, field: list, page=None, keyword=None):
     : query = recent | now | trend | trendrev
     : field = 반환을 원하는 데이터 필드
     : page = request.args. 페이지 요청 관련 QS. 없으면 첫페이지 데이터 반환
+    : keyword = 검색어. query=search 일때만 입력.
 
     return { movies, max_page }
     """
