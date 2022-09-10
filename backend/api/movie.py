@@ -74,7 +74,7 @@ def list_now():
         : 전체필드 = [ "code", "title", "director", "actor", "pubDate",
                 "naverRating", "userRating", "description", "reviews" ]
     """   
-    field = ["userRating", "description", "reviews"]
+    field = [ "code", "title", "director", "actor", "pubDate", "naverRating" ]
     result = movie_card("now", field, request.args)
 
     return jsonify( result )
@@ -97,11 +97,11 @@ def list_trend():
     """
     # from /rev
     if "rev" in request.path:
-        field = ["naverRating", "description", "reviews"]
+        field = [ "code", "title", "director", "actor", "pubDate", "naverRating" ]
         result = movie_card("trendrev", field, request.args)
     # from /
     else:
-        field = ["naverRating", "description", "reviews"]
+        field = [ "code", "title", "director", "actor", "pubDate", "naverRating" ]
         result = movie_card("trend", field, request.args)
 
     return jsonify( result )
@@ -123,7 +123,7 @@ def search_title():
     keyword = request.form["keyword"]
 
     search_naver(keyword)
-    field = ["code", "title", "director", "actor", "pubDate"]
+    field = ["code", "image", "title", "director", "actor", "pubDate", "naverRating"]
     movies = movie_field(movies_title(keyword, 10), field)
 
     return jsonify({ "result": movies })

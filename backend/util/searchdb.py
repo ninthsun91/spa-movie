@@ -221,7 +221,7 @@ CardList = {
 
 
 
-# 영화 카드 데이터 생성
+
 def movie_card(query: str, field: list, page=None):
     """
     : query = recent | now | trend | trendrev
@@ -247,9 +247,6 @@ def movie_card(query: str, field: list, page=None):
     return { "movies": result, "max_page": max_page }
 
 
-"""
-type = recentrev | popular
-"""
 def review_card(query: str, field: list, page=None):
     """
     : query = recentrev | popular
