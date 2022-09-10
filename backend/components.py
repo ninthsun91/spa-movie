@@ -58,7 +58,10 @@ def poster_list():
 
 @components.route("/profile/update")
 def profile_update():
-    return render_template("components/profile.html")
+    tagId = request.args.get("tagId")
+    user = users_uid()
+    
+    return render_template("components/profile.html", user=user, tagId=tagId)
 
 
 
