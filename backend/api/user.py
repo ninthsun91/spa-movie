@@ -9,6 +9,13 @@ user_bp = Blueprint("user", __name__)
 db = Pymongo.db
 
 
+@user_bp.route("/user")
+def user_info():
+   user = users_uid()
+
+   return jsonify({ "user": user })
+
+
 # 로그인
 @user_bp.route("/signin", methods=["POST"])
 def sign_in():
@@ -125,6 +132,10 @@ def profile_reviews():
       reviews.append(review)
    
    return jsonify({ "reviews": reviews })
+
+
+
+
 
 
 # 회원 목록 확인용 임시 도구

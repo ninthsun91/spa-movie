@@ -11,6 +11,10 @@ def password_hash(password):
 
 
 def create_token(user):
+    """
+    로그인 토큰 생성
+        : user document
+    """
     payload = {
         "uid": user["uid"],
         "username": user["username"],
@@ -30,13 +34,22 @@ login_check(): 로그인 여부 확인
 token_check(): 토큰 유효성 확인
                api요청 받을 때
 """
+
 def login_check():
+    """
+    : 로그인 여부 확인
+    : 페이지/모달 렌더링 할 때 사용하세요.
+    """
     token = request.cookies.get("logintoken")
     if token is None:
         return True
 
 
 def token_check():
+    """
+    : 로그인 유효성 확인
+    : 입력폼 제출 등 로그인이 필요한 액션을 할 때 사용하세요.
+    """
     token = request.cookies.get("logintoken")
     try:
         payload = jwt.decode(token, Env.HKY, algorithms="HS256")

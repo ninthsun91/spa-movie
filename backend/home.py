@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template
 
 from .config.session import *
+from .util import *
 
 
 home_bp = Blueprint("home", __name__)
@@ -20,4 +21,5 @@ def review():
 
 @home_bp.route("/profile")
 def profile():
-   return render_template("my_page.html")
+    user = users_uid()
+    return render_template("my_page.html", user=user)

@@ -1,5 +1,4 @@
-from cmath import rect
-from flask import Blueprint, render_template,request,jsonify
+from flask import Blueprint, render_template, request
 
 from .util import *
 from .api.review import *
