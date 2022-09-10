@@ -1,5 +1,4 @@
-from cmath import rect
-from flask import Blueprint, render_template,request,jsonify
+from flask import Blueprint, render_template, request
 
 from .util import *
 from .api.review import *
@@ -59,7 +58,10 @@ def poster_list():
 
 @components.route("/profile/update")
 def profile_update():
-    return render_template("components/profile.html")
+    tagId = request.args.get("tagId")
+    user = users_uid()
+    
+    return render_template("components/profile.html", user=user, tagId=tagId)
 
 @components.route("/signup")
 def sign_up():

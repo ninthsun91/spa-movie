@@ -33,6 +33,13 @@ def reviews_id(rid):
 
     return review
 
+def users_uid():
+    payload = token_check()
+    if payload is not None:
+        uid = payload.get("uid")
+        
+        return db.users.find_one({"uid": uid}, {"_id": False})
+
 
 
 """
