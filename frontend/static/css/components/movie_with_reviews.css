@@ -1,0 +1,180 @@
+.movie-plate {
+  width: 100%;
+  height: 100%;
+}
+.movie-plate header {
+  width: 100%;
+  height: 130px;
+  background-color: rgb(30, 30, 30);
+  font-style: italic;
+  font-weight: 900;
+  font-size: 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+.movie-plate header h2 {
+  color: white;
+  margin: 12px 0 0 44px;
+  padding: 0 0 4px 24px;
+  border-bottom: solid 1.5px white;
+  width: 100%;
+}
+.movie-plate header .divider {
+  margin: 6px 0 0 96px;
+  height: 2.5px;
+  width: 100%;
+  background-color: white;
+}
+.movie-plate .content-container {
+  background-color: rgb(240, 240, 240);
+  height: 80%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  color: black;
+}
+.movie-plate .content-container .about-movie {
+  flex: 1;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.movie-plate .content-container .about-movie .poster-wrapper {
+  position: relative;
+  z-index: 2;
+  flex: 5;
+}
+.movie-plate .content-container .about-movie .poster-wrapper img {
+  box-shadow: 8px 12px 0px rgb(30, 30, 30);
+}
+.movie-plate .content-container .about-movie .title {
+  position: relative;
+  flex: 1;
+  font-size: 24px;
+  font-weight: 900;
+  margin-top: 12px;
+  padding: 6px 12px;
+  gap: 6px;
+}
+.movie-plate .content-container .about-movie .title .value {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.movie-plate .content-container .about-movie .title .divider {
+  position: absolute;
+  top: 36px;
+  left: 30%;
+  width: 300%;
+  height: 4px;
+  background-color: rgb(30, 30, 30);
+}
+.movie-plate .content-container .about-review {
+  flex: 3;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px;
+}
+.movie-plate .content-container .about-review .main {
+  flex: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 3px;
+}
+.movie-plate .content-container .about-review .main .divider {
+  margin-left: -30px;
+  width: 100%;
+  height: 3px;
+  background-color: rgb(30, 30, 30);
+}
+.movie-plate .content-container .about-review .main .divider:first-child {
+  background-color: red;
+}
+.movie-plate .content-container .about-review .main .divider:last-child {
+  display: none;
+}
+.movie-plate .content-container .about-review .main .title {
+  display: flex;
+  align-items: flex-end;
+}
+.movie-plate .content-container .about-review .main .title span {
+  padding: 0 12px 6px 42px;
+  font-weight: 900;
+  font-size: 36px;
+}
+.movie-plate .content-container .about-review .main .infor {
+  max-height: 42px;
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 12px;
+}
+.movie-plate .content-container .about-review .main .infor .rating {
+  width: 35%;
+  position: relative;
+}
+.movie-plate .content-container .about-review .main .infor .rating .star-wrapper {
+  position: absolute;
+  left: -12px;
+  top: -4px;
+}
+.movie-plate .content-container .about-review .main .infor .rating .star-wrapper .star-rating {
+  transform: scale(0.6);
+}
+.movie-plate .content-container .about-review .main .infor .rating .star-score {
+  font-size: 24px;
+  position: absolute;
+  right: 0px;
+  height: 100%;
+  width: 86px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.movie-plate .content-container .about-review .main .infor .rating .star-score .label {
+  font-size: 14px;
+}
+.movie-plate .content-container .about-review .main .infor .rating .star-score .rate {
+  font-weight: 800;
+}
+.movie-plate .content-container .about-review .main .infor .rating .star-score .rate > span {
+  font-size: 14px;
+}
+.movie-plate .content-container .about-review .main .infor .details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  justify-content: center;
+}
+.movie-plate .content-container .about-review .main .infor .details span {
+  font-weight: 900;
+}
+.movie-plate .content-container .about-review .main .content {
+  flex: 4;
+  padding: 12px;
+}
+.movie-plate .content-container .about-review .ui {
+  position: relative;
+  z-index: 2;
+  color: white;
+  flex: 1;
+}
+.movie-plate .content-container .about-review .ui .wrapper {
+  background-color: rgb(30, 30, 30);
+  height: 50%;
+  margin-top: 3%;
+  margin-left: 50%;
+  display: flex;
+  gap: 12px;
+  padding: 5px;
+}
