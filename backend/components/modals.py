@@ -23,7 +23,7 @@ def profile_update():
     tagId = request.args.get("tagId")
     user = user_uid()
     
-    return render_template("components/profile.html", user=user, tagId=tagId)
+    return render_template("components/profile.html", user=user, tag_to_empty=tagId)
 
 
 @modals_ext.route("/moviesearch")

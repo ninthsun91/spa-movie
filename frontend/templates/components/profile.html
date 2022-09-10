@@ -1,6 +1,39 @@
-{% extends "inheritance/modal_small.html"%}
-{%block content%}
-<section>
- 안녕하세요!
-</section>
-{%endblock%}
+{% extends "inheritance/modal_small.html" %}
+{% block content %}
+    <section>
+        <header><h2>My Profile</h2></header>
+        <form onsubmit="handleSubmitSignIn(event)">
+            <div class="input-wrapper">
+                <label for="signUpId">id</label>
+                <input
+                        oninput="handleInputSignInId(event)"
+                        id="signInId"
+                        type="text"
+                        required
+                        minlength="3"
+                        maxlength="15"
+                        autocomplete="username"
+                />
+            </div>
+
+            <div class="input-wrapper">
+                <label for="signInPw">password</label>
+                <input
+                        oninput="handleInputSignInPw(event)"
+                        id="signInPw"
+                        type="password"
+                        required
+                        minlength="8"
+                        maxlength="15"
+                        autocomplete="password"
+                />
+            </div>
+
+            <div id="signInErrorMessage" class="error-message"></div>
+            <div class="button-wrapper">
+                <input type="button" value="cancel" onclick="handleClickProfileCancel()"/>
+                <button>submit</button>
+            </div>
+        </form>
+    </section>
+{% endblock %}
