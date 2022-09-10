@@ -1,5 +1,5 @@
 from cmath import rect
-from flask import Blueprint, render_template,request
+from flask import Blueprint, render_template,request,jsonify
 
 from .util import *
 from .api.review import *
@@ -26,14 +26,28 @@ def review_card():
 
 @components.route("/postercard")
 def poster_card():
-    
     type = request.args.get("type")
     direction = request.args.get("direction")
     count = int(request.args.get("count"))
+    
     if(type =="most_reviewed"):
         movies = movies_rcount(40)
     elif(type == "new") :
         movies = movies_pubDate(40)
+# File "d:\dev\spa-movie\backend\components.py", line 49, in <listcomp>
+#     [movie.pop(key) for key in ["userRating", "description", "reviews"]]
+# KeyError: 'userRating'
+# 이렇게 생긴오류가 뜹니다 
+    elif(type =="search"):
+        keyword = request.args.get("keyword")
+        naver = search_naver(keyword)    
+        for n in naver:
+            [n.pop(key) for key in ["image", "naverRating"]]
+        db = movies_title(keyword, 10)
+        for d in db:
+            [d.pop(key) for key in ["_id", "image", "naverRating", "userRating","description", "reviews"]]
+        movies = db + naver
+        print("movies! : ",movies)
     movies = movies[0:count]
     for movie in movies:
         [movie.pop(key) for key in ["userRating", "description", "reviews"]]

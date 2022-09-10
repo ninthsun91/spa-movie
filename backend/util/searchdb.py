@@ -185,6 +185,7 @@ def search_naver(keyword):
 
 # 네이버영화API 검색 결과 중 상위 5개만 DB에 등록
 def movie_add(movies):
+    cnt = 0
     for movie in movies:
         title = movie["title"]
         code = movie["code"]
@@ -217,7 +218,6 @@ def movie_add(movies):
         }
         find = db.movies.find_one({"code": code})
 
-        cnt = 0
         if find is None:
             db.movies.insert_one(movie)
             cnt += 1
