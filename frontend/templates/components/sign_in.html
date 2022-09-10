@@ -1,38 +1,38 @@
-{% extends "inheritance/modal_small.html"%} {%block content%}
-<section>
-  <header><h2>sign in</h2></header>
-  <form onsubmit="handleSubmitSignIn(event)">
-    <div class="input-wrapper">
-      <label for="signUpId">id</label>
-      <input
-        oninput="handleInputSignInId(event)"
-        id="signInId"
-        type="text"
-        required
-        minlength="3"
-        maxlength="15"
-        autocomplete="username"
-      />
-    </div>
+{% extends "inheritance/modal_small.html" %} {% block content %}
+    <section>
+        <header><h2>sign in</h2></header>
+        <form onsubmit="handleSubmitSignIn(event)">
+            <div class="input-wrapper">
+                <label for="signUpId">id</label>
+                <input
+                        oninput="handleInputSignInId(event)"
+                        id="signInId"
+                        type="text"
+                        required
+                        minlength="3"
+                        maxlength="15"
+                        autocomplete="username"
+                />
+            </div>
 
-    <div class="input-wrapper">
-      <label for="signInPw">password</label>
-      <input
-        oninput="handleInputSignInPw(event)"
-        id="signInPw"
-        type="password"
-        required
-        minlength="8"
-        maxlength="15"
-        autocomplete="password"
-      />
-    </div>
+            <div class="input-wrapper">
+                <label for="signInPw">password</label>
+                <input
+                        oninput="handleInputSignInPw(event)"
+                        id="signInPw"
+                        type="password"
+                        required
+                        minlength="8"
+                        maxlength="15"
+                        autocomplete="password"
+                />
+            </div>
 
-    <div id="signInErrorMessage" class="error-message"></div>
-    <div class="button-wrapper">
-      <input type="button" value="cancel" onclick="handleClickSignInCancel()" />
-      <button>submit</button>
-    </div>
-  </form>
-</section>
-{%endblock%}
+            <div id="signInErrorMessage" class="error-message"></div>
+            <div class="button-wrapper">
+                <input type="button" value="cancel" onclick="handleClickSignInCancel()"/>
+                <button>submit</button>
+            </div>
+        </form>
+    </section>
+{% endblock %}

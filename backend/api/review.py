@@ -76,18 +76,20 @@ def review_write():
 @review_bp.route("/popular")        # 리뷰2개, 페이지네이션
 def list_popular():
     """
-    요청예시: GET, "/popular?page=page"
-        page = 1 이상의 자연수
-    반환: { reviews: [Array(:dic, length=2)], max_page }
-        dic = { _id, code, username, title, comment, userRating, likes, time }
-        likes = 좋아요 수
+    요청예시
+        : GET, "/popular?page=page"
+        : page = 1 이상의 자연수
+    반환
+        : { reviews, max_page }
+        : 반환 원하는 필드는 아래 field 리스트에 기입
+        : revies 전체필드 = [ "_id", "code", "username", "title", "comment",
+                "userRating", "likes", "time" ]
     """
-    reviews = reviews_likes()
+    field = [ "_id", "code", "username", "title", "comment",
+        "userRating", "likes", "time" ]
+    result = review_card("popular", field, request.args)
 
-    skip = session_page("review_popular", request.args)
-    max_page = len(reviews) / 2
-
-    return jsonify({ "reviews": reviews[skip:skip+2], "max_page": max_page })
+    return jsonify( result )
 
 
 # 좋아요 수 조회

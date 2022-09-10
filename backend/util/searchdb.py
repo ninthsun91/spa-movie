@@ -1,42 +1,49 @@
 from bson.objectid import ObjectId
 from bs4 import BeautifulSoup
+from ordered_set import OrderedSet
 import urllib.request
 import json
 import requests
 
 from ..config import *
 from .validator import *
+from .cookie import *
 
 db = Pymongo.db
 
 
-# MongoDB 영화 code 검색
+
+"""
+single search
+"""
+
 def movies_code(code):
+    """
+    영화 code로 DB 검색
+    """
     return db.movies.find_one({"code": code}, {"_id": False})
 
 
-# MongoDB 영화 title 검색
-def movies_title(keyword, limit=None, skip=0):
-    if limit is None:
-        limit = get_size("movies")
-    pipeline = [
-        {
-        "$search": {
-            "index": "spa_movies",
-            "text": {
-                "query": keyword,
-                "path": "title",
-            }
-        }
-        }, {"$limit": limit}, {"$skip": skip}
-    ]
+def reviews_id(rid):
+    """
+    리뷰 _id로 DB 검색
+    """
+    review = db.reviews.find_one({"_id": ObjectId(rid)})
+    review["_id"] = str(review["_id"])
 
-    # return movies (title matching keyword)
-    return list(db.movies.aggregate(pipeline))
+    return review
 
 
-# MongoDB 영화 pubDate 검색. 개봉순 정렬
+
+"""
+search and sort
+"""
+
+
 def movies_pubDate(limit=None, skip=0):
+    """
+    영화 최신순(개봉일순) 정렬
+    """
     if limit is None:
         limit = get_size("movies")
     pipeline = [
@@ -60,8 +67,12 @@ def movies_pubDate(limit=None, skip=0):
     return list(db.movies.aggregate(pipeline))
 
 
-# MongoDB 영화 검색. reviews 개수 정렬
 def movies_rcount(limit=None, skip=0):
+    """
+    영화 리뷰 개수 정렬
+
+    review_count = 리뷰 개수 함께 반환
+    """
     if limit is None:
         limit = get_size("movies")
     pipeline = [
@@ -92,16 +103,10 @@ def movies_rcount(limit=None, skip=0):
     return list(db.movies.aggregate(pipeline))
 
 
-# MongoDB 리뷰 _id 검색
-def reviews_id(rid):
-    review = db.reviews.find_one({"_id": ObjectId(rid)})
-    review["_id"] = str(review["_id"])
-
-    return review
-
-
-# MongoDB 리뷰 검색. 최신순 정렬
 def reviews_time(limit=None, skip=0):
+    """
+    리뷰 최근 업데이트순 정렬
+    """
     if limit is None:
         limit = get_size("reviews")
     pipeline = [
@@ -118,8 +123,12 @@ def reviews_time(limit=None, skip=0):
     return reviews
 
 
-# MongoDB 리뷰 검색. 좋아요순 정렬
 def reviews_likes(limit=None, skip=0):
+    """
+    리뷰 좋아요 개수 정렬
+
+    likes = 좋아요 개수가 대신 들어감
+    """
     if limit is None:
         limit = get_size("reviews")
     pipeline = [
@@ -147,13 +156,157 @@ def reviews_likes(limit=None, skip=0):
     return reviews
 
 
-# collection 크기
-def get_size(collection):
-    return db[collection].count_documents({})
+def movie_main(limit=None, skip=0):
+    """
+    최근 리뷰가 달린 영화
+    """
+    code = get_codes(reviews_time(), limit)[skip]
+    
+    return [movies_code(code)]
 
 
-# 네이버영화 검색 API
+"""
+process card list
+"""
+
+# class MovieCard:
+#     def __init__(self, get, show, max_page, skip=0):
+#         self.get = get
+#         self.show = show
+#         self.max_page = max_page
+#         self.skip = skip
+
+# class ReviewCard:
+#     def __init__(self, get, show, skip=0):
+#         self.get = get
+#         self.show = show
+#         self.skip = skip
+
+# class CardList:
+#     recent = MovieCard(reviews_time, 1, 3)
+#     now = MovieCard(movies_pubDate, 4, 10)
+#     trend = MovieCard(movies_rcount, 4, 10)
+#     trendrev = MovieCard(movies_rcount, 3, 10)
+
+#     recentrev = ReviewCard(reviews_time, 2)
+#     popular = ReviewCard(reviews_likes, 2)
+
+
+CardList = {
+    "recent": {
+        "get": movie_main,
+        "show": 1,
+        "max_page": 3,
+    }, "now": {
+        "get": movies_pubDate,
+        "show": 4,
+        "max_page": 10,
+    }, "trend": {
+        "get": movies_rcount,
+        "show": 4,
+        "max_page": 10,
+    }, "trendrev": {
+        "get": movies_rcount,
+        "show": 3,
+        "max_page": 10,
+    }, "recentrev": {
+        "get": reviews_time,
+        "show": 2,
+    }, "popular": {
+        "get": reviews_likes,
+        "show": 2,
+    },
+}
+
+
+
+
+
+def movie_card(query: str, field: list, page=None):
+    """
+    : query = recent | now | trend | trendrev
+    : field = 반환을 원하는 데이터 필드
+    : page = request.args. 페이지 요청 관련 QS. 없으면 첫페이지 데이터 반환
+
+    return { movies, max_page }
+    """
+    get = CardList[query]["get"]
+    max_page = CardList[query]["max_page"]
+    show = CardList[query]["show"]
+
+    if "dir" in page: 
+        skip = session_dir(query, page, max_page, show)
+    elif "page" in page:
+        skip = session_page(query, page)
+    elif page == None or len(page) == 0:
+        skip = 0
+
+    movies = get(max_page*show, skip)
+    result = movie_field(movies[0:show], field)
+
+    return { "movies": result, "max_page": max_page }
+
+
+def review_card(query: str, field: list, page=None):
+    """
+    : query = recentrev | popular
+    : field = 반환을 원하는 데이터 필드
+    : page = request.args. 페이지 요청 관련 QS. 없으면 첫페이지 데이터 반환
+
+    return { reviews, max_page }
+    """
+    get = CardList[query]["get"]
+    show = CardList[query]["show"]
+    reviews = get()
+    max_page = len(reviews) / show
+
+    if "dir" in page: 
+        skip = session_dir(query, page, max_page, show)
+    elif "page" in page:
+        skip = session_page(query, page)
+    elif page == None or len(page) == 0:
+        skip = 0
+
+    result = review_field(reviews[skip:skip+show], field)
+
+    return { "reviews": result, "max_page": max_page }
+
+
+
+
+
+
+"""
+title search by keword
+"""
+
+
+def movies_title(keyword, limit=None, skip=0):
+    """
+    keyword로 영화제목 DB 검색
+    """
+    if limit is None:
+        limit = get_size("movies")
+    pipeline = [
+        {
+        "$search": {
+            "index": "spa_movies",
+            "text": {
+                "query": keyword,
+                "path": "title",
+            }
+        }
+        }, {"$limit": limit}, {"$skip": skip}
+    ]
+
+    # return movies (title matching keyword)
+    return list(db.movies.aggregate(pipeline))
+
+
 def search_naver(keyword):
+    """
+    keyword로 영화제목 네이버영화 검색
+    """
     query = urllib.parse.quote(keyword)
     url = Env.NMV + query
 
@@ -170,22 +323,22 @@ def search_naver(keyword):
             summary = {
             "title": remove_tags(item["title"]),
             "code": int(item["link"].split("?code=")[1]),
-            "image": item["image"],
             "director": item["director"].strip("|"),
             "actor": item["actor"].strip("|"),
             "pubDate": item["pubDate"],
             "naverRating": item["userRating"],
             }
             result.append(summary)
-        movie_add(result[0:5])
+        movie_add(result[0:10])
         return result
     else:
         return print(f"Error Code: {rescode}")
 
 
-# 네이버영화API 검색 결과 중 상위 5개만 DB에 등록
 def movie_add(movies):
-    cnt = 0
+    """
+    네이버영화 검색 결과 DB에 등록
+    """
     for movie in movies:
         title = movie["title"]
         code = movie["code"]
@@ -218,6 +371,7 @@ def movie_add(movies):
         }
         find = db.movies.find_one({"code": code})
 
+        cnt = 0
         if find is None:
             db.movies.insert_one(movie)
             cnt += 1
@@ -225,8 +379,37 @@ def movie_add(movies):
     return print(f"{cnt} movies added to DB")
 
 
-# 영화 평점(userRating) 계산
+
+
+"""
+others
+"""
+
+
+def get_size(collection):
+    """
+    collection 크기
+    """
+    return db[collection].count_documents({})
+
+
+def get_codes(reviews, limit=100):
+    """
+    리뷰 리스트에서 영화 code 추출
+    """
+    codes = OrderedSet()
+    for review in reviews:
+        codes.add(review["code"])
+        if len(codes)==limit:
+            break
+
+    return list(codes)
+
+
 def update_rating(code):
+    """
+    영화 평점(userRating) 계산
+    """
     movie = db.movies.find_one({"code": code})
 
     sum = 0
@@ -239,3 +422,67 @@ def update_rating(code):
     db.movies.update_one({"code": code}, {"$set": {"userRating": userRating}})
 
     return print(f"{code} userRating: {userRating}")
+
+
+
+"""
+filter field
+"""
+
+def movie_field(movies, field: list):
+    """
+    영화 필드 정리
+
+    field
+        : 출력을 원하는 데이터 field
+        : 전체필드 = [ "code", "title", "director", "actor", "pubDate",
+                "naverRating", "userRating", "description", "reviews" ]
+    """
+    keys = set([ "code", "title", "director", "actor", "pubDate",
+        "naverRating", "userRating", "description", "reviews" ])
+    field = set(field)
+
+    for movie in movies:
+        [movie.pop(key) for key in list(keys-field)]    
+
+    return movies
+
+
+def review_field(reviews, field: list):
+    """
+    리뷰 필드 정리
+
+    field
+        : 출력을 원하는 데이터 field
+        : 전체필드 = [ "_id", "code", "username", "title", "comment",
+                "userRating", "likes", "time" ]
+        
+    """
+    keys = set([ "_id", "code", "username", "title", "comment",
+        "userRating", "likes", "time" ])
+    field = set(field)
+
+    for review in reviews:
+        [review.pop(key) for key in list(keys-field)]    
+
+    return reviews
+
+
+def user_field(users, field: list):
+    """
+    유저 필드 정리
+
+    field
+        : 출력을 원하는 데이터 field
+        : 전체필드 = [ "uid", "username", "password", "email", "contact",
+                "address", "instagram", "reviews" ]
+        
+    """
+    keys = set([ "uid", "username", "password", "email", "contact",
+        "address", "instagram", "reviews" ])
+    field = set(field)
+
+    for user in users:
+        [user.pop(key) for key in list(keys-field)]    
+
+    return users
