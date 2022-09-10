@@ -45,7 +45,12 @@ def token_check():
         return "로그인 세션이 만료되었습니다."
 
 
-def session_dir(session_name, query, max_page, num_show=1):
+# 카드리스트의 페이지 세션쿠키를 갱신하고 skip값으로 리턴 (좌우 페이지)
+def session_dir(session_name, query, max_page, show=1):
+    """
+    : session_name = "recent" | "now" | "trend" | "trendrev"
+    : query = query string
+    """
     if "dir" in query:
         dir = query["dir"]
         if dir=="right":
@@ -57,10 +62,15 @@ def session_dir(session_name, query, max_page, num_show=1):
     page = session.get(session_name)
 
     # return skip
-    return (page * num_show) if page>=0 else ((max_page + page) * num_show)
+    return (page * show) if page>=0 else ((max_page + page) * show)
 
 
+# 카드리스트의 페이지 세션쿠키를 갱신하고 skip값으로 리턴 (페이지네이션)
 def session_page(session_name, query):
+    """
+    : session_name = "recentrev" | "popular"
+    : query = query string
+    """
     if "page" in query:
         page = int(query["page"])
         session[session_name] = page

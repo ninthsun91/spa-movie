@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, request, jsonify
-from ordered_set import OrderedSet
 
 from ..config import *
 from ..util import *
@@ -13,10 +12,11 @@ db = Pymongo.db
 @movie_bp.route("/movie", methods=["GET"])
 def movie_view():
     """
-    요청예시: GET, "/movie?code=999999"
-    code = 영화 code
+    요청예시
+        : GET, "/movie?code=999999"
+        : code = 영화 code
     반환: movie(:dic)
-        movie = { code, image, title, director, actor, pubDate, naverRating,
+        : movie = { code, image, title, director, actor, pubDate, naverRating,
                     userRating, description, reviews }
     """
     code = int(request.args["code"])
@@ -30,57 +30,54 @@ def movie_view():
 @movie_bp.route("/recentrev")
 def list_recent():
     """
-    요청예시: GET, "/recent?dir=left" or "/rev/recent?page=3"
-        dir = left | right, page = 1 이상의 자연수
-    반환: "/recent"     >   movie
-            movie = { code, image, title, director, actor, pubDate,
-                        naverRating, userRating, description, reviews }
-          "/recentrev" >   { reviews: [Array(:dic, length=2)], max_page: max_page(:int) }
-            arry dic = { _id, code, username, title, comment, userRating, likes, time }
-            max_page = 최대 페이지 수 (전체리뷰 / 2)
-    """
-    reviews = reviews_time()
+    요청예시
+        : GET, "/recent?dir=left" or "/rev/recent?page=3"
+        : dir = left | right, page = 1 이상의 자연수
+    반환
+        : { movies|reviews, max_page }
+        : 반환 원하는 필드는 아래 field 리스트에 기입
+        : movies 전체필드 = [ "code", "title", "director", "actor", "pubDate",
+                "naverRating", "userRating", "description", "reviews" ]
 
+        : revies 전체필드 = [ "_id", "code", "username", "title", "comment",
+                "userRating", "likes", "time" ]
+        : max_page = 최대 페이지 수
+    """
     # from /rev
     if "rev" in request.path:
-        skip = session_page("review_recent", request.args)
-        max_page = int(len(reviews) / 2)
+        field = [ "_id", "code", "username", "title", "comment",
+        "userRating", "likes", "time" ]
+        result = review_card("recentrev", field, request.args)
 
-        return jsonify({ "reviews": reviews[skip:skip+2], "max_page": max_page })
+        return jsonify( result )
     # from /
     else:
-        max_page = 3
-        skip = session_dir("home_recent", request.args, max_page)
-        
-        codes = OrderedSet()
-        for review in reviews:
-            codes.add(review["code"])
-            if len(codes)==max_page:
-                break
-        code = list(codes)[skip]
+        field = [ "code", "title", "director", "actor", "pubDate",
+                "naverRating", "userRating", "description", "reviews" ]
+        result = movie_card("recent", field, request.args)
 
-        return jsonify({ "movie": movies_code(code) })
+        return jsonify( result )
+
+
 
 
 # 홈 최신 영화 목록
 @movie_bp.route("/now")
 def list_now():
     """
-    요청예시: GET, "/now?dir=right"
-    dir = left | right
-    반환: { movies: [Array(:dic, length=4)] }
-        dic = { code, image, title, director, actor, pubDate, naverRating }
-    """
-    max_page = 10
-    num_show = 4
-    skip = session_dir("home_now", request.args, max_page, num_show)
+    요청예시
+        : GET, "/now?dir=right"
+        : dir = left | right
+    반환
+        : { movies: [Array(:dic, length=4)] }
+        : 반환 원하는 필드는 아래 field 리스트에 기입
+        : 전체필드 = [ "code", "title", "director", "actor", "pubDate",
+                "naverRating", "userRating", "description", "reviews" ]
+    """   
+    field = [ "code", "title", "director", "actor", "pubDate", "naverRating" ]
+    result = movie_card("now", field, request.args)
 
-    movies = movies_pubDate(max_page*num_show, skip)
-    movies = movies[0:num_show]
-    for movie in movies:
-        [movie.pop(key) for key in ["userRating", "description", "reviews"]]
-
-    return jsonify({ "movies": movies })
+    return jsonify( result )
 
 
 # 홈/리뷰 트랜딩 영화
@@ -88,69 +85,62 @@ def list_now():
 @movie_bp.route("/trendrev")
 def list_trend():
     """
-    요청예시: GET, "/trend?dir=left" or "/rev/trend?dir=right"
-        dir = left | right
-    반환: { movies: [Array(:dic, length=4/3)]}
-        dic = { code, image, title, director, actor, pubDate, userRating, review_count}
-        review_cout = 리뷰 갯수
+    요청예시
+        : GET, "/trend?dir=left" or "/rev/trend?dir=right"
+        : dir = left | right
+    반환
+        : { movies: [Array(:dic, length=4/3)]}
+        : 반환 원하는 필드는 아래 field 리스트에 기입
+        : 전체필드 = [ "code", "title", "director", "actor", "pubDate",
+                "naverRating", "userRating", "description", "reviews", "review_count" ]
+        : review_cout = 리뷰 갯수
     """
     # from /rev
     if "rev" in request.path:
-        max_page = 10
-        num_show = 3
-        skip = session_dir("review_trend", request.args, max_page, num_show)
-
-        movies = movies_rcount(max_page*num_show, skip)
-        movies = movies[0:num_show]
-        for movie in movies:
-            [movie.pop(key) for key in ["naverRating", "description", "reviews"]]
-            
-        return jsonify({ "movies": movies })
+        field = [ "code", "title", "director", "actor", "pubDate", "naverRating" ]
+        result = movie_card("trendrev", field, request.args)
     # from /
     else:
-        max_page = 10
-        num_show = 4
-        skip = session_dir("home_trend", request.args, max_page, num_show)
+        field = [ "code", "title", "director", "actor", "pubDate", "naverRating" ]
+        result = movie_card("trend", field, request.args)
 
-        movies = movies_rcount(max_page*num_show, skip)
-        movies = movies[0:num_show]
-        for movie in movies:
-            [movie.pop(key) for key in ["naverRating", "description", "reviews"]]
-            
-        return jsonify({ "movies": movies })
+    return jsonify( result )
 
 
 # 영화 제목 검색
 @movie_bp.route("/search", methods=["POST"])
 def search_title():
     """
-    요청예시: POST, "/search", data={ keyword(:str) }
-    keyword = 검색어
-    반환: { result: [Array(:dic, length=max20)] }
-        dic = { code, title, director, actor, pubDate }
+    요청예시
+        : POST, "/search", data={ keyword(:str) }
+        : keyword = 검색어
+    반환
+        : { result: [Array(:dic, length=max10)] }
+        : 반환 원하는 필드는 아래 field 리스트에 기입
+        : 전체필드 = [ "_id", "code", "title", "director", "actor", "pubDate",
+                "naverRating", "userRating", "description", "reviews" ]
     """
     keyword = request.form["keyword"]
 
-    naver = search_naver(keyword)    
-    for n in naver:
-        [n.pop(key) for key in ["image", "naverRating"]]
-    db = movies_title(keyword, 10)
-    for d in db:
-        [d.pop(key) for key in ["_id", "image", "naverRating", "userRating",
-                                    "description", "reviews"]]
+    search_naver(keyword)
+    field = ["code", "image", "title", "director", "actor", "pubDate", "naverRating"]
+    movies = movie_field(movies_title(keyword, 10), field)
 
-    return jsonify({ "result": db + naver })
+    return jsonify({ "result": movies })
+
 
 
 
 @movie_bp.route("/rev/test2")
 @movie_bp.route("/test2")
 def test2():
-    print(int(10.11))
+    test3(request.args)
 
     return ""
 
-def test3():    
+def test3(a):
+    
+    print(a["dir"])
     return ""
     
 
