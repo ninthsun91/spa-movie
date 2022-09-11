@@ -71,10 +71,12 @@ def list_now():
         : 전체필드 = [ "code", "title", "director", "actor", "pubDate",
                 "naverRating", "userRating", "description", "reviews" ]
     """   
+    direction = request.args.get("direction")
     field = [ "code", "title", "director", "actor", "pubDate", "naverRating" ]
     result = movie_card("now", field, request.args)
+    movies = result["movies"]
 
-    return jsonify( result )
+    return render_template("components/poster_card.html", movies=movies, direction=direction)
 
 
 # 홈/리뷰 트랜딩 영화
@@ -92,16 +94,18 @@ def list_trend():
                 "naverRating", "userRating", "description", "reviews", "review_count" ]
         : review_cout = 리뷰 갯수
     """
+    direction = request.args.get("direction")
+    field = [ "code", "title", "director", "actor", "pubDate", "naverRating" ]
+
     # from /rev
     if "rev" in request.path:
-        field = [ "code", "title", "director", "actor", "pubDate", "naverRating" ]
         result = movie_card("trendrev", field, request.args)
     # from /
     else:
-        field = [ "code", "title", "director", "actor", "pubDate", "naverRating" ]
         result = movie_card("trend", field, request.args)
+    movies = result["movies"]
 
-    return jsonify( result )
+    return render_template("components/poster_card.html", movies=movies, direction=direction)
 
 
 # 영화 제목 검색
@@ -131,7 +135,9 @@ def search_title():
 
 @movie_bp.route("/test2")
 def test2():
-
+    cc = request.cookies.items()
+    for c in cc:
+        print(c)
     return ""
 
 def test3(a):

@@ -74,20 +74,20 @@ def session_page(session_name, query, show):
 
 # DEPRECATED
 # 카드리스트의 페이지 세션쿠키를 갱신하고 skip값으로 리턴 (좌우 페이지)
-# def session_dir(session_name, query, max_page, show=1):
-#     """
-#     : session_name = "recent" | "now" | "trend" | "trendrev"
-#     : query = query string
-#     """
-#     if "dir" in query:
-#         dir = query["dir"]
-#         if dir=="right":
-#             session[session_name] += 1
-#         elif dir=="left":
-#             session[session_name] -= 1 
-#     if abs(session.get(session_name))==max_page:
-#         session[session_name] = 0
-#     page = session.get(session_name)
+def session_dir(session_name, query, max_page, show=1):
+    """
+    : session_name = "recent" | "now" | "trend" | "trendrev"
+    : query = query string
+    """
+    if "dir" in query:
+        dir = query["dir"]
+        if dir=="right":
+            session[session_name] += 1
+        elif dir=="left":
+            session[session_name] -= 1 
+    if abs(session.get(session_name))==max_page:
+        session[session_name] = 0
+    page = session.get(session_name)
 
-#     # return skip
-#     return (page * show) if page>=0 else ((max_page + page) * show)
+    # return skip
+    return (page * show) if page>=0 else ((max_page + page) * show)

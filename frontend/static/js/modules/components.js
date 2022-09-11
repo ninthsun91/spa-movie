@@ -111,3 +111,48 @@ const handleClickMoviePoster = function (code) {
   loadComponent("modalPlace", `/components/movie-with-reviews?tagId=modalPlace&movieId=${code}`);
   // console.log("poster");
 };
+
+
+
+
+// movie card list button
+
+const handleClickTrendingLeft = () => {
+  page = Number(getCookie("trend")) -1;
+  if (page === 0) page = 10;
+  document.cookie = "trend=" + page;
+
+  loadComponent("movieListTrending", `/trend?direction=vertical&page=${page}`)
+  $("#modalPlace").empty();
+  $("#popupPlace").empty();
+}
+
+const handleClickTrendingRight = () => {
+  page = Number(getCookie("trend")) +1;
+  if (page === 11) page = 1;
+  document.cookie = "trend=" + page;
+
+  loadComponent("movieListTrending", `/trend?direction=vertical&page=${page}`)
+  $("#modalPlace").empty();
+  $("#popupPlace").empty();
+}
+
+const handleClickNowLeft = () => {
+  page = Number(getCookie("now")) -1;
+  if (page === 0) page = 10;
+  document.cookie = "now=" + page;
+
+  loadComponent("movieListNow", `/now?direction=vertical&page=${page}`)
+  $("#modalPlace").empty();
+  $("#popupPlace").empty();
+}
+
+const handleClickNowRight = () => {
+  page = Number(getCookie("now")) +1;
+  if (page === 11) page = 1;
+  document.cookie = "now=" + page;
+
+  loadComponent("movieListNow", `/now?direction=vertical&page=${page}`)
+  $("#modalPlace").empty();
+  $("#popupPlace").empty();
+}

@@ -1,5 +1,14 @@
 const loadPage = (pathname, complete = undefined) => {
   $("#App").load(`${pathname} #AppContainer`, complete);
+  if (pathname === "/") {
+    document.cookie = "now=1"
+    document.cookie = "trend=1"
+  }
+  if (pathname === "/rev") {
+    document.cookie = "popular=1"
+    document.cookie = "trendrev=1"
+    document.cookie = "recentrev=1"
+  }
 };
 
 
@@ -66,14 +75,16 @@ const handleLoadMyPage = (responseText, textStatus, req) => {
 
 const handleLoadHome = () => {
   // console.log("after load home");
-
+  
   setTitle(TITLE.HOME);
-  loadComponent("movieListNow", "/components/postercard?direction=vertical&count=5&type=now");
-  loadComponent("movieListTrending", "/components/postercard?direction=vertical&count=5&type=trend");
+  loadComponent("movieListNow", "/components/postercard?direction=vertical&type=now");
+  loadComponent("movieListTrending", "/components/postercard?direction=vertical&type=trend");
   $("#modalPlace").empty();
   $("#popupPlace").empty();
+
   numberIndicating = 0;
 };
+
 
 
 const handleLoadRev = function () {

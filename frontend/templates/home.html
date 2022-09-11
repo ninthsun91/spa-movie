@@ -44,18 +44,36 @@
   </div>
 </section> -->
 <section class="movies-grouped">
+  <div class="trending">    
+    <div class="divider"><h2>trending</h2></div>
+    <div class="list-wrapper">
+      <div id="movieListTrending" class="movie-list"></div>
+      <div class="chevrons">
+        <div class="left-chevron">
+          <i id="leftChevron" onclick="handleClickTrendingLeft()" class="bi bi-chevron-compact-left">Previous</i>
+        </div>
+        <div class="right-chevron">
+          <i id="rightChevron" onclick="handleClickTrendingRight()" class="bi bi-chevron-compact-right">Next</i>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="now-playing">
     <div class="divider"><h2>now playing</h2></div>
     <div class="list-wrapper">
       <div id="movieListNow" class="movie-list"></div>
+      <div class="chevrons">
+        <div class="left-chevron">
+          <i id="leftChevron" onclick="handleClickNowLeft()" class="bi bi-chevron-compact-left">Previous</i>
+        </div>
+        <div class="right-chevron">
+          <i id="rightChevron" onclick="handleClickNowRight()" class="bi bi-chevron-compact-right">Next</i>
+        </div>
+      </div>
     </div>
+    
   </div>
-  <div class="trending">
-    <div class="divider"><h2>trending</h2></div>
-    <div class="list-wrapper">
-      <div id="movieListTrending" class="movie-list"></div>
-    </div>
-  </div>
+
 </section>
 
 {% endblock %}

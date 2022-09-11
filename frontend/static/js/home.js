@@ -13,6 +13,7 @@ const calculating = (num) => (((num % 3) + 3) % 3) + 1;
 const shrinkSlug = function (num) {
   slugs(calculating(num)).css("width", "7px");
 };
+
 const handleClickLeftChevron = function () {
   if (clickable) {
     clickable = false;
@@ -31,6 +32,7 @@ const handleClickLeftChevron = function () {
     console.log("chevron left");
   }
 };
+
 const handleClickRightChevron = function () {
   if (clickable) {
     clickable = false;
@@ -49,3 +51,5 @@ const handleClickRightChevron = function () {
     console.log("chevron right");
   }
 };
+
+
