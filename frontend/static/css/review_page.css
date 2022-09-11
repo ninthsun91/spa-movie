@@ -146,7 +146,7 @@
   transition: all 0.5s;
   overflow: hidden;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-direction: column;
   align-items: center;
   align-self: flex-end;

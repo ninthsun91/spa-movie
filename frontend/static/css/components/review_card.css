@@ -1,6 +1,6 @@
 .review-card {
   color: rgb(232, 232, 232);
-  height: 72px;
+  min-height: 60px;
   min-width: 730px;
   width: calc(100% - 120px);
   display: flex;

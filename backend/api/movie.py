@@ -51,6 +51,11 @@ def list_recent():
         result = review_card("recentrev", field, request.args)
         reviews = result["reviews"]
 
+        for review in reviews:
+            movie = movie_code(int(review["code"]))
+            review["m_title"] = movie["title"]
+            review["image"] = movie["image"]
+
         return render_template("components/review_card.html", reviews=reviews, query=query)
     # from /
     if query == "recent":
