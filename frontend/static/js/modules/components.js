@@ -13,7 +13,7 @@ const handleSubmitSearchMovie = function (event) {
   keyword = $("#movieTitle").val();
   loadComponent(
     "moviesSearched",
-    `/components/postercard?direction=horizontal&count=4&type=search&keyword=${encodeURIComponent(keyword)}`
+    `/components/postercard?direction=horizontal&count=4&query=search&keyword=${encodeURIComponent(keyword)}`
   );
   searchLeft().show();
   searchRight().show();
@@ -157,9 +157,10 @@ const handleClickMovieRight = (query, direction) => {
 };
 
 const handleClickReviewLeft = (query) => {
-  console.log("reviewwww leeeeeeeeeeft");
-  page = Number(getCookie(query)) - 1;
-  if (page === 0) page = 10;
+  console.log("reviewwww leeeeeeeeeeft")
+  max_page = Math.ceil(Number(getCookie(`${query}_max`)))
+  page = Number(getCookie(query)) -1;
+  if (page === 0) page = max_page;
   document.cookie = `${query}=${page}`;
 
   switch (query) {
@@ -175,9 +176,10 @@ const handleClickReviewLeft = (query) => {
 };
 
 const handleClickReviewRight = (query) => {
-  console.log("reviewwww riiiiiiiiiight");
-  page = Number(getCookie(query)) + 1;
-  if (page === 11) page = 1;
+  console.log("reviewwww riiiiiiiiiight")
+  max_page = Math.ceil(Number(getCookie(`${query}_max`)))
+  page = Number(getCookie(query)) +1;
+  if (page === max_page+1) page = 1;
   document.cookie = `${query}=${page}`;
 
   switch (query) {

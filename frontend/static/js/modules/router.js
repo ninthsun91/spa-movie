@@ -11,6 +11,18 @@ const loadPage = (pathname, complete = undefined) => {
   $("#App").load(`${pathname} #AppContainer`, complete);
 };
 
+const loadComponent = function (tagId, pathname, complete = undefined) {
+  $("#" + tagId).load(`${pathname}`, complete=complete);
+  console.log(complete)
+  console.log(complete === undefined)
+  if (complete === undefined) {
+    console.log(`${tagId} loaded`)
+  }
+};
+
+const setTitle = function (title) {
+  document.title = title + " | Movie Toy";
+};
 
 const pushHistory = (pathname) => history.pushState({ pathname }, "", location.origin + pathname);
 history.replaceState({ pathname: location.pathname }, "");
@@ -25,7 +37,6 @@ window.onpopstate = function ({ state }) {
       return loadPage(PATH_NAME.PROFILE, handleLoadMyPage);
   }
 };
-
 
 const reloadPage = (pathName, handler) => {
   const isAtTop = window.scrollY < 90;
@@ -98,11 +109,4 @@ const handleLoadRev = function () {
 };
 
 
-const loadComponent = function (tagId, pathname, complete = undefined) {
-  $("#" + tagId).load(`${pathname}`, complete, () => console.log(`${tagId} loaded`));
-};
 
-
-const setTitle = function (title) {
-  document.title = title + " | Movie Toy";
-};
