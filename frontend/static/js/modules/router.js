@@ -2,18 +2,23 @@ const loadPage = (pathname, complete = undefined) => {
   $("#App").load(`${pathname} #AppContainer`, complete);
 };
 
+
 const pushHistory = (pathname) => history.pushState({ pathname }, "", location.origin + pathname);
 history.replaceState({ pathname: location.pathname }, "");
 window.onpopstate = function ({ state }) {
+  // console.log("onpopstate POPSTATE", state)
   switch (state.pathname) {
     case PATH_NAME.REV:
-      return loadPage(PATH_NAME.REV);
+      return loadPage(PATH_NAME.REV, handleLoadRev);
     case PATH_NAME.HOME:
-      return loadPage(PATH_NAME.HOME);
+      return loadPage(PATH_NAME.HOME, handleLoadHome);
+    case PATH_NAME.MY_PAGE:
+      return loadPage(PATH_NAME.MY_PAGE, handleLoadMyPage);
   }
 };
 
-const reloadPage = function (pathName, handler) {
+
+const reloadPage = (pathName, handler) => {
   const isAtTop = window.scrollY < 90;
   const isPathSame = location.pathname === pathName;
   if (isAtTop && isPathSame) {
@@ -35,10 +40,9 @@ const reloadPage = function (pathName, handler) {
 };
 
 //my page
-const loadMyPage = function () {
+const loadMyPage = () => {
   window.scrollTo(0, 0);
-  if (location.pathname === PATH_NAME.PROFILE) {
-  } else {
+  if (location.pathname !== PATH_NAME.PROFILE) {
     setTimeout(function () {
       pushHistory(PATH_NAME.PROFILE);
       loadPage(PATH_NAME.PROFILE, handleLoadMyPage);
@@ -46,15 +50,22 @@ const loadMyPage = function () {
   }
 };
 
-const handleLoadMyPage = function () {
-  console.log("after load my page");
-  setTitle(TITLE.MY_PAGE);
-  $("#modalPlace").empty();
-  $("#popupPlace").empty();
+
+const handleLoadMyPage = (responseText, textStatus, req) => {
+  if (textStatus === "success") {
+    // console.log("after load my page");
+    setTitle(TITLE.MY_PAGE);
+    $("#modalPlace").empty();
+    $("#popupPlace").empty();
+  } else if (textStatus === "error") {
+    pushHistory(PATH_NAME.HOME);
+    handler403Error("먼저 로그인을 해주세요")
+  }
 };
 
-const handleLoadHome = function () {
-  console.log("after load home");
+
+const handleLoadHome = () => {
+  // console.log("after load home");
 
   setTitle(TITLE.HOME);
   loadComponent("movieListNow", "/components/postercard?direction=vertical&count=5&type=now");
@@ -63,8 +74,10 @@ const handleLoadHome = function () {
   $("#popupPlace").empty();
   numberIndicating = 0;
 };
+
+
 const handleLoadRev = function () {
-  console.log("after load rev");
+  // console.log("after load rev");
   setTitle(TITLE.REV);
   loadComponent("recentReview", "/components/reviewcard?type=recent");
   loadComponent("popularReview", "/components/reviewcard?type=popular");
@@ -76,9 +89,11 @@ const handleLoadRev = function () {
   }, 300);
 };
 
+
 const loadComponent = function (tagId, pathname, complete = undefined) {
   $("#" + tagId).load(`${pathname}`, complete, () => console.log(`${tagId} loaded`));
 };
+
 
 const setTitle = function (title) {
   document.title = title + " | Movie Toy";

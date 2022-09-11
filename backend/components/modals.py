@@ -28,14 +28,20 @@ def profile_update():
 
 @modals_ext.route("/moviesearch")
 def create():
-    if(token_check()=="로그인 세션이 만료되었습니다."):
-        return render_template("components/popup.html",message="리뷰를 작성하시려면 로그인해주세요")
-    else:
-        cover= request.args.get("cover")
-        tag_id = request.args.get("tagId")
+    if token_check() is None:
+        return render_template("components/popup.html", message="리뷰를 작성하시려면 로그인해주세요")
 
-        return render_template("components/movieSearch.html",
-            is_modal_covered=cover, tag_to_empty=tag_id)
+    cover= request.args.get("cover")
+    tag_id = request.args.get("tagId")
+
+    return render_template("components/movieSearch.html",
+        is_modal_covered=cover, tag_to_empty=tag_id)
+
+
+@modals_ext.route("/popup")
+def popup_msg():
+    message = request.args.get("msg")
+    return render_template("components/popup.html", message=message)
 
 
 @modals_ext.route("/popup-review-create")
@@ -43,15 +49,13 @@ def popup_upsertied():
     type = request.args.get("type")
     print(type)
     if(type == "logout"):
-        return render_template("components/popup.html",message="로그인 후 제출해주세요")
+        return render_template("components/popup.html", message="로그인 후 제출해주세요")
     if(type == "success"):
-        return render_template("components/popup.html",message="리뷰가 제출 되었습니다.")
+        return render_template("components/popup.html", message="리뷰가 제출 되었습니다.")
 
 
 @modals_ext.route("/upsert")
 def upsert():
-    # if login_check():
-    #    abort(401)
     tag_to_empty = request.args.get("tagId")
     m_id = request.args.get("movieId")
     movie = movie_code(int(m_id))
@@ -66,8 +70,6 @@ def upsert():
 
 @modals_ext.route("/edit")
 def edit():
-    # if login_check():
-    #    abort(401)
     tag_to_empty = request.args.get("tagId")    
     m_id = request.args.get("movieId")
     r_id = request.args.get("reviewId")

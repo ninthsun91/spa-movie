@@ -9,7 +9,7 @@ const handleClickModalBack = function (tagToEmpty) {
 };
 const handleSubmitSearchMovie = function (event) {
   event.preventDefault();
-  console.log("search movie");
+  // console.log("search movie");
   keyword = $("#movieTitle").val();
   loadComponent(
     "moviesSearched",
@@ -26,8 +26,7 @@ const handleClickSearchRight = function () {
 };
 
 const handleClickMovieUpsert = function (code) {
-  console.log("upsert");
-
+  // console.log("upsert");
   loadComponent("modalContent", `/components/upsert?tagId=modalContent&movieId=${code}`);
   searchLeft().hide();
   searchRight().hide();
@@ -43,12 +42,11 @@ const handleSubmitMovieUpsirt = function (event, movieId, reviewId = undefined) 
     comment: $("#reviewContent").val(),
     userRating: 10,
   };
-  console.log(`review id = ${reviewId}`)
+  // console.log(`review id = ${reviewId}`)
   if (reviewId.length === 24) {
-    console.log(`I GOT IDDDDDDDDDDDDDDDDDDD = ${reviewId}`)
     data.id = reviewId
   }
-  console.log("data : ", data);
+  // console.log("data : ", data);
 
   $.ajax({
     url: "/review",
@@ -60,7 +58,7 @@ const handleSubmitMovieUpsirt = function (event, movieId, reviewId = undefined) 
         popupPlace().show();
       }
       modalPlace().empty();
-      console.log(msg);
+      // console.log(msg);
 
       loadComponent("popupPlace", "/components/popup-review-create?type=success");
       if ($("#recentCheckBox").is(":checked")) {
@@ -80,15 +78,15 @@ const handleSubmitMovieUpsirt = function (event, movieId, reviewId = undefined) 
       // modalBackground().hide();
     },
   });
-  console.log("movie upsirt");
+  // console.log("movie upsirt");
 };
 const handleClickMovieUpsirtCancel = function (makeEdit, reviewId) {
   if (makeEdit === "make") {
     loadComponent("modalContent", "/components/moviesearch?tagId=modalContent&cover=off");
-    console.log("movie make cancel");
+    // console.log("movie make cancel");
   } else {
     loadComponent("reviewViewer", `/components/view-review?tagId=reviewViewer&cover=on&reviewId=${reviewId}`);
-    console.log("movie edit cancel");
+    // console.log("movie edit cancel");
   }
 };
 const handleClickPopupConfirm = function () {
@@ -101,15 +99,15 @@ const handleClickPopupConfirm = function () {
 };
 
 const handleClickReviewLike = function () {
-  console.log("like");
+  // console.log("like");
   const score = +$("#likeScore").text();
   $("#likeScore").text(score + 1);
 };
 const handleClickReviewDelete = function () {
-  console.log("delete");
+  // console.log("delete");
 };
 const handleClickMoviePoster = function (code) {
-  console.log(code);
+  // console.log(code);
   loadComponent("modalPlace", `/components/movie-with-reviews?tagId=modalPlace&movieId=${code}`);
-  console.log("poster");
+  // console.log("poster");
 };

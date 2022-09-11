@@ -75,8 +75,10 @@ const tagsIn = {
 const idValidator = (idVal) => (reg.id.test(idVal) && idVal ? { isValid: true } : { isValid: false, msg: "id error" });
 const pwValidator = (pwVal) =>
   reg.password.test(pwVal) && pwVal ? { isValid: true } : { isValid: false, msg: "pw error" };
+  
 const confirmValidator = (pwVal, confirmVal) =>
   pwVal === confirmVal && confirmVal ? { isValid: true } : { isValid: false, msg: "confirm error" };
+
 const signValidator = function ({ id, pw, confirm }) {
   const { isValid: isValidId, msg: msgId } = idValidator(id().val());
   if (!isValidId) return msgId;
@@ -88,6 +90,7 @@ const signValidator = function ({ id, pw, confirm }) {
   }
   return { isValid: true };
 };
+
 const showErrorMsg = function (msgTag, { isValid, msg }) {
   if (!isValid) {
     msgTag().text(msg);
@@ -102,12 +105,14 @@ const handleInputSignUpId = function (event) {
   } = event;
   showErrorMsg(tagsUp.errorMsg, idValidator(value));
 };
+
 const handleInputSignUpPw = function (event) {
   const {
     target: { value },
   } = event;
   showErrorMsg(tagsUp.errorMsg, pwValidator(value));
 };
+
 const handleInputSignUpConfirm = function (event) {
   const {
     target: { value },
@@ -130,8 +135,8 @@ const handleInputSignInPw = function (event) {
 
 const handleSubmitSignUp = function (event) {
   event.preventDefault();
-  console.log(event);
-  console.log(signValidator(tagsUp));
+  // console.log(event);
+  // console.log(signValidator(tagsUp));
   const { isValid } = signValidator(tagsUp);
   if (isValid) {
     const data = { username: tagsUp.id().val(), password: tagsUp.pw().val() };
@@ -150,6 +155,7 @@ const handleSubmitSignUp = function (event) {
     });
   }
 };
+
 const handleSubmitSignIn = function (event) {
   event.preventDefault();
   const { isValid } = signValidator(tagsIn);
@@ -160,10 +166,10 @@ const handleSubmitSignIn = function (event) {
       data,
       method: "POST",
       success: function (res) {
-        console.log(res);
+        // console.log(res);
         const { pathname } = location;
         loadPage(pathname);
-        console.log("pathname", pathname);
+        // console.log("pathname", pathname);
         if (pathname === PATH_NAME.HOME) {
           setTimeout(function () {
             loadComponent("movieListNow", "/components/postercard?direction=vertical&count=5&type=now");
@@ -185,21 +191,18 @@ const handleSubmitSignIn = function (event) {
     });
   }
 };
+
 const handleClickLogOut = function () {
-  console.log("logout");
+  // console.log("logout");
   document.cookie = "logintoken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
   const { pathname } = location;
-  loadPage(pathname);
-  if (pathname === PATH_NAME.HOME) {
-    loadComponent("movieListNow", "/components/postercard?direction=vertical&count=5&type=now");
-    loadComponent("movieListTrending", "/components/postercard?direction=vertical&count=5&type=trend");
+
+  switch (pathname) {
+    case PATH_NAME.REV:
+      return loadPage(PATH_NAME.REV, handleLoadRev);
+    case PATH_NAME.HOME:
+      return loadPage(PATH_NAME.HOME, handleLoadHome);
+    case PATH_NAME.MY_PAGE:
+      return loadPage(PATH_NAME.MY_PAGE, handleLoadMyPage);
   }
-  if (pathname === PATH_NAME.REV) {
-    loadComponent("recentReview", "/components/reviewcard?type=recent");
-    loadComponent("popularReview", "/components/reviewcard?type=popular");
-    setTimeout(function () {
-      reviewMenuSlideUp();
-      reviewContainerWidthGrow();
-    }, 300);
-  }
-};
+}

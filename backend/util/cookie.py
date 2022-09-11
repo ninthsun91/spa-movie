@@ -1,4 +1,4 @@
-from flask import request, make_response, session
+from flask import request, make_response, session, abort
 from datetime import datetime, timedelta
 import jwt
 import hashlib
@@ -27,16 +27,6 @@ def create_token(user):
     return response
 
 
-def login_check():
-    """
-    : 로그인 여부 확인
-    : 페이지/모달 렌더링 할 때 사용하세요.
-    """
-    token = request.cookies.get("logintoken")
-    if token is None:
-        return True
-
-
 def token_check():
     """
     : 로그인 유효성 확인
@@ -47,7 +37,7 @@ def token_check():
         payload = jwt.decode(token, Env.HKY, algorithms="HS256")
         return payload
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return "로그인 세션이 만료되었습니다."
+        return None
 
 
 def session_page(session_name, query, show):
@@ -68,6 +58,18 @@ def session_page(session_name, query, show):
     # return skip
     return (page-1) * show
 
+
+
+
+# DEPRECATED
+# def login_check():
+#     """
+#     : 로그인 여부 확인
+#     : 페이지/모달 렌더링 할 때 사용하세요.
+#     """
+#     token = request.cookies.get("logintoken")
+#     if token is None:
+#         return True
 
 
 # DEPRECATED

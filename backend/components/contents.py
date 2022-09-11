@@ -8,11 +8,15 @@ contents_ext = Blueprint("contents_ext", __name__)
 
 @contents_ext.route("/postercard")
 def poster_list():
+    """
+    GET. 필요한 QS 데이터
+    : direction = 포스터 표시 형식. horizontal | vertical
+    : type = 요청하는 컨텐츠 종류. recent | trend | trendrev | now
+    """
     direction = request.args.get("direction")
     query = request.args.get("type")
     field = [ "code", "image", "title", "director", "actor", "pubDate", "naverRating" ]
-    print("direction in posterlist:",direction)
-    print("query in posterlist: ",query)
+
     if query == "search":
         keyword = request.args.get("keyword")
         result = movie_card("search", field, keyword=keyword)
@@ -28,6 +32,10 @@ def poster_list():
 
 @contents_ext.route("/reviewcard")
 def review_list():
+    """
+    GET. 필요한 QS 데이터
+    : type = 요청하는 컨텐츠 종류. popular | recentrev
+    """
     query = request.args.get("type")
 
     field = [ "_id", "code", "username", "title", "comment",
@@ -46,27 +54,25 @@ def review_list():
 
 @contents_ext.route("/view-review")
 def view_review():
-    if(token_check()=="로그인 세션이 만료되었습니다."):
+    if token_check() is None:
         return render_template("components/popup.html",message="리뷰를 확인하시려면 로그인해주세요")
-    else:
-        tag_to_empty = request.args.get("tagId")
-        reviewid = request.args.get("reviewId")
-        review_data = review_id(reviewid)
-        movie = movie_code(review_data["code"])
-        review_data["movie"] = movie
-        review_data["likecount"] = len(review_data["likes"])
-        print("review_data : ",review_data)
-        return render_template("components/review.html",
-            tag_to_empty=tag_to_empty, data=review_data)
+
+    tag_to_empty = request.args.get("tagId")
+    reviewid = request.args.get("reviewId")
+    review_data = review_id(reviewid)
+    movie = movie_code(review_data["code"])
+    review_data["movie"] = movie
+    review_data["likecount"] = len(review_data["likes"])
+
+    return render_template("components/review.html",
+        tag_to_empty=tag_to_empty, data=review_data)
 
 
 @contents_ext.route("/movie-with-reviews")
 def movie_with_reviews():
-    print("hi")
     tag_to_empty = request.args.get("tagId")
     movieId = request.args.get("movieId")
     movie = movie_code(int(movieId))
-    print("movie : ",movie)
     reviews = [review_id(reviewid) for reviewid in movie["reviews"]]
 
     return render_template("components/movie_with_reviews.html",
