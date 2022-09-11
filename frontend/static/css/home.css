@@ -102,6 +102,9 @@
   overflow: auto;
   height: 100%;
 }
+.movies-grouped > div .list-wrapper > div {
+  display: flex;
+}
 .movies-grouped > div .list-wrapper .movie-list {
   min-width: fit-content;
   width: calc(100% - 60px);

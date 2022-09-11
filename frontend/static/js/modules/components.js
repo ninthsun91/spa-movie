@@ -13,9 +13,14 @@ const handleSubmitSearchMovie = function (event) {
   keyword = $("#movieTitle").val();
   loadComponent(
     "moviesSearched",
-    `/components/postercard?direction=horizontal&count=4&query=search&keyword=${encodeURIComponent(
-      keyword
-    )}&chevron=off`
+    "/components/postercard" +
+      "?direction=horizontal" +
+      "&count=4" +
+      "&query=search" +
+      "&keyword=" +
+      encodeURIComponent(keyword) +
+      "&chevron=off" +
+      "&is_home=no"
   );
   searchLeft().show();
   searchRight().show();
@@ -70,7 +75,15 @@ const handleSubmitMovieUpsirt = function (event, movieId, reviewId = undefined) 
         loadComponent("popularReview", "/components/reviewcard?type=popular");
       }
       if ($("#mostCheckBox").is(":checked")) {
-        loadComponent("mostReviewed", "/components/postercard?direction=vertical&count=6&type=trendrev&chevron=on");
+        loadComponent(
+          "mostReviewed",
+          "/components/postercard" +
+            "?direction=vertical" +
+            "&count=6" +
+            "&type=trendrev" +
+            "&chevron=on" +
+            "is_home=no"
+        );
       }
       timeout = setTimeout(function () {
         popupPlace().empty();

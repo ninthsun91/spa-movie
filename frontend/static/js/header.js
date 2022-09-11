@@ -172,10 +172,23 @@ const handleSubmitSignIn = function (event) {
         // console.log("pathname", pathname);
         if (pathname === PATH_NAME.HOME) {
           setTimeout(function () {
-            loadComponent("movieListNow", "/components/postercard?direction=vertical&count=5&type=now&chevron=on");
+            loadComponent(
+              "movieListNow",
+              "/components/postercard" +
+                "?direction=vertical" +
+                "&count=5" +
+                "&type=now" +
+                "&chevron=on" +
+                "is_home=yes"
+            );
             loadComponent(
               "movieListTrending",
-              "/components/postercard?direction=vertical&count=5&type=trend&chevron=on"
+              "/components/postercard" +
+                "?direction=vertical" +
+                "&count=5" +
+                "&type=trend" +
+                "&chevron=on" +
+                "is_home=yes"
             );
           }, 500);
         }

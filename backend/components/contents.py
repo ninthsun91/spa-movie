@@ -13,6 +13,8 @@ def poster_list():
     : direction = 포스터 표시 형식. horizontal | vertical
     : quert = 요청하는 컨텐츠 종류. recent | trend | trendrev | now
     """
+    
+    is_home = request.args.get("is_home")
     chevron_switch = request.args.get("chevron")
     direction = request.args.get("direction")
     query = request.args.get("query")
@@ -29,7 +31,7 @@ def poster_list():
         max_page = result["max_page"]
 
     return render_template("components/poster_card.html",
-        movies=movies, direction=direction, query=query,chevron=chevron_switch)
+        movies=movies, direction=direction, query=query,chevron=chevron_switch,is_home=is_home)
 
 
 @contents_ext.route("/reviewcard")

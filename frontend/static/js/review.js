@@ -23,7 +23,10 @@ const handleClickPopularLabel = function () {
 
 const handleClickMostLabel = function () {
   // console.log("postercard");
-  loadComponent("mostReviewed", "/components/postercard?direction=horizontal&query=trendrev&chevron=on");
+  loadComponent(
+    "mostReviewed",
+    "/components/postercard" + "?direction=horizontal" + "&query=trendrev" + "&chevron=on" + "is_home=no"
+  );
   toggleLi("mostLi");
   setTimeout(function () {
     scrollToTag("mostReviewed");

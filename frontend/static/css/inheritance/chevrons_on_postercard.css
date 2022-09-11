@@ -5,6 +5,14 @@
   width: 100%;
   font-size: 18px;
 }
-.chevrons > div {
+.left-chevron,
+.right-chevron {
   cursor: pointer;
+}
+
+.at-home {
+  margin: 0 20px;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
 }
