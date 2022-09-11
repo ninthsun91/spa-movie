@@ -46,20 +46,27 @@ def review_list():
 
 @contents_ext.route("/view-review")
 def view_review():
-    tag_to_empty = request.args.get("tagId")
-    r_id = request.args.get("reviewId")
-    review_data = review_id(r_id)
-    movie = movie_code(review_data["code"])
-    review_data["movie"] = movie
-    review_data["likecount"] = len(review_data["likes"])
+    print(token_check())
+    if(token_check()=="로그인 세션이 만료되었습니다."):
+        return render_template("components/popup.html",message="리뷰를 확인하시려면 로그인해주세요")
+    else:
+        tag_to_empty = request.args.get("tagId")
+        reviewid = request.args.get("reviewId")
+        review_data = review_id(reviewid)
+        movie = movie_code(review_data["code"])
+        review_data["movie"] = movie
+        review_data["likecount"] = len(review_data["likes"])
 
-    return render_template("components/review.html",tag_to_empty=tag_to_empty,data=review_data)
+        return render_template("components/review.html",tag_to_empty=tag_to_empty,data=review_data)
 
 
 @contents_ext.route("/movie-with-reviews")
 def movie_with_reviews():
+    print("hi")
     tag_to_empty = request.args.get("tagId")
     movieId = request.args.get("movieId")
-    movie = movie_code(int(movieId)) 
+    movie = movie_code(int(movieId))
+    print("movie : ",movie)
     reviews = [review_id(reviewid) for reviewid in movie["reviews"]]
+    
     return render_template("components/movie_with_reviews.html",tag_to_empty=tag_to_empty,movie=movie,reviews=reviews)
