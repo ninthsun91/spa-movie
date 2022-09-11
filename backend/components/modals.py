@@ -44,6 +44,7 @@ def upsert():
     tag_to_empty = request.args.get("tagId")    
     movie_id = request.args.get("movieId")
     movie = movie_code(int(movie_id))
+    
     return render_template("components/review_upsert.html",tag_to_empty=tag_to_empty,movie=movie,movie_title="tenet create",title="Make Review",make_edit="make") 
 
 
