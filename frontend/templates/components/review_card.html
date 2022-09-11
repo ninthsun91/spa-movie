@@ -1,8 +1,8 @@
 {% for review in reviews %}
 <section class="review-card" onclick="handleClickViewReview('{{review._id}}')">
   <div class="about-movie">
-    <img src="{{review.movie.image}}" height="240" width="180" />
-    <div class="title">{{review.movie.title}}</div>
+    <img src="{{review.image}}" height="240" width="180" />
+    <div class="title">{{review.m_title}}</div>
     <div class="rating">작성자 평점 {{review.userRating}}</div>
     <div class="divider"></div>
   </div>

@@ -27,14 +27,6 @@ def create_token(user):
     return response
 
 
-"""
-로그인세션 관리
-login_check(): 로그인 여부 확인
-               페이지/모달 렌더링 할 때
-token_check(): 토큰 유효성 확인
-               api요청 받을 때
-"""
-
 def login_check():
     """
     : 로그인 여부 확인
@@ -58,12 +50,9 @@ def token_check():
         return "로그인 세션이 만료되었습니다."
 
 
-
-
-
-
 def session_page(session_name, query, show):
     """
+    카드 컴포넌트 페이지 넘버 처리
     : session_name = "recent" | "now" | "trend" | "trendrev" | "recentrev" | "popular" | "search"
     : query = query string
     : show = 한번에 보여주는 개수

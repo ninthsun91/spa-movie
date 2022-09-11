@@ -4,7 +4,7 @@ const handleClickMakeReview = function () {
 };
 const handleClickRecentLabel = function () {
   console.log("recent");
-  loadComponent("recentReview", "/components/reviewcard?type=recent");
+  loadComponent("recentReview", "/components/reviewcard?type=recentrev");
   toggleLi("recentLi");
   setTimeout(function () {
     scrollToTag("recentReview");
@@ -20,7 +20,7 @@ const handleClickPopularLabel = function () {
 };
 const handleClickMostLabel = function () {
   console.log("postercard");
-  loadComponent("mostReviewed", "/components/postercard?direction=vertical&count=6&type=most_reviewed");
+  loadComponent("mostReviewed", "/components/postercard?direction=vertical&count=6&type=trendrev");
   toggleLi("mostLi");
   setTimeout(function () {
     scrollToTag("mostReviewed");
