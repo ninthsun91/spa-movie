@@ -11,10 +11,11 @@ def poster_list():
     direction = request.args.get("direction")
     query = request.args.get("type")
     field = [ "code", "image", "title", "director", "actor", "pubDate", "naverRating" ]
-    
+    print("direction in posterlist:",direction)
+    print("query in posterlist: ",query)
     if query == "search":
         keyword = request.args.get("keyword")
-        result = movie_card(query, field, keyword=keyword)
+        result = movie_card("search", field, keyword=keyword)
         movies = result["movies"]
         max_page = result["max_page"]    
     else:        
@@ -59,7 +60,6 @@ def view_review():
 def movie_with_reviews():
     tag_to_empty = request.args.get("tagId")
     movieId = request.args.get("movieId")
-    movie = movie_code(int(movieId))
-    reviews = [review_id(review_id) for review_id in movie["reviews"]]
-
+    movie = movie_code(int(movieId)) 
+    reviews = [review_id(reviewid) for reviewid in movie["reviews"]]
     return render_template("components/movie_with_reviews.html",tag_to_empty=tag_to_empty,movie=movie,reviews=reviews)

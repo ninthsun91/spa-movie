@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request
 
 from .util import *
 from .api.review import *
+from .database import *
 
 
 components = Blueprint("components", __name__)
@@ -24,13 +25,13 @@ def review_card():
         reviews = reviews_time()
         for index, review in enumerate(reviews) :
             print(review)
-            movie = movies_code(review["code"])
+            movie = movie_code(review["code"])
             reviews[index]["movie"] = movie
     elif type=="popular" : 
         reviews = reviews_likes()
         for index, review in enumerate(reviews) :
             print(review)
-            movie = movies_code(review["code"])
+            movie = movie_code(review["code"])
             reviews[index]["movie"] = movie
 
     return render_template("components/review_card.html", reviews=reviews)
@@ -59,7 +60,7 @@ def poster_list():
 @components.route("/profile/update")
 def profile_update():
     tagId = request.args.get("tagId")
-    user = users_uid()
+    user = user_uid()
     
     return render_template("components/profile.html", user=user, tag_to_empty=tagId)
 
@@ -85,8 +86,7 @@ def upsert():
     #    abort(401)
     tag_to_empty = request.args.get("tagId")
     movie_id = request.args.get("movieId")
-    movie = movies_code(int(movie_id))
-    print("movie : ",movie)
+    movie = movie_code(int(movie_id))
     return render_template("components/review_upsert.html",tag_to_empty=tag_to_empty,movie=movie,title="Make Review",make_edit="make") 
 
 @components.route("/popup-upsertied")
@@ -97,13 +97,14 @@ def popup_upsertied():
 
 @components.route("/view-review")
 def view_review():
+    print(token_check())
     if(token_check()=="로그인 세션이 만료되었습니다."):
         return render_template("components/popup.html",message="리뷰를 확인하시려면 로그인해주세요")
     else:
         tag_to_empty = request.args.get("tagId")
-        review_id = request.args.get("reviewId")
-        review_data = reviews_id(review_id)
-        movie = movies_code(review_data["code"])
+        reviewid = request.args.get("reviewId")
+        review_data = review_id(reviewid)
+        movie = movie_code(review_data["code"])
         review_data["movie"] = movie
         review_data["likecount"] = len(review_data["likes"])
         return render_template("components/review.html",tag_to_empty=tag_to_empty,data=review_data)
@@ -116,10 +117,12 @@ def edit():
 
 @components.route("/movie-with-reviews")
 def movie_with_reviews():
+    print("hi")
     tag_to_empty = request.args.get("tagId")
     movieId = request.args.get("movieId")
-    movie = movies_code(int(movieId))
-    reviews = [reviews_id(review_id) for review_id in movie["reviews"]]
+    movie = movie_code(int(movieId))
+    print("movie : ",movie)
+    reviews = [review_id(reviewid) for reviewid in movie["reviews"]]
     return render_template("components/movie_with_reviews.html",tag_to_empty=tag_to_empty,movie=movie,reviews=reviews)
 
     if(query =="search"):

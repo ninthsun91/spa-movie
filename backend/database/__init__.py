@@ -25,7 +25,8 @@ def movie_card(query: str, field: list, page=None, keyword=None):
     if query == "search":
         session["keyword"] = keyword
         return movies_title(field, keyword, page)
-
+    print("query : ",query)
+    print("field : ",field)
     get = CardList[query]["get"]
     max_page = CardList[query]["max_page"]
     show = CardList[query]["show"]
@@ -44,6 +45,8 @@ def movie_card(query: str, field: list, page=None, keyword=None):
 
 
 def review_card(query: str, field: list, page=None):
+    print("query : ",query)
+    print("field : ",field)
     """
     : query = recentrev | popular
     : field = 반환을 원하는 데이터 필드
@@ -94,23 +97,23 @@ CardList = {
         "max_page": 3,
     }, "now": {
         "get": movies_pubDate,
-        "show": 4,
+        "show": 5,
         "max_page": 10,
     }, "trend": {
         "get": movies_rcount,
-        "show": 4,
+        "show": 5,
         "max_page": 10,
     }, "trendrev": {
         "get": movies_rcount,
-        "show": 3,
+        "show": 6,
         "max_page": 10,
     }, "recentrev": {
         "get": reviews_time,
-        "show": 8,
+        "show": 16,
         # "max_page": 10,
     }, "popular": {
         "get": reviews_likes,
-        "show": 8,
+        "show": 16,
         # "max_page": 10,
     }, 
 }
