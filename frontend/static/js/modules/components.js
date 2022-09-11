@@ -44,7 +44,7 @@ const handleSubmitMovieUpsirt = function (event, movieId, reviewId = undefined) 
   };
   // console.log(`review id = ${reviewId}`)
   if (reviewId.length === 24) {
-    data.id = reviewId
+    data.id = reviewId;
   }
   // console.log("data : ", data);
 
@@ -85,7 +85,7 @@ const handleClickMovieUpsirtCancel = function (makeEdit, reviewId) {
     loadComponent("modalContent", "/components/moviesearch?tagId=modalContent&cover=off");
     // console.log("movie make cancel");
   } else {
-    loadComponent("reviewViewer", `/components/view-review?tagId=reviewViewer&cover=on&reviewId=${reviewId}`);
+    loadComponent("modalPlace", `/components/view-review?tagId=modalPlace&cover=on&reviewId=${reviewId}`);
     // console.log("movie edit cancel");
   }
 };
@@ -112,16 +112,13 @@ const handleClickMoviePoster = function (code) {
   // console.log("poster");
 };
 
-
-
-
 // movie card list button
 
 const handleClickMovieLeft = (query, direction) => {
-  page = Number(getCookie(query)) -1;
+  page = Number(getCookie(query)) - 1;
   if (page === 0) page = 10;
   document.cookie = `${query}=${page}`;
-  console.log("movieeeeeeeeeee leeeeeeeeeeft", query, page, direction)
+  console.log("movieeeeeeeeeee leeeeeeeeeeft", query, page, direction);
 
   switch (query) {
     case "trend":
@@ -136,13 +133,13 @@ const handleClickMovieLeft = (query, direction) => {
   }
   $("#modalPlace").empty();
   $("#popupPlace").empty();
-}
+};
 
 const handleClickMovieRight = (query, direction) => {
-  page = Number(getCookie(query)) +1;
+  page = Number(getCookie(query)) + 1;
   if (page === 11) page = 1;
   document.cookie = `${query}=${page}`;
-  console.log("moooooooovie riiiiiiiiiight", query, page, direction)
+  console.log("moooooooovie riiiiiiiiiight", query, page, direction);
 
   switch (query) {
     case "trend":
@@ -157,12 +154,11 @@ const handleClickMovieRight = (query, direction) => {
   }
   $("#modalPlace").empty();
   $("#popupPlace").empty();
-}
-
+};
 
 const handleClickReviewLeft = (query) => {
-  console.log("reviewwww leeeeeeeeeeft")
-  page = Number(getCookie(query)) -1;
+  console.log("reviewwww leeeeeeeeeeft");
+  page = Number(getCookie(query)) - 1;
   if (page === 0) page = 10;
   document.cookie = `${query}=${page}`;
 
@@ -176,11 +172,11 @@ const handleClickReviewLeft = (query) => {
   }
   $("#modalPlace").empty();
   $("#popupPlace").empty();
-}
+};
 
 const handleClickReviewRight = (query) => {
-  console.log("reviewwww riiiiiiiiiight")
-  page = Number(getCookie(query)) +1;
+  console.log("reviewwww riiiiiiiiiight");
+  page = Number(getCookie(query)) + 1;
   if (page === 11) page = 1;
   document.cookie = `${query}=${page}`;
 
@@ -194,4 +190,4 @@ const handleClickReviewRight = (query) => {
   }
   $("#modalPlace").empty();
   $("#popupPlace").empty();
-}
+};
