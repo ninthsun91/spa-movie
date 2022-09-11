@@ -14,8 +14,12 @@
     </div>
     <ul class="menu">
       <li onclick="handleClickReview()">review</li>
+      {% if session == "in"%}
+      <li class="logout" onclick="handleClickLogOut()">log out</li>
+      {%endif%} {% if session == "out"%}
       <li onclick="handleClickSignIn()">sign in</li>
       <li onclick="handleClickSignUp()">sign up</li>
+      {%endif%}
     </ul>
   </nav>
   <section id="sign" class="sign" onclick="hideSign()"></section>
