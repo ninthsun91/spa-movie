@@ -93,15 +93,20 @@ def upsert():
 def popup_upsertied():
     return render_template("components/popup.html",message="제출되었습니다")
 
+
+
 @components.route("/view-review")
 def view_review():
-    tag_to_empty = request.args.get("tagId")
-    review_id = request.args.get("reviewId")
-    review_data = reviews_id(review_id)
-    movie = movies_code(review_data["code"])
-    review_data["movie"] = movie
-    review_data["likecount"] = len(review_data["likes"])
-    return render_template("components/review.html",tag_to_empty=tag_to_empty,data=review_data)
+    if(token_check()=="로그인 세션이 만료되었습니다."):
+        return render_template("components/popup.html",message="리뷰를 확인하시려면 로그인해주세요")
+    else:
+        tag_to_empty = request.args.get("tagId")
+        review_id = request.args.get("reviewId")
+        review_data = reviews_id(review_id)
+        movie = movies_code(review_data["code"])
+        review_data["movie"] = movie
+        review_data["likecount"] = len(review_data["likes"])
+        return render_template("components/review.html",tag_to_empty=tag_to_empty,data=review_data)
 
 @components.route("/edit")
 def edit():

@@ -28,7 +28,11 @@ const handleClickMostLabel = function () {
 };
 const handleClickViewReview = function (reviewId) {
   console.log("view review");
-  loadComponent("reviewViewer", `/components/view-review?tagId=reviewViewer&reviewId=${reviewId}`);
+  loadComponent("modalPlace", `/components/view-review?tagId=modalPlace&reviewId=${reviewId}`);
+  timeout = setTimeout(function () {
+    popupPlace().empty();
+    modalPlace().empty();
+  }, 3000);
 };
 const handleClickReviewEdit = function () {
   console.log("edit review");

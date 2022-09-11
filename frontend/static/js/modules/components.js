@@ -3,6 +3,7 @@ const moviesSearched = () => $("#moviesSearched");
 const searchLeft = () => $("#searchLeft");
 const searchRight = () => $("#searchRight");
 const popupPlace = () => $("#popupPlace");
+const modalPlace = () => $("#modalPlace");
 const handleClickModalBack = function (tagToEmpty) {
   $("#" + tagToEmpty).empty();
 };
@@ -50,9 +51,8 @@ const handleSubmitMovieUpsirt = function (event, movieId) {
   console.log("movie upsirt");
   modalBackground().hide();
   loadComponent("popupPlace", "/components/popup-upsertied");
-  popupPlace().show();
   timeout = setTimeout(function () {
-    popupPlace().hide();
+    popupPlace().empty();
   }, 3000);
 };
 const handleClickMovieUpsirtCancel = function (makeEdit) {
@@ -65,7 +65,11 @@ const handleClickMovieUpsirtCancel = function (makeEdit) {
   }
 };
 const handleClickPopupConfirm = function () {
-  popupPlace().hide();
+  if (popupPlace().children().length === 0) {
+    modalPlace().empty();
+  } else {
+    popupPlace().empty();
+  }
   clearTimeout(timeout);
 };
 

@@ -5,19 +5,25 @@
     left: 50%;
     top: 50vh;
     transform: translate(-50%, -50%);
-    width: 300px;
+    width: 240px;
     height: 150px;
+    padding: 30px;
     border-top: solid 12px rgb(30, 30, 30);
     border-right: solid 8px rgb(30, 30, 30);
     background-color: white;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     color: rgb(30, 30, 30);
   "
 >
-  <p id="popupMasseage">{{message}}</p>
-  <div id="confirm" style="padding: 3px; cursor: pointer; background-color: bisque" onclick="handleClickPopupConfirm()">
+  <p id="popupMasseage" style="color: rgb(30, 30, 30); font-weight: 900; font-size: 20px">{{message}}</p>
+  <div
+    id="confirm"
+    style="font-size: 40px; padding: 5px; cursor: pointer; background-color: white"
+    onclick="handleClickPopupConfirm()"
+  >
     <i class="bi bi-check-lg"></i>
   </div>
 </div>
