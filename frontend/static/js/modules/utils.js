@@ -9,3 +9,9 @@ function getCookie(name) {
   ));
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
+
+const setMaxPageReview = (responseText, textStatus, req) => {
+  console.log("setMaxPage")
+  max_page = responseText.split("value=")[1].split("\"")[1]
+  document.cookie = max_page
+}

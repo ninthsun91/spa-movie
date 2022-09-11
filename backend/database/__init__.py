@@ -1,3 +1,4 @@
+from flask import session
 import time
 from .aggregation import *
 from .find import *
@@ -60,7 +61,6 @@ def review_card(query: str, field: list, page=None):
     show = CardList[query]["show"]
     reviews = get()
     max_page = len(reviews) / show
-    print("max page", max_page)
 
     # if "dir" in page: 
     #     skip = session_dir(query, page, max_page, show)
@@ -111,15 +111,15 @@ CardList = {
         "max_page": 10,
     }, "trendrev": {
         "get": movies_rcount,
-        "show": 6,
+        "show": 5,
         "max_page": 10,
     }, "recentrev": {
         "get": reviews_time,
-        "show": 16,
+        "show": 10,
         # "max_page": 10,
     }, "popular": {
         "get": reviews_likes,
-        "show": 16,
+        "show": 10,
         # "max_page": 10,
     }, 
 }

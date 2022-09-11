@@ -50,7 +50,8 @@ def review_list():
         review["m_title"] = movie["title"]
         review["image"] = movie["image"]
 
-    return render_template("components/review_card.html", reviews=reviews, query=query)
+    return render_template("components/review_card.html",
+        reviews=reviews, query=query, max_page=max_page)
 
 
 @contents_ext.route("/view-review")
