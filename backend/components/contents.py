@@ -74,6 +74,8 @@ def movie_with_reviews():
     movieId = request.args.get("movieId")
     movie = movie_code(int(movieId))
     reviews = [review_id(reviewid) for reviewid in movie["reviews"]]
+    print("reviews : ",reviews)
+    print("hi")
 
     return render_template("components/movie_with_reviews.html",
         tag_to_empty=tag_to_empty, movie=movie, reviews=reviews)

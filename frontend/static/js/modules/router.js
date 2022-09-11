@@ -12,8 +12,8 @@ window.onpopstate = function ({ state }) {
       return loadPage(PATH_NAME.REV, handleLoadRev);
     case PATH_NAME.HOME:
       return loadPage(PATH_NAME.HOME, handleLoadHome);
-    case PATH_NAME.MY_PAGE:
-      return loadPage(PATH_NAME.MY_PAGE, handleLoadMyPage);
+    case PATH_NAME.PROFILE:
+      return loadPage(PATH_NAME.PROFILE, handleLoadMyPage);
   }
 };
 
