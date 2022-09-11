@@ -50,7 +50,6 @@ def upsert():
 
 @modals_ext.route("/popup-review-create")
 def popup_upsertied():
-    print("hi!!")
     type = request.args.get("type")
     print(type)
     if(type == "logout"):
@@ -63,4 +62,9 @@ def popup_upsertied():
 def edit():
     # if login_check():
     #    abort(401)
-    return render_template("components/review_upsert.html",movie_title="tenet edit",title="Edit Review",make_edit="edit")
+    tag_to_empty = request.args.get("tagId")    
+    movie_id = request.args.get("movieId")
+    review_id = request.args.get("reviewId")
+    print("review_id : ",review_id)
+    movie = movie_code(int(movie_id))
+    return render_template("components/review_upsert.html",tag_to_empty=tag_to_empty,movie=movie,title="Edit Review",make_edit="edit",review_id=review_id)

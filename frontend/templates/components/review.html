@@ -41,7 +41,7 @@
             <i class="icon bi bi-hand-thumbs-up"></i>
             <div id="likeScore" class="score">{{data.likecount}}</div>
           </div>
-          <div class="edit" id="reviewEdit" onclick="handleClickReviewEdit()">Edit</div>
+          <div class="edit" id="reviewEdit" onclick="handleClickReviewEdit('{{data.movie.code}}','{{data._id}}')">Edit</div>
           <div class="remove"onclick="handleClickReviewDelete()"">Delete</div>
         </div>
       </div>

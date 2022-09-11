@@ -1,10 +1,10 @@
 <section class="upsert-plate">
   <header>
-    <h2 id="upsertTitle">{{title}}</h2>
+    <h2 id="upsertTitle" style="color: white">{{title}}</h2>
     <div class="divider"></div>
   </header>
   <h3>about {{movie.title}}</h3>
-  <form onsubmit="handleSubmitMovieUpsirt(event,'{{movie.code}}')">
+  <form onsubmit="handleSubmitMovieUpsirt(event,'{{movie.code}}','{{review_id}}')">
     <div class="input-wrapper">
       <label for="reviewTitle">title</label>
       <input id="reviewTitle" type="text" value="" />

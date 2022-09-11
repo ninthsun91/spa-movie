@@ -41,6 +41,7 @@ def review_write():
         msg - 성공/실패 메시지
     """
     code = int(request.form["code"])
+    print("upsirt movie code:",code)
     title = request.form["title"]
 
     if check_title(title) is not True:
@@ -65,11 +66,13 @@ def review_write():
     }
     id = request.form["id"] if "id" in request.form.keys() else None
     up = db.reviews.update_one({"_id": ObjectId(id)}, {"$set": review}, upsert=True)
-
+    print("!!!!! 1")
     db.users.update_one({"username": username}, {"$addToSet": {"reviews": str(up.upserted_id)}})
+    print("!!!!! 2")
     db.movies.update_one({"code": code}, {"$addToSet": {"reviews": str(up.upserted_id)}})
-    update_rating(code)
-
+    print("!!!!! 3")
+    # update_rating(code)
+    print("!!!!! 4")
     return jsonify({"msg": "리뷰를 등록했습니다!"})
 
 

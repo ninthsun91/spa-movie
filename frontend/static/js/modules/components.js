@@ -33,10 +33,11 @@ const handleClickMovieUpsert = function (code) {
   searchRight().hide();
 };
 let timeout;
-const handleSubmitMovieUpsirt = function (event, movieId) {
+const handleSubmitMovieUpsirt = function (event, movieId, reviewId = undefined) {
   event.preventDefault();
   data = {
     code: movieId,
+    id: reviewId,
     title: $("#reviewTitle").val(),
     comment: $("#reviewContent").val(),
     userRating: 10,
@@ -51,11 +52,21 @@ const handleSubmitMovieUpsirt = function (event, movieId) {
         loadComponent("popupPlace", "/components/popup-review-create?type=logout");
         popupPlace().show();
       }
+      modalPlace().empty();
       console.log(msg);
-      // loadComponent("popupPlace", "/components/popup-upsertied");
-      // timeout = setTimeout(function () {
-      //   popupPlace().empty();
-      // }, 3000);
+      loadComponent("popupPlace", "/components/popup-review-create?type=success");
+      if ($("#recentCheckBox").is(":checked")) {
+        loadComponent("recentReview", "/components/reviewcard?type=recentrev");
+      }
+      if ($("#popularCheckBox").is(":checked")) {
+        loadComponent("popularReview", "/components/reviewcard?type=popular");
+      }
+      if ($("#mostCheckBox").is(":checked")) {
+        loadComponent("mostReviewed", "/components/postercard?direction=vertical&count=6&type=trendrev");
+      }
+      timeout = setTimeout(function () {
+        popupPlace().empty();
+      }, 3000);
     },
     complete: function () {
       // modalBackground().hide();

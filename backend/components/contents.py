@@ -55,7 +55,7 @@ def view_review():
         movie = movie_code(review_data["code"])
         review_data["movie"] = movie
         review_data["likecount"] = len(review_data["likes"])
-
+        print("review_data : ",review_data)
         return render_template("components/review.html",tag_to_empty=tag_to_empty,data=review_data)
 
 

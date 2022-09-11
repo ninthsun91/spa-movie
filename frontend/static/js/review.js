@@ -35,9 +35,9 @@ const handleClickViewReview = function (reviewId) {
     }
   }, 2000);
 };
-const handleClickReviewEdit = function () {
+const handleClickReviewEdit = function (code, reviewId) {
   console.log("edit review");
-  loadComponent("modalContent", "/components/edit");
+  loadComponent("modalContent", `/components/edit?tagId=modalContent&movieId=${code}&reviewId=${reviewId}`);
 };
 const handleClickReviewH1 = function () {
   console.log("review H1 click");
