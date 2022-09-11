@@ -61,11 +61,12 @@ def view_review():
 
 @contents_ext.route("/movie-with-reviews")
 def movie_with_reviews():
-    print("hi")
     tag_to_empty = request.args.get("tagId")
     movieId = request.args.get("movieId")
     movie = movie_code(int(movieId))
     print("movie : ",movie)
     reviews = [review_id(reviewid) for reviewid in movie["reviews"]]
+    print("reviews : ",reviews)
+    print("hi")
 
     return render_template("components/movie_with_reviews.html",tag_to_empty=tag_to_empty,movie=movie,reviews=reviews)

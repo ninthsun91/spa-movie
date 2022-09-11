@@ -7,9 +7,11 @@ history.replaceState({ pathname: location.pathname }, "");
 window.onpopstate = function ({ state }) {
   switch (state.pathname) {
     case PATH_NAME.REV:
-      return loadPage(PATH_NAME.REV);
+      return loadPage(PATH_NAME.REV, handleLoadRev);
     case PATH_NAME.HOME:
-      return loadPage(PATH_NAME.HOME);
+      return loadPage(PATH_NAME.HOME, handleLoadHome);
+    case PATH_NAME.PROFILE:
+      return loadPage(PATH_NAME.PROFILE, handleLoadMyPage);
   }
 };
 
