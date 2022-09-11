@@ -28,10 +28,13 @@ def profile_update():
 
 @modals_ext.route("/moviesearch")
 def create():
-    cover= request.args.get("cover")
-    tag_id = request.args.get("tagId")
+    if(token_check()=="로그인 세션이 만료되었습니다."):
+        return render_template("components/popup.html",message="리뷰를 작성하시려면 로그인해주세요")
+    else:
+        cover= request.args.get("cover")
+        tag_id = request.args.get("tagId")
 
-    return render_template("components/movieSearch.html",is_modal_covered=cover,tag_to_empty=tag_id)
+        return render_template("components/movieSearch.html",is_modal_covered=cover,tag_to_empty=tag_id)
 
 
 @modals_ext.route("/upsert")
@@ -44,9 +47,15 @@ def upsert():
     return render_template("components/review_upsert.html",tag_to_empty=tag_to_empty,movie=movie,movie_title="tenet create",title="Make Review",make_edit="make") 
 
 
-@modals_ext.route("/popup-upsertied")
+@modals_ext.route("/popup-review-create")
 def popup_upsertied():
-    return render_template("components/popup.html",message="제출되었습니다")
+    print("hi!!")
+    type = request.args.get("type")
+    print(type)
+    if(type == "logout"):
+        return render_template("components/popup.html",message="로그인 후 제출해주세요")
+    if(type == "success"):
+        return render_template("components/popup.html",message="리뷰가 제출 되었습니다.")
 
 
 @modals_ext.route("/edit")

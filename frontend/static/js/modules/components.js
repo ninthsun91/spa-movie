@@ -47,16 +47,21 @@ const handleSubmitMovieUpsirt = function (event, movieId) {
     data,
     method: "POST",
     success: function ({ msg }) {
-      console.log("msg : ", msg);
+      if (msg === "로그인 세션이 만료되었습니다.") {
+        loadComponent("popupPlace", "/components/popup-review-create?type=logout");
+        popupPlace().show();
+      }
+      console.log(msg);
+      // loadComponent("popupPlace", "/components/popup-upsertied");
+      // timeout = setTimeout(function () {
+      //   popupPlace().empty();
+      // }, 3000);
     },
-    complete: function () {},
+    complete: function () {
+      // modalBackground().hide();
+    },
   });
   console.log("movie upsirt");
-  modalBackground().hide();
-  loadComponent("popupPlace", "/components/popup-upsertied");
-  timeout = setTimeout(function () {
-    popupPlace().empty();
-  }, 3000);
 };
 const handleClickMovieUpsirtCancel = function (makeEdit) {
   if (makeEdit === "make") {

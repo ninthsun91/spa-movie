@@ -49,6 +49,8 @@ const loadMyPage = function () {
 const handleLoadMyPage = function () {
   console.log("after load my page");
   setTitle(TITLE.MY_PAGE);
+  $("#modalPlace").empty();
+  $("#popupPlace").empty();
 };
 
 const handleLoadHome = function () {
@@ -57,6 +59,8 @@ const handleLoadHome = function () {
   setTitle(TITLE.HOME);
   loadComponent("movieListNow", "/components/postercard?direction=vertical&count=5&type=now");
   loadComponent("movieListTrending", "/components/postercard?direction=vertical&count=5&type=trend");
+  $("#modalPlace").empty();
+  $("#popupPlace").empty();
   numberIndicating = 0;
 };
 const handleLoadRev = function () {
@@ -64,6 +68,8 @@ const handleLoadRev = function () {
   setTitle(TITLE.REV);
   loadComponent("recentReview", "/components/reviewcard?type=recent");
   loadComponent("popularReview", "/components/reviewcard?type=popular");
+  $("#modalPlace").empty();
+  $("#popupPlace").empty();
   setTimeout(function () {
     reviewMenuSlideUp();
     reviewContainerWidthGrow();

@@ -1,6 +1,6 @@
 const handleClickMakeReview = function () {
   console.log("review");
-  loadComponent("createReview", "/components/moviesearch?tagId=createReview&cover=on");
+  loadComponent("modalPlace", "/components/moviesearch?tagId=modalPlace&cover=on");
 };
 const handleClickRecentLabel = function () {
   console.log("recent");
@@ -29,6 +29,9 @@ const handleClickMostLabel = function () {
 const handleClickViewReview = function (reviewId) {
   console.log("view review");
   loadComponent("modalPlace", `/components/view-review?tagId=modalPlace&reviewId=${reviewId}`);
+  setTimeout(function () {
+    $("#modalPlace").empty();
+  }, 2000);
 };
 const handleClickReviewEdit = function () {
   console.log("edit review");

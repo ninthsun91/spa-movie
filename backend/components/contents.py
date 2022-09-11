@@ -46,7 +46,6 @@ def review_list():
 
 @contents_ext.route("/view-review")
 def view_review():
-    print(token_check())
     if(token_check()=="로그인 세션이 만료되었습니다."):
         return render_template("components/popup.html",message="리뷰를 확인하시려면 로그인해주세요")
     else:

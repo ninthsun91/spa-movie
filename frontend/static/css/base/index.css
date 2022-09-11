@@ -38,3 +38,6 @@ html {
   box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
   width: calc(100% + 20px) !important;
 }
+.popup-place > * {
+  z-index: 9999;
+}

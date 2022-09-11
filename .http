@@ -1,0 +1,36 @@
+GET /components/postercard?direction=vertical&count=5&type=now HTTP/1.1
+Accept: text/html, */*; q=0.01
+Accept-Encoding: gzip, deflate, br
+Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
+Connection: keep-alive
+Cookie: Toy Movie=.eJxVjUsOgCAMRO_SNQvdehljsIlEBVJQYox315Sf7OYN8-gNi9lx1CbA0IkIhBK1r-wJ9cy44hUMfRlAwKacLyLDT2SuIs96AdbYY5uIc16XSHgmOhWGsd1y1Sjc1BMOJ5ILv6Uyp_jv8wLws03N.Yx1H2A.So_WdnX8L3XfqA0_hP5TdTRAm2k
+Host: localhost:5000
+Referer: http://localhost:5000/
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36
+X-Requested-With: XMLHttpRequest
+sec-ch-ua: "Google Chrome";v="105", "Not)A;Brand";v="8", "Chromium";v="105"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"
+
+###
+
+
+GET /components/postercard HTTP/1.1
+Accept: text/html, */*; q=0.01
+Accept-Encoding: gzip, deflate, br
+Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
+Connection: keep-alive
+Cookie: Toy Movie=.eJxVjUsOgCAMRO_SNQvdehljsIlEBVJQYox315Sf7OYN8-gNi9lx1CbA0IkIhBK1r-wJ9cy44hUMfRlAwKacLyLDT2SuIs96AdbYY5uIc16XSHgmOhWGsd1y1Sjc1BMOJ5ILv6Uyp_jv8wLws03N.Yx1IFA.SMaz1ew1n9eKbma6M7x7-SnYtAo
+Host: localhost:5000
+Referer: http://localhost:5000/rev
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36
+X-Requested-With: XMLHttpRequest
+sec-ch-ua: "Google Chrome";v="105", "Not)A;Brand";v="8", "Chromium";v="105"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Windows"

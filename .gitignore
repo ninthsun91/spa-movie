@@ -47,3 +47,4 @@ dmypy.json
 
 .idea/
 data.json
+.http

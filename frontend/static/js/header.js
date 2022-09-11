@@ -161,11 +161,25 @@ const handleSubmitSignIn = function (event) {
       method: "POST",
       success: function (res) {
         console.log(res);
-        loadPage(PATH_NAME.HOME);
-        setTimeout(function () {
-          loadComponent("movieListNow", "/components/postercard?direction=vertical&count=5&type=now");
-          loadComponent("movieListTrending", "/components/postercard?direction=vertical&count=5&type=trend");
-        }, 300);
+        const { pathname } = location;
+        loadPage(pathname);
+        console.log("pathname", pathname);
+        if (pathname === PATH_NAME.HOME) {
+          setTimeout(function () {
+            loadComponent("movieListNow", "/components/postercard?direction=vertical&count=5&type=now");
+            loadComponent("movieListTrending", "/components/postercard?direction=vertical&count=5&type=trend");
+          }, 500);
+        }
+        if (pathname === PATH_NAME.REV) {
+          setTimeout(function () {
+            loadComponent("recentReview", "/components/reviewcard?type=recent");
+            loadComponent("popularReview", "/components/reviewcard?type=popular");
+            setTimeout(function () {
+              reviewMenuSlideUp();
+              reviewContainerWidthGrow();
+            }, 300);
+          }, 500);
+        }
       },
       complete: function () {},
     });
@@ -174,9 +188,18 @@ const handleSubmitSignIn = function (event) {
 const handleClickLogOut = function () {
   console.log("logout");
   document.cookie = "logintoken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-  loadPage(PATH_NAME.HOME);
-  setTimeout(function () {
+  const { pathname } = location;
+  loadPage(pathname);
+  if (pathname === PATH_NAME.HOME) {
     loadComponent("movieListNow", "/components/postercard?direction=vertical&count=5&type=now");
     loadComponent("movieListTrending", "/components/postercard?direction=vertical&count=5&type=trend");
-  }, 300);
+  }
+  if (pathname === PATH_NAME.REV) {
+    loadComponent("recentReview", "/components/reviewcard?type=recent");
+    loadComponent("popularReview", "/components/reviewcard?type=popular");
+    setTimeout(function () {
+      reviewMenuSlideUp();
+      reviewContainerWidthGrow();
+    }, 300);
+  }
 };
