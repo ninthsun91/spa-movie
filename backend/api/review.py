@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, render_template
 from bson.objectid import ObjectId
 from datetime import datetime
 
@@ -34,6 +34,8 @@ def review_view():
 @review_bp.route("/review", methods=["POST"])
 def review_write():
     """
+    리뷰 작성/수정
+
     요청예시: POST, "/review", data = { code(:int), title(str), comment(:str), userRating }
         userRating = 0~10. int로 받아도 되고, 0.00~10.00 소수점 2자리수까지의 str로 받아도됨.
     반환: { msg(:str) }
@@ -85,11 +87,13 @@ def list_popular():
         : revies 전체필드 = [ "_id", "code", "username", "title", "comment",
                 "userRating", "likes", "time" ]
     """
+    query = request.args.get("query")
     field = [ "_id", "code", "username", "title", "comment",
         "userRating", "likes", "time" ]
     result = review_card("popular", field, request.args)
+    reviews = result["reviews"]
 
-    return jsonify( result )
+    return render_template("components/review_card.html", reviews=reviews, query=query)
 
 
 # 좋아요 수 조회

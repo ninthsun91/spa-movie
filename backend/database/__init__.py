@@ -48,8 +48,6 @@ def movie_card(query: str, field: list, page=None, keyword=None):
 
 
 def review_card(query: str, field: list, page=None):
-    print("query : ",query)
-    print("field : ",field)
     """
     : query = recentrev | popular
     : field = 반환을 원하는 데이터 필드
@@ -57,17 +55,21 @@ def review_card(query: str, field: list, page=None):
 
     return { reviews, max_page }
     """
+    print("query", query)
     get = CardList[query]["get"]
     show = CardList[query]["show"]
     reviews = get()
     max_page = len(reviews) / show
+    print("max page", max_page)
 
     # if "dir" in page: 
     #     skip = session_dir(query, page, max_page, show)
-    if page == None or len(page) == 0:
-        skip = 0
-    elif "page" in page:
-        skip = session_page(query, page, show)
+    # if page == None or len(page) == 0:
+    #     skip = 0
+    # elif "page" in page:
+    #     skip = session_page(query, page, show)
+    page = int(request.cookies.get(query))
+    skip = (page-1) * show
 
     result = review_field(reviews[skip:skip+show], field)
 

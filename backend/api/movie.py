@@ -42,15 +42,18 @@ def list_recent():
                 "userRating", "likes", "time" ]
         : max_page = 최대 페이지 수
     """
+    query = request.args.get("query")
+    page = request.args.get("page")
     # from /rev
-    if "rev" in request.path:
+    if query == "recentrev":
         field = [ "_id", "code", "username", "title", "comment",
         "userRating", "likes", "time" ]
         result = review_card("recentrev", field, request.args)
+        reviews = result["reviews"]
 
-        return jsonify( result )
+        return render_template("components/review_card.html", reviews=reviews, query=query)
     # from /
-    else:
+    if query == "recent":
         field = [ "code", "title", "director", "actor", "pubDate",
                 "naverRating", "userRating", "description", "reviews" ]
         result = movie_card("recent", field, request.args)

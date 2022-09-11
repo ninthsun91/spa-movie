@@ -3,7 +3,7 @@
   overflow: hidden;
 }
 .carousel .chevrons {
-  border: solid 1px red;
+  /* border: solid 1px red; */
   position: absolute;
 }
 .carousel .chevrons div {
@@ -116,14 +116,15 @@
 .chevrons {
   display: flex;
   flex-direction: row;
-  border: solid 1px red;
   position: relative;
   margin: 0 auto 0 auto;
-  width: 1000px;
+  /* border: solid 1px red; */
+  /* width: 1000px; */
 }
 .chevrons div {
   display: flex;
   flex-direction: row;
+  align-items: center;
   position: static;
   top: 320px;
 }
@@ -132,17 +133,14 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  padding-left: 10%;
-  /* left: 50px; */
-  /* background-color: skyblue; */
+  padding-left: 25%;
 }
 .chevrons .right-chevron {
   flex: 1;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  padding-right: 10%;
-  /* background-color: rgb(255, 137, 137); */
+  padding-right: 25%;
 }
 .chevrons div i {
   color: rgb(255, 255, 255, 0.7);
@@ -150,11 +148,9 @@
   cursor: pointer;
   z-index: 20;
 }
-
-.chevrons div #leftChevron {
-  /* background-color: blue; */
-}
-
-.chevrons div #rightChevron {
-  /* background-color: red; */
+.chevrons div a {
+  color: rgb(255, 255, 255, 0.7);
+  font-size: 40px;
+  cursor: pointer;
+  z-index: 20;
 }

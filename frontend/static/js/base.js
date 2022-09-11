@@ -1,7 +1,12 @@
 $(function () {
   if (location.pathname === PATH_NAME.HOME) {
+    document.cookie = "now=1"
+    document.cookie = "trend=1"
     handleLoadHome();
   } else if (location.pathname === PATH_NAME.REV) {
+    document.cookie = "popular=1"
+    document.cookie = "trendrev=1"
+    document.cookie = "recentrev=1"
     handleLoadRev();
   }
 });

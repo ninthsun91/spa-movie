@@ -156,3 +156,40 @@ const handleClickNowRight = () => {
   $("#modalPlace").empty();
   $("#popupPlace").empty();
 }
+
+
+const handleClickReviewLeft = (query) => {
+  console.log("reviewwww leeeeeeeeeeft")
+  page = Number(getCookie(query)) -1;
+  if (page === 0) page = 10;
+  document.cookie = `${query}=${page}`;
+
+  switch (query) {
+    case "recentrev":
+      loadComponent("recentReview", `/recentrev?query=recentrev&page=${page}`);
+      break;
+    case "popular":
+      loadComponent("popularReview", `/popular?query=popular&page=${page}`);
+      break;
+  }
+  $("#modalPlace").empty();
+  $("#popupPlace").empty();
+}
+
+const handleClickReviewRight = (query) => {
+  console.log("reviewwww riiiiiiiiiight")
+  page = Number(getCookie(query)) +1;
+  if (page === 11) page = 11;
+  document.cookie = `${query}=${page}`;
+
+  switch (query) {
+    case "recentrev":
+      loadComponent("recentReview", `/recentrev?query=recentrev&page=${page}`);
+      break;
+    case "popular":
+      loadComponent("popularReview", `/popular?query=popular&page=${page}`);
+      break;
+  }
+  $("#modalPlace").empty();
+  $("#popupPlace").empty();
+}

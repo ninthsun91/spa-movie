@@ -11,10 +11,10 @@ def poster_list():
     """
     GET. 필요한 QS 데이터
     : direction = 포스터 표시 형식. horizontal | vertical
-    : type = 요청하는 컨텐츠 종류. recent | trend | trendrev | now
+    : quert = 요청하는 컨텐츠 종류. recent | trend | trendrev | now
     """
     direction = request.args.get("direction")
-    query = request.args.get("type")
+    query = request.args.get("query")
     field = [ "code", "image", "title", "director", "actor", "pubDate", "naverRating" ]
 
     if query == "search":
@@ -34,9 +34,9 @@ def poster_list():
 def review_list():
     """
     GET. 필요한 QS 데이터
-    : type = 요청하는 컨텐츠 종류. popular | recentrev
+    : query = 요청하는 컨텐츠 종류. popular | recentrev
     """
-    query = request.args.get("type")
+    query = request.args.get("query")
 
     field = [ "_id", "code", "username", "title", "comment",
         "userRating", "likes", "time" ]
@@ -49,7 +49,7 @@ def review_list():
         review["m_title"] = movie["title"]
         review["image"] = movie["image"]
 
-    return render_template("components/review_card.html", reviews=reviews)
+    return render_template("components/review_card.html", reviews=reviews, query=query)
 
 
 @contents_ext.route("/view-review")

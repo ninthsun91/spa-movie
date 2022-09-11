@@ -1,5 +1,4 @@
 const loadPage = (pathname, complete = undefined) => {
-  $("#App").load(`${pathname} #AppContainer`, complete);
   if (pathname === "/") {
     document.cookie = "now=1"
     document.cookie = "trend=1"
@@ -9,6 +8,7 @@ const loadPage = (pathname, complete = undefined) => {
     document.cookie = "trendrev=1"
     document.cookie = "recentrev=1"
   }
+  $("#App").load(`${pathname} #AppContainer`, complete);
 };
 
 
@@ -74,11 +74,10 @@ const handleLoadMyPage = (responseText, textStatus, req) => {
 
 
 const handleLoadHome = () => {
-  // console.log("after load home");
-  
+  // console.log("after load home");  
   setTitle(TITLE.HOME);
-  loadComponent("movieListNow", "/components/postercard?direction=vertical&type=now");
-  loadComponent("movieListTrending", "/components/postercard?direction=vertical&type=trend");
+  loadComponent("movieListNow", "/components/postercard?direction=vertical&query=now");
+  loadComponent("movieListTrending", "/components/postercard?direction=vertical&query=trend");
   $("#modalPlace").empty();
   $("#popupPlace").empty();
 
@@ -90,8 +89,6 @@ const handleLoadHome = () => {
 const handleLoadRev = function () {
   // console.log("after load rev");
   setTitle(TITLE.REV);
-  loadComponent("recentReview", "/components/reviewcard?type=recent");
-  loadComponent("popularReview", "/components/reviewcard?type=popular");
   $("#modalPlace").empty();
   $("#popupPlace").empty();
   setTimeout(function () {
