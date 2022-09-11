@@ -21,15 +21,32 @@ const handleClickSearchRight = function () {
   console.log("right");
 };
 
-const handleClickMovieUpsert = function () {
+const handleClickMovieUpsert = function (code) {
   console.log("upsert");
-  loadComponent("modalContent", "/components/upsert?tagId=modalContent");
+
+  loadComponent("modalContent", `/components/upsert?tagId=modalContent&movieId=${code}`);
   searchLeft().hide();
   searchRight().hide();
 };
 let timeout;
-const handleSubmitMovieUpsirt = function (event) {
+const handleSubmitMovieUpsirt = function (event, movieId) {
   event.preventDefault();
+  data = {
+    code: movieId,
+    title: $("#reviewTitle").val(),
+    comment: $("#reviewContent").val(),
+    userRating: 10,
+  };
+  console.log("data : ", data);
+  $.ajax({
+    url: "/review",
+    data,
+    method: "POST",
+    success: function ({ msg }) {
+      console.log("msg : ", msg);
+    },
+    complete: function () {},
+  });
   console.log("movie upsirt");
   modalBackground().hide();
   loadComponent("popupPlace", "/components/popup-upsertied");

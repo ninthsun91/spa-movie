@@ -23,7 +23,7 @@
 <!-- -->
 {% for item in movies %}
 <div class="poster-horizontal">
-  <section class="poster-plate" onclick="handleClickMovieUpsert()">
+  <section class="poster-plate" onclick="handleClickMovieUpsert('{{item.code}}')">
     <div class="poster-wrapper">
       <div class="img-frame"><img src="{{item.image}}" height="420" width="320" class="poster-Image" /></div>
     </div>

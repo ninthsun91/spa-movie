@@ -7,33 +7,33 @@ from .api.review import *
 components = Blueprint("components", __name__)
 
 @components.route("/reviewcard")
-def review_list():
-    query = request.args.get("type")
+# def review_list():
+#     query = request.args.get("type")
 
-    field = [ "_id", "code", "username", "title", "comment",
-        "userRating", "likes", "time" ]
-    result = review_card(query, field)
-    reviews = result["reviews"]
-    max_page = result["max_page"]
-
-    return render_template("components/review_card.html", reviews=reviews)
-
-# def review_card():
-#     type = request.args.get("type")
-#     if type=="recent" :
-#         reviews = reviews_time()
-#         for index, review in enumerate(reviews) :
-#             print(review)
-#             movie = movies_code(review["code"])
-#             reviews[index]["movie"] = movie
-#     elif type=="popular" : 
-#         reviews = reviews_likes()
-#         for index, review in enumerate(reviews) :
-#             print(review)
-#             movie = movies_code(review["code"])
-#             reviews[index]["movie"] = movie
+#     field = [ "_id", "code", "username", "title", "comment",
+#         "userRating", "likes", "time" ]
+#     result = review_card(query, field)
+#     reviews = result["reviews"]
+#     max_page = result["max_page"]
 
 #     return render_template("components/review_card.html", reviews=reviews)
+
+def review_card():
+    type = request.args.get("type")
+    if type=="recent" :
+        reviews = reviews_time()
+        for index, review in enumerate(reviews) :
+            print(review)
+            movie = movies_code(review["code"])
+            reviews[index]["movie"] = movie
+    elif type=="popular" : 
+        reviews = reviews_likes()
+        for index, review in enumerate(reviews) :
+            print(review)
+            movie = movies_code(review["code"])
+            reviews[index]["movie"] = movie
+
+    return render_template("components/review_card.html", reviews=reviews)
 
 
 @components.route("/postercard")
@@ -84,7 +84,10 @@ def upsert():
     # if login_check():
     #    abort(401)
     tag_to_empty = request.args.get("tagId")
-    return render_template("components/review_upsert.html",tag_to_empty=tag_to_empty,movie_title="tenet create",title="Make Review",make_edit="make") 
+    movie_id = request.args.get("movieId")
+    movie = movies_code(int(movie_id))
+    print("movie : ",movie)
+    return render_template("components/review_upsert.html",tag_to_empty=tag_to_empty,movie=movie,title="Make Review",make_edit="make") 
 
 @components.route("/popup-upsertied")
 def popup_upsertied():
