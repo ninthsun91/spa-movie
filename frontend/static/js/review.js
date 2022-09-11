@@ -30,7 +30,9 @@ const handleClickViewReview = function (reviewId) {
   console.log("view review");
   loadComponent("modalPlace", `/components/view-review?tagId=modalPlace&reviewId=${reviewId}`);
   setTimeout(function () {
-    $("#modalPlace").empty();
+    if ($("#modalPlace").children().text().trim() === "리뷰를 확인하시려면 로그인해주세요") {
+      $("#modalPlace").empty();
+    }
   }, 2000);
 };
 const handleClickReviewEdit = function () {
