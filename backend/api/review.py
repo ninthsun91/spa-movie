@@ -31,7 +31,6 @@ def review_view():
     return jsonify({ "reviews": reviews })
 
 
-# 리뷰 작성 및 수정
 @review_bp.route("/review", methods=["POST"])
 def review_write():
     """
@@ -41,20 +40,18 @@ def review_write():
         msg - 성공/실패 메시지
     """
     code = int(request.form["code"])
-    print("upsirt movie code:",code)
     title = request.form["title"]
-
     if check_title(title) is not True:
         return jsonify({"msg": "제목은 특수문자 제외 3~30자입니다."})
     comment = request.form["comment"]
     if check_comment(comment) is not True:
         return jsonify({"msg": "3글자 이상 작성해주세요."})
     userRating = int(float(request.form["userRating"]))
-
     payload = token_check()
     if type(payload) is str:
         return jsonify({ "msg": payload })
     username = payload["username"]
+
     review = {
         "code": code,
         "username": username,
@@ -65,15 +62,61 @@ def review_write():
         "time": str(datetime.now()).split(".")[0],
     }
     id = request.form["id"] if "id" in request.form.keys() else None
-    up = db.reviews.update_one({"_id": ObjectId(id)}, {"$set": review}, upsert=True)
-    print("!!!!! 1")
-    db.users.update_one({"username": username}, {"$addToSet": {"reviews": str(up.upserted_id)}})
-    print("!!!!! 2")
-    db.movies.update_one({"code": code}, {"$addToSet": {"reviews": str(up.upserted_id)}})
-    print("!!!!! 3")
+    print(f"id = {type(id)}")
+    up = db.reviews.update_one({"_id": ObjectId(id)}, {"$set": review}, upsert=True).upserted_id
+
+    id = up if up is not None else id
+    print(f"posted id = {type(id)}")
+    db.users.update_one({"username": username}, {"$addToSet": {"reviews": str(id)}})
+    db.movies.update_one({"code": code}, {"$addToSet": {"reviews": str(id)}})
     # update_rating(code)
-    print("!!!!! 4")
+
     return jsonify({"msg": "리뷰를 등록했습니다!"})
+
+
+# # 리뷰 작성 및 수정
+# @review_bp.route("/review", methods=["POST"])
+# def review_write():
+#     """
+#     요청예시: POST, "/review", data = { code(:int), title(str), comment(:str), userRating }
+#         userRating = 0~10. int로 받아도 되고, 0.00~10.00 소수점 2자리수까지의 str로 받아도됨.
+#     반환: { msg(:str) }
+#         msg - 성공/실패 메시지
+#     """
+#     code = int(request.form["code"])
+#     print("upsirt movie code:",code)
+#     title = request.form["title"]
+
+#     if check_title(title) is not True:
+#         return jsonify({"msg": "제목은 특수문자 제외 3~30자입니다."})
+#     comment = request.form["comment"]
+#     if check_comment(comment) is not True:
+#         return jsonify({"msg": "3글자 이상 작성해주세요."})
+#     userRating = int(float(request.form["userRating"]))
+
+#     payload = token_check()
+#     if type(payload) is str:
+#         return jsonify({ "msg": payload })
+#     username = payload["username"]
+#     review = {
+#         "code": code,
+#         "username": username,
+#         "title": title,
+#         "comment": comment,
+#         "userRating": userRating,
+#         "likes": [],
+#         "time": str(datetime.now()).split(".")[0],
+#     }
+#     id = request.form["id"] if "id" in request.form.keys() else None
+#     up = db.reviews.update_one({"_id": ObjectId(id)}, {"$set": review}, upsert=True)
+#     print("!!!!! 1")
+#     db.users.update_one({"username": username}, {"$addToSet": {"reviews": str(up.upserted_id)}})
+#     print("!!!!! 2")
+#     db.movies.update_one({"code": code}, {"$addToSet": {"reviews": str(up.upserted_id)}})
+#     print("!!!!! 3")
+#     update_rating(code)
+#     print("!!!!! 4")
+#     return jsonify({"msg": "리뷰를 등록했습니다!"})
 
 
 # 인기 많은 리뷰

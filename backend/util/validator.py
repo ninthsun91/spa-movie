@@ -22,12 +22,12 @@ def check_contact(test):
     
 
 def check_title(test):
-    title = re.compile(r"^[\s\wㄱ-ㅎㅏ-ㅣ가-힣-.?!]{3,30}$")
+    title = re.compile(r"^[\s\wㄱ-ㅎㅏ-ㅣ가-힣-.?! ]{3,30}$")
     return True if title.fullmatch(test) else False
 
 
 def check_comment(test):
-    comment = re.compile(r"^[\s\wㄱ-ㅎㅏ-ㅣ가-힣.?!]{3,300}$")
+    comment = re.compile(r"^[\s\wㄱ-ㅎㅏ-ㅣ가-힣.?! ]{3,300}$")
     return True if comment.fullmatch(test) else False
 
 

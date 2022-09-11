@@ -32,17 +32,24 @@ const handleClickMovieUpsert = function (code) {
   searchLeft().hide();
   searchRight().hide();
 };
+
 let timeout;
 const handleSubmitMovieUpsirt = function (event, movieId, reviewId = undefined) {
   event.preventDefault();
+
   data = {
     code: movieId,
-    id: reviewId,
     title: $("#reviewTitle").val(),
     comment: $("#reviewContent").val(),
     userRating: 10,
   };
+  console.log(`review id = ${reviewId}`)
+  if (reviewId.length === 24) {
+    console.log(`I GOT IDDDDDDDDDDDDDDDDDDD = ${reviewId}`)
+    data.id = reviewId
+  }
   console.log("data : ", data);
+
   $.ajax({
     url: "/review",
     data,
@@ -54,6 +61,7 @@ const handleSubmitMovieUpsirt = function (event, movieId, reviewId = undefined) 
       }
       modalPlace().empty();
       console.log(msg);
+
       loadComponent("popupPlace", "/components/popup-review-create?type=success");
       if ($("#recentCheckBox").is(":checked")) {
         loadComponent("recentReview", "/components/reviewcard?type=recentrev");
@@ -74,12 +82,12 @@ const handleSubmitMovieUpsirt = function (event, movieId, reviewId = undefined) 
   });
   console.log("movie upsirt");
 };
-const handleClickMovieUpsirtCancel = function (makeEdit) {
+const handleClickMovieUpsirtCancel = function (makeEdit, reviewId) {
   if (makeEdit === "make") {
     loadComponent("modalContent", "/components/moviesearch?tagId=modalContent&cover=off");
     console.log("movie make cancel");
   } else {
-    loadComponent("reviewViewer", "/components/view-review?tagId=reviewViewer&cover=on");
+    loadComponent("reviewViewer", `/components/view-review?tagId=reviewViewer&cover=on&reviewId=${reviewId}`);
     console.log("movie edit cancel");
   }
 };
