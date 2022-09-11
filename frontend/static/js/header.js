@@ -75,7 +75,7 @@ const tagsIn = {
 const idValidator = (idVal) => (reg.id.test(idVal) && idVal ? { isValid: true } : { isValid: false, msg: "id error" });
 const pwValidator = (pwVal) =>
   reg.password.test(pwVal) && pwVal ? { isValid: true } : { isValid: false, msg: "pw error" };
-  
+
 const confirmValidator = (pwVal, confirmVal) =>
   pwVal === confirmVal && confirmVal ? { isValid: true } : { isValid: false, msg: "confirm error" };
 
@@ -172,8 +172,11 @@ const handleSubmitSignIn = function (event) {
         // console.log("pathname", pathname);
         if (pathname === PATH_NAME.HOME) {
           setTimeout(function () {
-            loadComponent("movieListNow", "/components/postercard?direction=vertical&count=5&type=now");
-            loadComponent("movieListTrending", "/components/postercard?direction=vertical&count=5&type=trend");
+            loadComponent("movieListNow", "/components/postercard?direction=vertical&count=5&type=now&chevron=on");
+            loadComponent(
+              "movieListTrending",
+              "/components/postercard?direction=vertical&count=5&type=trend&chevron=on"
+            );
           }, 500);
         }
         if (pathname === PATH_NAME.REV) {
@@ -205,4 +208,4 @@ const handleClickLogOut = function () {
     case PATH_NAME.MY_PAGE:
       return loadPage(PATH_NAME.MY_PAGE, handleLoadMyPage);
   }
-}
+};

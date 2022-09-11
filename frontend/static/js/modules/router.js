@@ -1,22 +1,22 @@
 const loadPage = (pathname, complete = undefined) => {
   if (pathname === "/") {
-    document.cookie = "now=1"
-    document.cookie = "trend=1"
+    document.cookie = "now=1";
+    document.cookie = "trend=1";
   }
   if (pathname === "/rev") {
-    document.cookie = "popular=1"
-    document.cookie = "trendrev=1"
-    document.cookie = "recentrev=1"
+    document.cookie = "popular=1";
+    document.cookie = "trendrev=1";
+    document.cookie = "recentrev=1";
   }
   $("#App").load(`${pathname} #AppContainer`, complete);
 };
 
 const loadComponent = function (tagId, pathname, complete = undefined) {
-  $("#" + tagId).load(`${pathname}`, complete=complete);
-  console.log(complete)
-  console.log(complete === undefined)
+  $("#" + tagId).load(`${pathname}`, (complete = complete));
+  console.log(complete);
+  console.log(complete === undefined);
   if (complete === undefined) {
-    console.log(`${tagId} loaded`)
+    console.log(`${tagId} loaded`);
   }
 };
 
@@ -70,7 +70,6 @@ const loadMyPage = () => {
   }
 };
 
-
 const handleLoadMyPage = (responseText, textStatus, req) => {
   if (textStatus === "success") {
     // console.log("after load my page");
@@ -79,23 +78,20 @@ const handleLoadMyPage = (responseText, textStatus, req) => {
     $("#popupPlace").empty();
   } else if (textStatus === "error") {
     pushHistory(PATH_NAME.HOME);
-    handler403Error("먼저 로그인을 해주세요")
+    handler403Error("먼저 로그인을 해주세요");
   }
 };
 
-
 const handleLoadHome = () => {
-  // console.log("after load home");  
+  // console.log("after load home");
   setTitle(TITLE.HOME);
-  loadComponent("movieListNow", "/components/postercard?direction=vertical&query=now");
-  loadComponent("movieListTrending", "/components/postercard?direction=vertical&query=trend");
+  loadComponent("movieListNow", "/components/postercard?direction=vertical&query=now&chevron=on");
+  loadComponent("movieListTrending", "/components/postercard?direction=vertical&query=trend&chevron=on");
   $("#modalPlace").empty();
   $("#popupPlace").empty();
 
   numberIndicating = 0;
 };
-
-
 
 const handleLoadRev = function () {
   // console.log("after load rev");
@@ -107,6 +103,3 @@ const handleLoadRev = function () {
     reviewContainerWidthGrow();
   }, 300);
 };
-
-
-

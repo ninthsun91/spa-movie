@@ -1,78 +1,123 @@
+{% if chevron == 'on' %} {% extends "inheritance/chevrons.html" %}{% block content %}
 <div class="movie-list">
-{% if direction == 'vertical' %}
-<!-- -->
-{% for item in movies %}
-<section class="poster-plate" onclick="handleClickMoviePoster('{{item.code}}')">
-  <div class="img-frame">
-    <img src="{{item.image}}" height="360" width="280" />
-  </div>
-  <div class="movie-content">
-    <div class="movie-title">{{item.title}}</div>
-    <div class="rating">
-      <div class="star-wrapper">
-        <div class="star-rating">
-          <span style="width: calc({{item.naverRating}} / 10 * 100%)"></span>
-        </div>
-      </div>
-      <div class="star-score">{{item.naverRating}} 점</div>
+  {% if direction == 'vertical' %}
+  <!-- -->
+  {% for item in movies %}
+  <section class="poster-plate" onclick="handleClickMoviePoster('{{item.code}}')">
+    <div class="img-frame">
+      <img src="{{item.image}}" height="360" width="280" />
     </div>
-  </div>
-</section>
-{% endfor %}
-</div>
-<div class="chevrons">
-  <div class="left-chevron" onclick="handleClickMovieLeft('{{query}}', '{{direction}}')">
-    <i id="leftChevron" class="bi bi-chevron-compact-left"></i>
-    <a>이전</a>
-  </div>
-  <div class="right-chevron" onclick="handleClickMovieRight('{{query}}', '{{direction}}')">
-    <a>다음</a>
-    <i id="rightChevron" class="bi bi-chevron-compact-right"></i>
-  </div>
-</div>
-<!-- -->
-{% elif direction == 'horizontal' %}
-<div class="movie-list">
-<!-- -->
-{% for item in movies %}
-<div class="poster-horizontal">
-  <section class="poster-plate" onclick="handleClickMovieUpsert('{{item.code}}')">
-    <div class="poster-wrapper">
-      <div class="img-frame"><img src="{{item.image}}" style="height:220px;margin-left:17px" class="poster-Image" /></div>
-    </div>
-    <div style="flex: 2; height: 100%"></div>
-    <div class="poster-details">
-      <div class="title-wrapper">
-        <div class="title">{{item.title}}</div>
-        <div class="divider"></div>
-      </div>
+    <div class="movie-content">
+      <div class="movie-title">{{item.title}}</div>
       <div class="rating">
         <div class="star-wrapper">
           <div class="star-rating">
             <span style="width: calc({{item.naverRating}} / 10 * 100%)"></span>
           </div>
         </div>
-        <div class="star-score">{{item.naverRating}}</div>
-      </div>
-      <div class="details">
-        <div class="director"><span>감독</span> {{item.director}}</div>
-        <div class="actors"><span>출연</span> {{item.actor}}</div>
-        <div class="release-date"><span>개봉일</span> {{item.pubDate}}</div>
+        <div class="star-score">{{item.naverRating}} 점</div>
       </div>
     </div>
   </section>
-</div>
-{% endfor %}
-</div>
-<!-- -->
-<div class="chevrons-rev">
-  <div class="left-chevron" onclick="handleClickMovieLeft('{{query}}', '{{direction}}')">
-    <i id="leftChevron" class="bi bi-chevron-compact-left"></i>
-    <a>이전</a>
+  {% endfor %}
+
+  <!-- -->
+  {% elif direction == 'horizontal' %}
+  <!-- -->
+  {% for item in movies %}
+  <div class="poster-horizontal">
+    <section class="poster-plate" onclick="handleClickMovieUpsert('{{item.code}}')">
+      <div class="poster-wrapper">
+        <div class="img-frame">
+          <img src="{{item.image}}" style="height: 220px; margin-left: 17px" class="poster-Image" />
+        </div>
+      </div>
+      <div style="flex: 2; height: 100%"></div>
+      <div class="poster-details">
+        <div class="title-wrapper">
+          <div class="title">{{item.title}}</div>
+          <div class="divider"></div>
+        </div>
+        <div class="rating">
+          <div class="star-wrapper">
+            <div class="star-rating">
+              <span style="width: calc({{item.naverRating}} / 10 * 100%)"></span>
+            </div>
+          </div>
+          <div class="star-score">{{item.naverRating}}</div>
+        </div>
+        <div class="details">
+          <div class="director"><span>감독</span> {{item.director}}</div>
+          <div class="actors"><span>출연</span> {{item.actor}}</div>
+          <div class="release-date"><span>개봉일</span> {{item.pubDate}}</div>
+        </div>
+      </div>
+    </section>
   </div>
-  <div class="right-chevron" onclick="handleClickMovieRight('{{query}}', '{{direction}}')">
-    <a>다음</a>
-    <i id="rightChevron" class="bi bi-chevron-compact-right"></i>
+  {% endfor %}
+  <!-- -->
+
+  {% endif %}
+</div>
+{% endblock %} {% elif chevron == 'off' %}
+<div class="movie-list">
+  {% if direction == 'vertical' %}
+  <!-- -->
+  {% for item in movies %}
+  <section class="poster-plate" onclick="handleClickMoviePoster('{{item.code}}')">
+    <div class="img-frame">
+      <img src="{{item.image}}" height="360" width="280" />
+    </div>
+    <div class="movie-content">
+      <div class="movie-title">{{item.title}}</div>
+      <div class="rating">
+        <div class="star-wrapper">
+          <div class="star-rating">
+            <span style="width: calc({{item.naverRating}} / 10 * 100%)"></span>
+          </div>
+        </div>
+        <div class="star-score">{{item.naverRating}} 점</div>
+      </div>
+    </div>
+  </section>
+  {% endfor %}
+
+  <!-- -->
+  {% elif direction == 'horizontal' %}
+  <!-- -->
+  {% for item in movies %}
+  <div class="poster-horizontal">
+    <section class="poster-plate" onclick="handleClickMovieUpsert('{{item.code}}')">
+      <div class="poster-wrapper">
+        <div class="img-frame">
+          <img src="{{item.image}}" style="height: 220px; margin-left: 17px" class="poster-Image" />
+        </div>
+      </div>
+      <div style="flex: 2; height: 100%"></div>
+      <div class="poster-details">
+        <div class="title-wrapper">
+          <div class="title">{{item.title}}</div>
+          <div class="divider"></div>
+        </div>
+        <div class="rating">
+          <div class="star-wrapper">
+            <div class="star-rating">
+              <span style="width: calc({{item.naverRating}} / 10 * 100%)"></span>
+            </div>
+          </div>
+          <div class="star-score">{{item.naverRating}}</div>
+        </div>
+        <div class="details">
+          <div class="director"><span>감독</span> {{item.director}}</div>
+          <div class="actors"><span>출연</span> {{item.actor}}</div>
+          <div class="release-date"><span>개봉일</span> {{item.pubDate}}</div>
+        </div>
+      </div>
+    </section>
   </div>
+  {% endfor %}
+  <!-- -->
+
+  {% endif %}
 </div>
 {% endif %}

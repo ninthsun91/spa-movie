@@ -1,0 +1,11 @@
+{%block content%}{%endblock%}
+<div class="chevrons">
+  <div class="left-chevron" onclick="handleClickMovieLeft('{{query}}', '{{direction}}')">
+    <i id="leftChevron" class="bi bi-chevron-compact-left"></i>
+    <a>이전</a>
+  </div>
+  <div class="right-chevron" onclick="handleClickMovieRight('{{query}}', '{{direction}}')">
+    <a>다음</a>
+    <i id="rightChevron" class="bi bi-chevron-compact-right"></i>
+  </div>
+</div>
