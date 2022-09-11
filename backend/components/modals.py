@@ -34,18 +34,8 @@ def create():
         cover= request.args.get("cover")
         tag_id = request.args.get("tagId")
 
-        return render_template("components/movieSearch.html",is_modal_covered=cover,tag_to_empty=tag_id)
-
-
-@modals_ext.route("/upsert")
-def upsert():
-    # if login_check():
-    #    abort(401)
-    tag_to_empty = request.args.get("tagId")    
-    movie_id = request.args.get("movieId")
-    movie = movie_code(int(movie_id))
-    
-    return render_template("components/review_upsert.html",tag_to_empty=tag_to_empty,movie=movie,movie_title="tenet create",title="Make Review",make_edit="make") 
+        return render_template("components/movieSearch.html",
+            is_modal_covered=cover, tag_to_empty=tag_id)
 
 
 @modals_ext.route("/popup-review-create")
@@ -58,13 +48,31 @@ def popup_upsertied():
         return render_template("components/popup.html",message="리뷰가 제출 되었습니다.")
 
 
+@modals_ext.route("/upsert")
+def upsert():
+    # if login_check():
+    #    abort(401)
+    tag_to_empty = request.args.get("tagId")
+    m_id = request.args.get("movieId")
+    movie = movie_code(int(m_id))
+    review = {
+        "title": "",
+        "comment": ""
+    }
+    
+    return render_template("components/review_upsert.html", tag_to_empty=tag_to_empty, 
+        movie=movie, review=review, title="Make Review", make_edit="make") 
+
+
 @modals_ext.route("/edit")
 def edit():
     # if login_check():
     #    abort(401)
     tag_to_empty = request.args.get("tagId")    
-    movie_id = request.args.get("movieId")
-    review_id = request.args.get("reviewId")
-    print("review_id : ",review_id)
-    movie = movie_code(int(movie_id))
-    return render_template("components/review_upsert.html",tag_to_empty=tag_to_empty,movie=movie,title="Edit Review",make_edit="edit",review_id=review_id)
+    m_id = request.args.get("movieId")
+    r_id = request.args.get("reviewId")
+    movie = movie_code(int(m_id))
+    review = review_id(r_id)
+
+    return render_template("components/review_upsert.html", tag_to_empty=tag_to_empty,
+        movie=movie, review=review, title="Edit Review", make_edit="edit", reviewId=r_id)

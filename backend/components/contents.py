@@ -56,7 +56,8 @@ def view_review():
         review_data["movie"] = movie
         review_data["likecount"] = len(review_data["likes"])
         print("review_data : ",review_data)
-        return render_template("components/review.html",tag_to_empty=tag_to_empty,data=review_data)
+        return render_template("components/review.html",
+            tag_to_empty=tag_to_empty, data=review_data)
 
 
 @contents_ext.route("/movie-with-reviews")
@@ -69,4 +70,5 @@ def movie_with_reviews():
     print("reviews : ",reviews)
     print("hi")
 
-    return render_template("components/movie_with_reviews.html",tag_to_empty=tag_to_empty,movie=movie,reviews=reviews)
+    return render_template("components/movie_with_reviews.html",
+        tag_to_empty=tag_to_empty, movie=movie, reviews=reviews)

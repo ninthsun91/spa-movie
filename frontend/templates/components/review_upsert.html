@@ -4,17 +4,17 @@
     <div class="divider"></div>
   </header>
   <h3>about {{movie.title}}</h3>
-  <form onsubmit="handleSubmitMovieUpsirt(event,'{{movie.code}}','{{review_id}}')">
+  <form onsubmit="handleSubmitMovieUpsirt(event,'{{movie.code}}','{{reviewId}}')">
     <div class="input-wrapper">
       <label for="reviewTitle">title</label>
-      <input id="reviewTitle" type="text" value="" />
+      <input id="reviewTitle" type="text" value="{{review.title}}" />
     </div>
     <div class="input-wrapper">
       <label for="reviewContent">content</label>
-      <textarea id="reviewContent" cols="30" rows="10"></textarea>
+      <textarea id="reviewContent" cols="30" rows="10">{{review.comment}}</textarea>
     </div>
     <div class="button-wrapper" style="display: flex">
-      <input type="button" value="cancel" onclick="handleClickMovieUpsirtCancel('{{make_edit}}')" />
+      <input type="button" value="cancel" onclick="handleClickMovieUpsirtCancel('{{make_edit}}', '{{reviewId}}')" />
       <button>submit</button>
     </div>
   </form>
