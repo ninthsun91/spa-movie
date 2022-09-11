@@ -70,6 +70,11 @@ nav .menu li {
   color: white;
   cursor: pointer;
 }
+nav .menu li .logout {
+  color: rgb(30, 30, 30);
+  background-color: rgb(224, 224, 224);
+  padding: 2px;
+}
 .sign section {
   display: flex;
   justify-content: center;

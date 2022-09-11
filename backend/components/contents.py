@@ -68,5 +68,5 @@ def movie_with_reviews():
     movie = movie_code(int(movieId))
     print("movie : ",movie)
     reviews = [review_id(reviewid) for reviewid in movie["reviews"]]
-    
+
     return render_template("components/movie_with_reviews.html",tag_to_empty=tag_to_empty,movie=movie,reviews=reviews)

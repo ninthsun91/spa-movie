@@ -33,9 +33,9 @@ const handleClickLogo = function () {
 
 // my page
 const handleClickMyPage = function () {
-  console.log('click profile');
+  console.log("click profile");
   loadMyPage();
-}
+};
 
 // profile
 const handleClickProfile = function () {
@@ -52,7 +52,6 @@ const hideProfile = function () {
 const handleClickProfileCancel = function () {
   profile().hide();
 };
-
 
 const signUpId = () => $("#" + TAG_ID.SIGN_UP_ID);
 const signUpPw = () => $("#" + TAG_ID.SIGN_UP_PW);
@@ -155,7 +154,6 @@ const handleSubmitSignIn = function (event) {
   event.preventDefault();
   const { isValid } = signValidator(tagsIn);
   const data = { username: tagsIn.id().val(), password: tagsIn.pw().val() };
-  console.log("data; : ", data);
   if (isValid) {
     $.ajax({
       url: "/signin",
@@ -163,10 +161,22 @@ const handleSubmitSignIn = function (event) {
       method: "POST",
       success: function (res) {
         console.log(res);
+        loadPage(PATH_NAME.HOME);
+        setTimeout(function () {
+          loadComponent("movieListNow", "/components/postercard?direction=vertical&count=5&type=now");
+          loadComponent("movieListTrending", "/components/postercard?direction=vertical&count=5&type=trend");
+        }, 300);
       },
-      complete: function () {
-        hideSign();
-      },
+      complete: function () {},
     });
   }
+};
+const handleClickLogOut = function () {
+  console.log("logout");
+  document.cookie = "logintoken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+  loadPage(PATH_NAME.HOME);
+  setTimeout(function () {
+    loadComponent("movieListNow", "/components/postercard?direction=vertical&count=5&type=now");
+    loadComponent("movieListTrending", "/components/postercard?direction=vertical&count=5&type=trend");
+  }, 300);
 };
