@@ -27,7 +27,8 @@ def poster_list():
         movies = result["movies"]
         max_page = result["max_page"]
 
-    return render_template("components/poster_card.html", movies=movies, direction=direction)
+    return render_template("components/poster_card.html",
+        movies=movies, direction=direction, query=query)
 
 
 @contents_ext.route("/reviewcard")

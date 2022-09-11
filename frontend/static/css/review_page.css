@@ -152,7 +152,7 @@
   align-self: flex-end;
   gap: 12px;
 }
-.board .review-viewer .review-wrapper .review-container.most-reviewed {
+.board .review-viewer .review-wrapper .review-container.movie-list {
   flex-direction: row;
   flex-wrap: wrap;
   gap: 10px;
@@ -179,6 +179,9 @@
   /* border: solid 1px red; */
   width: 90%;
   left: 8.5%;
+}
+#mostReviewed .chevrons-rev {
+  left: 0.5% !important;
 }
 .chevrons-rev div {
   display: flex;

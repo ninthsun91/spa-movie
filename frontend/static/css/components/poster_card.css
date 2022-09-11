@@ -32,19 +32,22 @@
   justify-content: flex-start;
 }
 
+
+
 .poster-horizontal {
   margin: 10px 0;
   padding: 0 40px;
 }
 .poster-horizontal .poster-plate {
-  background-color: white;
+  /* background-color: white; */
+  background-color: rgb(24, 24, 24);
   width: 100%;
   display: flex;
   padding: 5px;
   cursor: pointer;
-  height: 360px;
+  height: 15%;
   position: relative;
-  box-shadow: 1px 2px 5px rgb(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 1px rgb(232, 232, 232);
 }
 .poster-horizontal .poster-plate .poster-wrapper {
   position: absolute;
@@ -67,9 +70,10 @@
   color: rgb(225, 225, 225);
   right: 30px;
   padding: 12px;
-  font-size: 50px;
+  font-size: 2em;
   font-weight: 900;
   z-index: 2;
+  box-shadow: 0px 0px 1px rgb(232, 232, 232)
 }
 .poster-horizontal .poster-plate .poster-details .title-wrapper .divider {
   top: 48px;
@@ -77,7 +81,7 @@
   position: absolute;
   width: 90%;
   height: 5px;
-  background-color: rgb(30, 30, 30);
+  background-color: rgb(232, 232, 232);
 }
 .poster-horizontal .poster-plate .poster-details span {
   font-weight: 900;
@@ -91,23 +95,35 @@
 .poster-horizontal .poster-plate .poster-details .rating .star-wrapper .star-rating {
   position: absolute;
   top: 12px;
-  transform: scale(1.1);
+  transform: scale(1);
 }
 .poster-horizontal .poster-plate .poster-details .rating .star-score {
-  font-size: 32px;
+  font-size: 2em;
   font-weight: 900;
+  color: rgb(232, 232, 232);
   position: absolute;
   top: 16px;
   left: 230px;
 }
 .poster-horizontal .poster-plate .poster-details .details {
-  font-size: 24px;
+  font-size: 1em;
+  font-weight: 600;
+  color: rgb(232, 232, 232);
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 6px;  
 }
+
 .poster-horizontal .poster-plate .poster-details .details .director {
   margin-top: 80px;
+}
+
+.poster-horizontal .poster-plate .poster-details .details .actors {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* number of lines to show */
+  -webkit-box-orient: vertical; 
 }
 
 .star-wrapper {

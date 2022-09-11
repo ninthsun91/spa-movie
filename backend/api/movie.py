@@ -74,12 +74,14 @@ def list_now():
         : 전체필드 = [ "code", "title", "director", "actor", "pubDate",
                 "naverRating", "userRating", "description", "reviews" ]
     """   
+    query = request.args.get("query")
     direction = request.args.get("direction")
     field = [ "code", "title", "director", "actor", "pubDate", "naverRating" ]
     result = movie_card("now", field, request.args)
     movies = result["movies"]
 
-    return render_template("components/poster_card.html", movies=movies, direction=direction)
+    return render_template("components/poster_card.html", 
+        movies=movies, query=query, direction=direction)
 
 
 # 홈/리뷰 트랜딩 영화
@@ -97,6 +99,7 @@ def list_trend():
                 "naverRating", "userRating", "description", "reviews", "review_count" ]
         : review_cout = 리뷰 갯수
     """
+    query = request.args.get("query")
     direction = request.args.get("direction")
     field = [ "code", "title", "director", "actor", "pubDate", "naverRating" ]
 
@@ -108,7 +111,8 @@ def list_trend():
         result = movie_card("trend", field, request.args)
     movies = result["movies"]
 
-    return render_template("components/poster_card.html", movies=movies, direction=direction)
+    return render_template("components/poster_card.html",
+        movies=movies, query=query, direction=direction)
 
 
 # 영화 제목 검색
