@@ -8,10 +8,11 @@ USE "flask run" INSTEAD
 "flask run"을 대신 사용하세요
 """
 from backend import create_app
+import os
 
 
 app = create_app()
 
-
 if __name__ == "__main__":
-    app.run("0.0.0.0", port=5000, debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
