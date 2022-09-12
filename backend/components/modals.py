@@ -42,6 +42,7 @@ def create():
 @modals_ext.route("/popup")
 def popup_msg():
     message = request.args.get("msg")
+    print("pop", message)
     return render_template("components/popup.html", message=message)
 
 

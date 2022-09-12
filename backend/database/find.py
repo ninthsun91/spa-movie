@@ -22,6 +22,12 @@ def review_id(rid):
 
     return review
 
+def review_delete_id(rid):
+    """
+    리뷰 _id로 삭제
+    """
+    return db.reviews.delete_one({"_id": ObjectId(rid)})
+
 
 def user_uid(uid):
     """

@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify, request, render_template
-from bson.objectid import ObjectId
 from datetime import datetime
 
 from ..config import Pymongo
@@ -72,6 +71,21 @@ def review_write():
     # update_rating(code)
 
     return jsonify({"msg": "리뷰를 등록했습니다!"})
+
+
+# 리뷰 삭제
+@review_bp.route("/delete")
+def review_delete():
+    """
+    : GET, "/delete?id=id"
+    : id = review _id
+    """
+    r_id = request.args.get("reviewId")
+    result = review_delete_id(r_id).deleted_count
+
+    if result == 1:
+        return jsonify({ "msg": "리뷰를 삭제했습니다!" })
+
 
 
 # 인기 많은 리뷰

@@ -69,6 +69,7 @@ const handleSubmitMovieUpsirt = function (event, movieId, reviewId = undefined) 
         popupPlace().show();
       }
       modalPlace().empty();
+      // loadPage("/rev", handleLoadRev);
       // console.log(msg);
 
       loadComponent("popupPlace", "/components/popup-review-create?type=success");
@@ -131,8 +132,41 @@ const handleClickReviewLike = function () {
   const score = +$("#likeScore").text();
   $("#likeScore").text(score + 1);
 };
-const handleClickReviewDelete = function () {
-  // console.log("delete");
+const handleClickReviewDelete = function (reviewId) {
+  modalPlace().empty();
+  $.get(`/delete?reviewId=${reviewId}`, (res)=>{
+    msg = encodeURIComponent("리뷰를 삭제했습니다")
+    loadComponent("popupPlace", "/components/popup?msg="+msg);
+      if ($("#recentCheckBox").is(":checked")) {
+        loadComponent(
+          "recentReview", 
+          "/components/reviewcard" +
+          "?query=recentrev" +
+          "&is_home=no"
+          );
+      }
+      if ($("#popularCheckBox").is(":checked")) {
+        loadComponent(
+          "popularReview", 
+          "/components/reviewcard" +
+          "?query=popular" +
+          "&is_home=no"
+          );
+      }
+      if ($("#mostCheckBox").is(":checked")) {
+        loadComponent(
+          "mostReviewed",
+          "/components/postercard" +
+            "?direction=vertical" +
+            "&query=trendrev" +
+            "&chevron=on" +
+            "is_home=no"
+        );
+      }
+      timeout = setTimeout(function () {
+        popupPlace().empty();
+      }, 3000);
+  })
 };
 const handleClickMoviePoster = function (code) {
   // console.log(code);
