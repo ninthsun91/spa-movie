@@ -202,21 +202,19 @@ const handleSubmitSignUp = function (event) {
   const { isValid } = signValidator(tagsUp);
   if (isValid) {
     const data = { username: tagsUp.id().val(), password: tagsUp.pw().val() };
+    console.log(data)
     $.ajax({
       url: "/signup",
       data,
       method: "POST",
       success: function ({ msg }) {
-        if (msg === "success") {
-          loadComponent(TAG_ID.SIGN, "/components/signin?tagId=" + TAG_ID.SIGN, function () {
-            sign().show();
-          });
-        }
-      },
-      complete: function () {},
+        loadComponent(TAG_ID.SIGN, "/components/signin?tagId=" + TAG_ID.SIGN, function () {
+          sign().show();
+        });
+      }
     });
-  }
-};
+  };
+}
 
 const handleSubmitSignIn = function (event) {
   event.preventDefault();
@@ -281,16 +279,17 @@ const handleSubmitProfile = function (event) {
 };
 
 const handleClickLogOut = function () {
-  // console.log("logout");
+  console.log("logout");
   document.cookie = "logintoken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
   const { pathname } = location;
+  console.log(pathname)
 
   switch (pathname) {
     case PATH_NAME.REV:
       return loadPage(PATH_NAME.REV, handleLoadRev);
     case PATH_NAME.HOME:
       return loadPage(PATH_NAME.HOME, handleLoadHome);
-    case PATH_NAME.MY_PAGE:
-      return loadPage(PATH_NAME.MY_PAGE, handleLoadMyPage);
+    case PATH_NAME.PROFILE:
+      return reloadPage(PATH_NAME.HOME, handleLoadHome);
   }
-};
+}
