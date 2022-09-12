@@ -106,7 +106,8 @@ def profile_update():
       "instagram": instagram,
       # etc
    }
-   db.users.update_one({"uid": uid}, profile, upsert=True)
+   print(profile)
+   db.users.update_one({"uid": uid}, {"$set": profile}, upsert=True)
 
    return jsonify({ "msg": "프로필을 수정했습니다." })
 

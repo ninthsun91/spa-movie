@@ -39,6 +39,13 @@ const handleClickMyPage = function () {
 
 // profile
 const handleClickProfile = function () {
+
+  // console.log("testtest")
+
+  // $.get("/test2", (res)=>{
+  //   console.log(res)
+  // })
+
   loadComponent(TAG_ID.PROFILE, "/components/profile/update?tagId=" + TAG_ID.PROFILE, function () {
     profile().show();
   });
@@ -72,12 +79,27 @@ const tagsIn = {
   pw: () => $("#" + TAG_ID.SIGN_IN_PW),
   errorMsg: () => $("#" + TAG_ID.SIGN_IN_ERROR_MESSAGE),
 };
+const tagsProfile = {
+  pw: () => $("#" + TAG_ID.PROFILE_PW),
+  confirm: () => $("#" + TAG_ID.PROFILE_CONFIRM),
+  email: () => $("#" + TAG_ID.PROFILE_EMAIL),
+  contact: () => $("#" + TAG_ID.PROFILE_CONTACT),
+  address: () => $("#" + TAG_ID.PROFILE_ADDRESS),
+  instagram: () => $("#" + TAG_ID.PROFILE_INSTAGRAM),
+  errorMsg: () => $("#" + TAG_ID.PROFILE_ERROR_MESSAGE),
+};
 const idValidator = (idVal) => (reg.id.test(idVal) && idVal ? { isValid: true } : { isValid: false, msg: "id error" });
 const pwValidator = (pwVal) =>
   reg.password.test(pwVal) && pwVal ? { isValid: true } : { isValid: false, msg: "pw error" };
 
 const confirmValidator = (pwVal, confirmVal) =>
   pwVal === confirmVal && confirmVal ? { isValid: true } : { isValid: false, msg: "confirm error" };
+
+const emailValidator = (emailVal) => 
+  reg.email.test(emailVal) && emailVal ? { isValid: true } : { isValid: false, msg: "email error" };
+
+  const contactValidator = (contactVal) => 
+  reg.contact.test(contactVal) && contactVal ? { isValid: true } : { isValid: false, msg: "contact error" };
 
 const signValidator = function ({ id, pw, confirm }) {
   const { isValid: isValidId, msg: msgId } = idValidator(id().val());
@@ -90,6 +112,23 @@ const signValidator = function ({ id, pw, confirm }) {
   }
   return { isValid: true };
 };
+
+const profileValidator = function ({ pw, confirm, email, contact }) {
+  const { isValid: isValidPw, msg: msgPw } = pwValidator(pw().val());
+  if (!isValidPw) return msgPw;
+  if (confirm) {
+    const { isValid: isValidConfirm, msg: msgConfirm } = confirmValidator(pw().val(), confirm().val());
+    if (!isValidConfirm) return msgConfirm;
+  } 
+  const { isValid: isValidEmail, msg: msgEmail } = emailValidator(email().val());
+  if (!isValidEmail) return msgEmail;
+  const { isValid: isValidContact, msg: msgContact } = contactValidator(contact().val());
+  if (!isValidContact) return msgContact;
+  return { isValid: true };
+  
+};
+
+
 
 const showErrorMsg = function (msgTag, { isValid, msg }) {
   if (!isValid) {
@@ -132,6 +171,36 @@ const handleInputSignInPw = function (event) {
   } = event;
   showErrorMsg(tagsIn.errorMsg, pwValidator(value));
 };
+
+
+const handleInputProfilePw = function (event) {
+  const {
+    target: { value },
+  } = event;
+  showErrorMsg(tagsProfile.errorMsg, pwValidator(value));
+};
+
+const handleInputProfileConfirm = function (event) {
+  const {
+    target: { value },
+  } = event;
+  showErrorMsg(tagsProfile.errorMsg, confirmValidator(tagsProfile.pw().val(), value));
+};
+
+const handleInputProfileEmail = function (event) {
+  const {
+    target: { value },
+  } = event;
+  showErrorMsg(tagsProfile.errorMsg, emailValidator(value));
+};
+
+const handleInputProfileContact = function (event) {
+  const {
+    target: { value },
+  } = event;
+  showErrorMsg(tagsProfile.errorMsg, contactValidator(value));
+};
+
 
 const handleSubmitSignUp = function (event) {
   event.preventDefault();
@@ -176,8 +245,7 @@ const handleSubmitSignIn = function (event) {
               "movieListNow",
               "/components/postercard" +
                 "?direction=vertical" +
-                "&count=5" +
-                "&type=now" +
+                "&query=now" +
                 "&chevron=on" +
                 "is_home=yes"
             );
@@ -185,17 +253,16 @@ const handleSubmitSignIn = function (event) {
               "movieListTrending",
               "/components/postercard" +
                 "?direction=vertical" +
-                "&count=5" +
-                "&type=trend" +
+                "&query=trend" +
                 "&chevron=on" +
                 "is_home=yes"
-            );
           }, 500);
         }
         if (pathname === PATH_NAME.REV) {
           setTimeout(function () {
-            loadComponent("recentReview", "/components/reviewcard?type=recent&is_home=no");
-            loadComponent("popularReview", "/components/reviewcard?type=popular&is_home=no");
+            loadComponent("recentReview", "/components/reviewcard?query=recent&is_home=no");
+            loadComponent("popularReview", "/components/reviewcard?query=popular&is_home=no");
+
             setTimeout(function () {
               reviewMenuSlideUp();
               reviewContainerWidthGrow();
@@ -204,6 +271,30 @@ const handleSubmitSignIn = function (event) {
         }
       },
       complete: function () {},
+    });
+  }
+};
+
+const handleSubmitProfile = function (event) {
+  event.preventDefault();
+
+  const { isValid } = profileValidator(tagsProfile);
+  if (isValid) {
+    const data = { 
+      password: tagsProfile.pw().val(),
+      email: tagsProfile.email().val(),
+      contact: tagsProfile.contact().val(),
+      address: tagsProfile.address().val(),
+      instagram: tagsProfile.instagram().val(),
+    }
+    $.ajax({
+      url: "/profile",
+      data,
+      method: "POST",
+      success: function ({ msg }) {
+        const { pathname } = location;
+        loadPage(pathname);
+      },
     });
   }
 };

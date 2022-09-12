@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, abort
 from .config.session import *
-from .database import user_uid
+from .database import user_uid, user_fill
 from .util import *
 
 
@@ -25,6 +25,9 @@ def review():
 
 @main_bp.route("/profile")
 def profile():
-    if token_check() is None :
+    payload = token_check()
+    if payload is None :
         abort(403)
-    return render_template("my_page.html", user=user_uid(), session="in")
+    user = user_uid(payload["uid"])
+    
+    return render_template("my_page.html", user=user_fill(user), session="in")

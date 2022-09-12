@@ -17,10 +17,10 @@
                         </div>
                         {# User Profile Description #}
                         <div class="user-profile__decs">
-                            <h1>김항해</h1>
+                            <h1>{{user.username}}</h1>
                             <dl>
                                 <dt class="sr-only">이메일</dt>
-                                <dd>voage99@naver.com</dd>
+                                <dd>{{user.email}}</dd>
                             </dl>
                         </div>
                         {# User Profile Button #}
@@ -36,11 +36,11 @@
                         <div class="user-information__image">
                             <img src="http://www.gepower.co.kr/common/img/default_profile.png" alt="Profile image">
                             <div class="user-information__profile">
-                                <h1>김항해</h1>
+                                <h1>{{user.username}}</h1>
                                 <dl>
                                     <div class="user-information__email">
                                         <dt class="sr-only">이메일</dt>
-                                        <dd>voage99@naver.com</dd>
+                                        <dd>{{user.email}}</dd>
                                     </div>
                                 </dl>
                             </div>
@@ -51,17 +51,17 @@
                                 <div class="user-information__phone-number">
                                     <span class="material-symbols-outlined">phone_iphone</span>
                                     <dt class="sr-only">핸드폰 번호</dt>
-                                    <dd>010-0000-0000</dd>
+                                    <dd>{{user.contact}}</dd>
                                 </div>
                                 <div class="user-information__address">
                                     <span class="material-symbols-outlined">home</span>
                                     <dt class="sr-only">주소</dt>
-                                    <dd>경기도 용인시 수지구</dd>
+                                    <dd>{{user.address}}</dd>
                                 </div>
                                 <div class="user-information__instagram">
                                     <span class="material-symbols-outlined">numbers</span>
                                     <dt class="sr-only">인스타그램</dt>
-                                    <dd><a href="https://www.instagram.com/cgv_korea/" target="_blank">Instagram</a></dd>
+                                    <dd><a href="{{user.instagram}}" target="_blank">{{user.instagram}}</a></dd>
                                 </div>
                             </dl>
                         </div>

@@ -40,6 +40,14 @@ def token_check():
         return None
 
 
+
+
+
+
+
+# 페이지 넘버링 전부 JS로 옮김
+
+# DEPRECATED
 def session_page(session_name, query, show):
     """
     카드 컴포넌트 페이지 넘버 처리
