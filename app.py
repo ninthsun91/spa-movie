@@ -1,11 +1,11 @@
 """
 THIS IS A TEMPORARY FILE FOR DEVELOPMENT
 DO NOT RUN THIS FILE OUT OF LOCALHOST
-USE "flask run" INSTEAD
+USE "gunicorn -w 4 'backend:create_app()'" FOR DEPLOYMENT
 
 개발 환경을 위한 임시 파일입니다
 로컬환경 밖에서 실행하지 마세요
-"flask run"을 대신 사용하세요
+게시할 때는 "gunicorn -w 4 'backend:create_app()'"을 사용하세요
 """
 from backend import create_app
 import os
