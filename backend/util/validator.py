@@ -12,7 +12,7 @@ def check_password(test):
 
 
 def check_email(test):
-    email = re.compile(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$")
+    email = re.compile(r"^[\w\.]+@([\w-]+\.)+[\w-]{2,4}$")
     return True if email.fullmatch(test) else False
 
 

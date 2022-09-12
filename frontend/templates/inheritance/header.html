@@ -5,14 +5,15 @@
 {% block content %}
 <div id="AppContainer">
   <nav id="header">
-    <div id="logo" class="logo">
+    <div id="logo" class="logo" onclick="handleClickLogo()">
       <div id="mainLogo" class="main-logo">
-        <div class="logo-image" onclick="handleClickMyPage()"></div>
-        <span class="app-name" onclick="handleClickLogo()">movie toy</span>
+        <div class="logo-image" ></div>
+        <span class="app-name">movie toy</span>
       </div>
       <div id="subAppname" class="sub-appname" onclick="handleClickLogo()">movie toy</div>
     </div>
     <ul class="menu">
+      <li onclick="handleClickMyPage()">mypage</li>
       <li onclick="handleClickReview()">review</li>
       {% if session == "in"%}
       <li class="logout" onclick="handleClickLogOut()">log out</li>

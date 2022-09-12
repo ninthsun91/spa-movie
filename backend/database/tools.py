@@ -88,6 +88,21 @@ def user_field(users, field: list):
     return users
 
 
+def user_fill(user):
+    """
+    빈 필드 임의 값으로 채워서 전달
+    """
+    if user["email"] is None or user["email"] is "":
+        user["email"] = "email@movie.com"
+    if user["contact"] is None or user["contact"] is "":
+        user["contact"] = "010-1234-5678"
+    if user["address"] is None or user["address"] is "":
+        user["address"] = "평양"
+    if user["instagram"] is None or user["instagram"] is "":
+        user["instagram"] = "instagram.com"
+
+    return user
+
 
 def update_rating(code):
     """

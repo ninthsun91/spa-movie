@@ -23,9 +23,29 @@ def review_id(rid):
     return review
 
 
-def user_uid():
-    payload = token_check()
-    if payload is not None:
-        uid = payload.get("uid")
+def user_uid(uid):
+    """
+    uid로 사용자 검색
+    """
+    return db.users.find_one({"uid": uid}, {"_id": False})
 
-        return db.users.find_one({"uid": uid}, {"_id": False})
+
+def users_all():
+    """
+    모든 사용자 검색
+    """
+    return db.users.find({}, {"_id": False})
+
+
+def movies_all():
+    """
+    모든 영화 검색
+    """
+    return db.movies.find({}, {"_id": False})
+
+
+def reviews_all():
+    """
+    모든 리뷰 검색
+    """
+    return db.reviews.find({})

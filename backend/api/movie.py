@@ -147,9 +147,21 @@ def search_title():
 
 @movie_bp.route("/test2")
 def test2():
-    cc = request.cookies.items()
-    for c in cc:
-        print(c)
+    users = users_all()
+
+    for user in users:
+        if "uid" not in user:
+            continue
+        uid = user["uid"]
+        if "email" not in user:
+            db.users.update_one({"uid": uid}, {"$set": {"email": "email@address.com"}})
+        if "contact" not in user:
+            db.users.update_one({"uid": uid}, {"$set": {"contact": "010-1234-5678"}})
+        if "address" not in user:
+            db.users.update_one({"uid": uid}, {"$set": {"address": "평양"}})
+        if "instagram" not in user:
+            db.users.update_one({"uid": uid}, {"$set": {"instagram": "instagram.com"}})
+        print(db.users.find({"uid": uid}, {"_id": False}))
     return ""
 
 def test3(a):

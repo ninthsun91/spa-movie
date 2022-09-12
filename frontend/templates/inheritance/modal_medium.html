@@ -1,0 +1,35 @@
+<div
+  style="
+    position: fixed;
+    left: 50%;
+    top: 50vh;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 200vh;
+    background-color: rgb(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    z-index: 999;
+  "
+  id="modalBackground"
+  onclick="handleClickModalBack('{{tag_to_empty}}')"
+>
+  <div
+    id="modalContent"
+    style="
+      color: black;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 550px;
+      height: 600px;
+      background-color: rgb(240, 240, 240);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    "
+    onclick="event.stopPropagation()"
+  >
+    {% block content%}{%endblock%}
+  </div>
+</div>

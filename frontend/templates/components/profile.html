@@ -1,35 +1,86 @@
-{% extends "inheritance/modal_small.html" %}
+{% extends "inheritance/modal_medium.html" %}
 {% block content %}
     <section>
         <header><h2>My Profile</h2></header>
-        <form onsubmit="handleSubmitSignIn(event)">
-            <div class="input-wrapper">
-                <label for="signUpId">id</label>
+        <form onsubmit="handleSubmitProfile(event)">
+            <div class="input-wrapper" style="margin-right: 245px">
+                <label for="profileId">id</label>
                 <input
                         oninput="handleInputSignInId(event)"
-                        id="signInId"
+                        id="profileId"
                         type="text"
                         required
                         minlength="3"
                         maxlength="15"
                         autocomplete="username"
+                        placeholder="{{user.username}}"
+                        readonly
+                        style="padding-left: 15px"
                 />
             </div>
-
-            <div class="input-wrapper">
-                <label for="signInPw">password</label>
-                <input
-                        oninput="handleInputSignInPw(event)"
-                        id="signInPw"
+            <div class="password-wrapper"
+                style="display:flex;flex-direction:row;">
+                <div class="input-wrapper">
+                    <label for="profilePw">password</label>
+                    <input
+                    oninput="handleInputProfilePw(event)"
+                    id="profilePw"
+                    type="password"
+                    required
+                    minlength="8"
+                    maxlength="15"
+                    autocomplete="password"
+                    style="padding-left: 15px"
+                    />
+                </div>
+                <div class="input-wrapper" style="margin-left: 50px">
+                    <label for="profileConfirm">confirm</label>
+                    <input
+                        oninput="handleInputProfileConfirm(event)"
+                        id="profileConfirm"
                         type="password"
                         required
                         minlength="8"
                         maxlength="15"
                         autocomplete="password"
-                />
+                        style="padding-left: 15px"
+                    />
+                </div>            
             </div>
+            <div class="contact-wrapper"
+                style="display:flex;flex-direction:row;">
+                <div class="input-wrapper">
+                    <label for="profileEmail">email</label>
+                    <input
+                            oninput="handleInputProfileEmail(event)"
+                            id="profileEmail"
+                            type="email"
+                            placeholder="email@address.com"
+                            style="padding-left: 15px"
+                    />
+                </div>
+                <div class="input-wrapper" style="margin-left: 50px">
+                    <label for="profileContact">contact</label>
+                    <input
+                            oninput="handleInputProfileContact(event)"
+                            id="profileContact"
+                            type="tel"
+                            placeholder="010-1234-5678"
+                            style="padding-left: 15px"
+                    />
+                </div>
+            </div>
+            <div class="input-wrapper" style="width: 400px">
+                <label for="profileAddress">Address</label>
+                <input id="profileAddress" type="text" style="padding-left: 15px" placeholder="평양"/>
+            </div>
+            <div class="input-wrapper" style="width: 400px">
+                <label for="profileInstagram">Instagram</label>
+                <input id="profileInstagram" type="text" style="padding-left: 15px" placeholder="instagram.com"/>
+            </div>
+        
 
-            <div id="signInErrorMessage" class="error-message"></div>
+            <div id="profileErrorMessage" class="error-message"></div>
             <div class="button-wrapper">
                 <input type="button" value="cancel" onclick="handleClickProfileCancel()"/>
                 <button>submit</button>

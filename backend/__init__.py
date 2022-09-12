@@ -13,8 +13,12 @@ def router(flask_app: Flask):
    flask_app.register_blueprint(review_bp)
    flask_app.register_blueprint(user_bp)
 
+   @flask_app.errorhandler(403)
+   def forbidden_403(e):
+      return render_template("others/403.html"), 403
+
    @flask_app.errorhandler(404)
-   def page_not_found(e):
+   def page_not_found_404(e):
       return render_template("others/404.html"), 404
 
 
