@@ -33,6 +33,8 @@ def create_app():
 
 def flask_env():
    if config.Config.ENV=="development":
+      print("development")
       return "backend.config.config.devConfig"
    else:
+      print("production")
       return "backend.config.config.Config"
