@@ -27,22 +27,13 @@ def movie_card(query: str, field: list, page=None, keyword=None):
     if query == "search":
         session["keyword"] = keyword
         return movies_title(field, keyword, page)
-    print("query : ", query)
-    print("field : ", field)
+
     get = CardList[query]["get"]
-    print("get : ",get)
     max_page = CardList[query]["max_page"]
     show = CardList[query]["show"]
 
-    # if "dir" in page: 
-    #     skip = session_dir(query, page, max_page, show)
-    # if page == None or len(page) == 0:
-    #     skip = 0
-    # elif "page" in page:
-    #     skip = session_page(query, page, show)
     page = int(request.cookies.get(query))
     skip = (page-1) * show
-
     movies = get(max_page*show, skip)
     result = movie_field(movies[0:show], field)
 
@@ -57,21 +48,13 @@ def review_card(query: str, field: list, page=None):
 
     return { reviews, max_page }
     """
-    print("query", query)
     get = CardList[query]["get"]
     show = CardList[query]["show"]
     reviews = get()
     max_page = len(reviews) / show
 
-    # if "dir" in page: 
-    #     skip = session_dir(query, page, max_page, show)
-    # if page == None or len(page) == 0:
-    #     skip = 0
-    # elif "page" in page:
-    #     skip = session_page(query, page, show)
     page = int(request.cookies.get(query))
     skip = (page-1) * show
-
     result = review_field(reviews[skip:skip+show], field)
 
     return { "reviews": result, "max_page": max_page }

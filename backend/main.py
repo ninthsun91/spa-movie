@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, abort
 from .config.session import *
 from .database import user_uid, user_fill
-from .util import *
+from .util.cookie import *
 
 
 main_bp = Blueprint("main", __name__)
