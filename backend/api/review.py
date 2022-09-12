@@ -92,13 +92,15 @@ def list_popular():
         "userRating", "likes", "time" ]
     result = review_card("popular", field, request.args)
     reviews = result["reviews"]
+    is_home = request.args["is_home"]
 
     for review in reviews:
         movie = movie_code(int(review["code"]))
         review["m_title"] = movie["title"]
         review["image"] = movie["image"]
 
-    return render_template("components/review_card.html", reviews=reviews, query=query)
+    return render_template("components/review_card.html", 
+        reviews=reviews, query=query, is_home=is_home)
 
 
 # 좋아요 수 조회

@@ -14,4 +14,5 @@ const setMaxPageReview = (responseText, textStatus, req) => {
   console.log("setMaxPage")
   max_page = responseText.split("value=")[1].split("\"")[1]
   document.cookie = max_page
+  console.log("max_page", max_page)
 }

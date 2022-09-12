@@ -14,7 +14,8 @@ const handleClickRecentLabel = function () {
     "recentReview", 
     "/components/reviewcard" +
     "?query=recentrev" +
-    "&is_home=no"
+    "&is_home=no",
+    complete=setMaxPageReview
     );
   toggleLi("recentLi");
   setTimeout(function () {
@@ -28,7 +29,8 @@ const handleClickPopularLabel = function () {
     "popularReview", 
     "/components/reviewcard" +
     "?query=popular" +
-    "&is_home=no"
+    "&is_home=no",
+    complete=setMaxPageReview
     );
   toggleLi("popularLi");
   setTimeout(function () {

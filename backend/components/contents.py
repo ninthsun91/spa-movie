@@ -19,6 +19,7 @@ def poster_list():
     direction = request.args.get("direction")
     query = request.args.get("query")
     field = [ "code", "image", "title", "director", "actor", "pubDate", "naverRating" ]
+    print(f"mooooooooovie is home: {is_home}")
 
     if query == "search":
         keyword = request.args.get("keyword")
@@ -29,9 +30,11 @@ def poster_list():
         result = movie_card(query, field)
         movies = result["movies"]
         max_page = result["max_page"]
+    
+    print(f"INITIAL", query, direction, is_home, chevron_switch)
 
     return render_template("components/poster_card.html",
-        movies=movies, direction=direction, query=query,chevron=chevron_switch,is_home=is_home)
+        movies=movies, direction=direction, query=query, chevron=chevron_switch, is_home=is_home)
 
 
 @contents_ext.route("/reviewcard")
@@ -42,6 +45,7 @@ def review_list():
     """
     is_home = request.args.get("is_home")
     query = request.args.get("query")
+    print(f"revieeeeeeeeeew is home: {is_home}")
 
     field = [ "_id", "code", "username", "title", "comment",
         "userRating", "likes", "time" ]
@@ -55,7 +59,7 @@ def review_list():
         review["image"] = movie["image"]
 
     return render_template("components/review_card.html",
-        reviews=reviews, query=query, max_page=max_page,is_home=is_home)
+        reviews=reviews, query=query, max_page=max_page, is_home=is_home)
 
 
 @contents_ext.route("/view-review")
@@ -80,8 +84,8 @@ def movie_with_reviews():
     movieId = request.args.get("movieId")
     movie = movie_code(int(movieId))
     reviews = [review_id(reviewid) for reviewid in movie["reviews"]]
-    print("reviews : ",reviews)
-    print("hi")
+    # print("reviews : ",reviews)
+    # print("hi")
 
     return render_template("components/movie_with_reviews.html",
         tag_to_empty=tag_to_empty, movie=movie, reviews=reviews)

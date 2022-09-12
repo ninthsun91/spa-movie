@@ -39,13 +39,6 @@ const handleClickMyPage = function () {
 
 // profile
 const handleClickProfile = function () {
-
-  // console.log("testtest")
-
-  // $.get("/test2", (res)=>{
-  //   console.log(res)
-  // })
-
   loadComponent(TAG_ID.PROFILE, "/components/profile/update?tagId=" + TAG_ID.PROFILE, function () {
     profile().show();
   });
@@ -247,7 +240,7 @@ const handleSubmitSignIn = function (event) {
                 "?direction=vertical" +
                 "&query=now" +
                 "&chevron=on" +
-                "is_home=yes"
+                "is_home=yes",                
             );
             loadComponent(
               "movieListTrending",
@@ -255,7 +248,7 @@ const handleSubmitSignIn = function (event) {
                 "?direction=vertical" +
                 "&query=trend" +
                 "&chevron=on" +
-                "is_home=yes"
+                "is_home=yes",                
           )}, 500);
         }
         if (pathname === PATH_NAME.REV) {

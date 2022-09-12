@@ -12,7 +12,7 @@ const loadPage = (pathname, complete = undefined) => {
 };
 
 const loadComponent = function (tagId, pathname, complete = undefined) {
-  $("#" + tagId).load(`${pathname}`, (complete = complete));
+  $("#" + tagId).load(`${pathname}`, complete = complete);
   console.log(complete);
   console.log(complete === undefined);
   if (complete === undefined) {

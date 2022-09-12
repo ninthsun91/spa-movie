@@ -3,12 +3,12 @@
   <i id="leftChevron" class="bi bi-chevron-compact-left"></i>
 </div>
 {%endif%} {%block content%}{%endblock%}{% if is_home=="no"%}
-<div class="chevrons">
-  <div class="left-chevron" onclick="handleClickMovieLeft('{{query}}', '{{direction}}')">
+<div class="chevrons"value="{{query}}_max={{max_page}}">
+  <div class="left-chevron" onclick="handleClickReviewLeft('{{query}}', '{{direction}}')">
     <i id="leftChevron" class="bi bi-chevron-compact-left"></i>
     <a>이전</a>
   </div>
-  <div class="right-chevron" onclick="handleClickMovieRight('{{query}}', '{{direction}}')">
+  <div class="right-chevron" onclick="handleClickReviewRight('{{query}}', '{{direction}}')">
     <a>다음</a>
     <i id="rightChevron" class="bi bi-chevron-compact-right"></i>
   </div>

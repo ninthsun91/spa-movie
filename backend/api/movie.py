@@ -43,7 +43,8 @@ def list_recent():
         : max_page = 최대 페이지 수
     """
     query = request.args.get("query")
-    page = request.args.get("page")
+    is_home = request.args.get("is_home")
+    print("reccccccccccent", query)
     # from /rev
     if query == "recentrev":
         field = [ "_id", "code", "username", "title", "comment",
@@ -56,7 +57,8 @@ def list_recent():
             review["m_title"] = movie["title"]
             review["image"] = movie["image"]
 
-        return render_template("components/review_card.html", reviews=reviews, query=query)
+        return render_template("components/review_card.html", 
+            reviews=reviews, query=query, is_home=is_home)
     # from /
     if query == "recent":
         field = [ "code", "title", "director", "actor", "pubDate",
@@ -107,7 +109,9 @@ def list_trend():
     query = request.args.get("query")
     direction = request.args.get("direction")
     field = [ "code", "title", "director", "actor", "pubDate", "naverRating" ]
-    print("treeeeeeeeeeend", query, direction)
+    is_home = request.args.get("is_home")
+    chevron_switch = request.args.get("chevron")
+    print("treeeeeeeeeeend", query, direction, is_home)
     # from /rev
     if "rev" in request.path:
         result = movie_card("trendrev", field, request.args)
@@ -115,9 +119,9 @@ def list_trend():
     else:
         result = movie_card("trend", field, request.args)
     movies = result["movies"]
-    print(movies)
+    print(f"BUTTON", query, direction, is_home, chevron_switch)
     return render_template("components/poster_card.html",
-        movies=movies, query=query, direction=direction)
+        movies=movies, query=query, direction=direction, is_home=is_home, chevron_switch=chevron_switch)
 
 
 # 영화 제목 검색
