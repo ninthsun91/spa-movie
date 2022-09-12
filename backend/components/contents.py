@@ -40,6 +40,7 @@ def review_list():
     GET. 필요한 QS 데이터
     : query = 요청하는 컨텐츠 종류. popular | recentrev
     """
+    is_home = request.args.get("is_home")
     query = request.args.get("query")
 
     field = [ "_id", "code", "username", "title", "comment",
@@ -54,7 +55,7 @@ def review_list():
         review["image"] = movie["image"]
 
     return render_template("components/review_card.html",
-        reviews=reviews, query=query, max_page=max_page)
+        reviews=reviews, query=query, max_page=max_page,is_home=is_home)
 
 
 @contents_ext.route("/view-review")

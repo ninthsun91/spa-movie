@@ -194,8 +194,8 @@ const handleSubmitSignIn = function (event) {
         }
         if (pathname === PATH_NAME.REV) {
           setTimeout(function () {
-            loadComponent("recentReview", "/components/reviewcard?type=recent");
-            loadComponent("popularReview", "/components/reviewcard?type=popular");
+            loadComponent("recentReview", "/components/reviewcard?type=recent&is_home=no");
+            loadComponent("popularReview", "/components/reviewcard?type=popular&is_home=no");
             setTimeout(function () {
               reviewMenuSlideUp();
               reviewContainerWidthGrow();

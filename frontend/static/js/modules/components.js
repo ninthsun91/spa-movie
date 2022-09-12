@@ -69,10 +69,10 @@ const handleSubmitMovieUpsirt = function (event, movieId, reviewId = undefined) 
 
       loadComponent("popupPlace", "/components/popup-review-create?type=success");
       if ($("#recentCheckBox").is(":checked")) {
-        loadComponent("recentReview", "/components/reviewcard?type=recentrev");
+        loadComponent("recentReview", "/components/reviewcard?type=recentrev&is_home=no");
       }
       if ($("#popularCheckBox").is(":checked")) {
-        loadComponent("popularReview", "/components/reviewcard?type=popular");
+        loadComponent("popularReview", "/components/reviewcard?type=popular&is_home=no");
       }
       if ($("#mostCheckBox").is(":checked")) {
         loadComponent(
