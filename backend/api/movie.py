@@ -44,7 +44,7 @@ def list_recent():
     """
     query = request.args.get("query")
     is_home = request.args.get("is_home")
-    print("reccccccccccent", query)
+
     # from /rev
     if query == "recentrev":
         field = [ "_id", "code", "username", "title", "comment",
@@ -111,7 +111,7 @@ def list_trend():
     field = [ "code", "title", "director", "actor", "pubDate", "naverRating" ]
     is_home = request.args.get("is_home")
     chevron_switch = request.args.get("chevron")
-    print("treeeeeeeeeeend", query, direction, is_home)
+
     # from /rev
     if "rev" in request.path:
         result = movie_card("trendrev", field, request.args)
@@ -119,7 +119,7 @@ def list_trend():
     else:
         result = movie_card("trend", field, request.args)
     movies = result["movies"]
-    print(f"BUTTON", query, direction, is_home, chevron_switch)
+
     return render_template("components/poster_card.html",
         movies=movies, query=query, direction=direction, is_home=is_home, chevron_switch=chevron_switch)
 
@@ -143,43 +143,3 @@ def search_title():
     result = movies_title(field, keyword, page=request.args)
     
     return jsonify( result )
-
-
-
-
-
-
-@movie_bp.route("/test2")
-def test2():
-    users = users_all()
-
-    for user in users:
-        if "uid" not in user:
-            continue
-        uid = user["uid"]
-        if "email" not in user:
-            db.users.update_one({"uid": uid}, {"$set": {"email": "email@address.com"}})
-        if "contact" not in user:
-            db.users.update_one({"uid": uid}, {"$set": {"contact": "010-1234-5678"}})
-        if "address" not in user:
-            db.users.update_one({"uid": uid}, {"$set": {"address": "평양"}})
-        if "instagram" not in user:
-            db.users.update_one({"uid": uid}, {"$set": {"instagram": "instagram.com"}})
-        print(db.users.find({"uid": uid}, {"_id": False}))
-    return ""
-
-def test3(a):
-    
-    print(a["dir"])
-    return ""
-    
-
-
-@movie_bp.route("/test", methods=["GET"])
-def test():
-   a = {
-    "name": "kim",
-    "birth": 1994,
-    "skills": ["node.js", "python3"]
-   }   
-   return render_template("test.html", a=a)

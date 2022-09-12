@@ -202,21 +202,19 @@ const handleSubmitSignUp = function (event) {
   const { isValid } = signValidator(tagsUp);
   if (isValid) {
     const data = { username: tagsUp.id().val(), password: tagsUp.pw().val() };
+    console.log(data)
     $.ajax({
       url: "/signup",
       data,
       method: "POST",
       success: function ({ msg }) {
-        if (msg === "success") {
-          loadComponent(TAG_ID.SIGN, "/components/signin?tagId=" + TAG_ID.SIGN, function () {
-            sign().show();
-          });
-        }
-      },
-      complete: function () {},
+        loadComponent(TAG_ID.SIGN, "/components/signin?tagId=" + TAG_ID.SIGN, function () {
+          sign().show();
+        });
+      }
     });
-  }
-};
+  };
+}
 
 const handleSubmitSignIn = function (event) {
   event.preventDefault();
@@ -228,51 +226,28 @@ const handleSubmitSignIn = function (event) {
       data,
       method: "POST",
       success: function (res) {
-        // console.log(res);
-        const { pathname } = location;
-        // console.log("pathname", pathname);
-        if (pathname === PATH_NAME.HOME) {
-          loadPage(pathname, handleLoadHome);
-          // setTimeout(function () {
-          //   loadComponent(
-          //     "movieListNow",
-          //     "/components/postercard" +
-          //       "?direction=vertical" +
-          //       "&query=now" +
-          //       "&chevron=on" +
-          //       "is_home=yes",
-          //   );
-          //   loadComponent(
-          //     "movieListTrending",
-          //     "/components/postercard" +
-          //       "?direction=vertical" +
-          //       "&query=trend" +
-          //       "&chevron=on" +
-          //       "is_home=yes",   
-          // )}, 500);
+        if (res.msg === "로그인 성공") {
+          const { pathname } = location;
+          // console.log("pathname", pathname);
+          if (pathname === PATH_NAME.HOME) {
+            loadPage(pathname, handleLoadHome);
+          }
+          if (pathname === PATH_NAME.REV) {
+            loadPage(pathname, handleLoadRev);
+          }
+        } else {
+          $("#sign").empty();
+          $("#modalPlace").append(res)
+          setTimeout(function () {
+            if ($("#modalPlace").children().text().trim() === "아이디, 비밀번호가 잘못되었습니다.") {
+              $("#modalPlace").empty();
+            }
+          }, 2000);
         }
-        if (pathname === PATH_NAME.REV) {
-          loadPage(pathname, handleLoadRev);
-          // setTimeout(function () {
-          //   loadComponent(
-          //     "recentReview", 
-          //     "/components/reviewcard" +
-          //     "?query=recent" +
-          //     "&is_home=no"
-          //     );
-          //   loadComponent(
-          //     "popularReview", 
-          //     "/components/reviewcard" +
-          //     "?query=popular" +
-          //     "&is_home=no"
-          //     );
-
-          //   setTimeout(function () {
-          //     reviewMenuSlideUp();
-          //     reviewContainerWidthGrow();
-          //   }, 300);
-          // }, 500);
-        }
+        
+      },
+      error: function (request, status, error){
+        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
       },
       complete: function () {},
     });
@@ -304,16 +279,17 @@ const handleSubmitProfile = function (event) {
 };
 
 const handleClickLogOut = function () {
-  // console.log("logout");
+  console.log("logout");
   document.cookie = "logintoken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
   const { pathname } = location;
+  console.log(pathname)
 
   switch (pathname) {
     case PATH_NAME.REV:
       return loadPage(PATH_NAME.REV, handleLoadRev);
     case PATH_NAME.HOME:
       return loadPage(PATH_NAME.HOME, handleLoadHome);
-    case PATH_NAME.MY_PAGE:
-      return loadPage(PATH_NAME.MY_PAGE, handleLoadMyPage);
+    case PATH_NAME.PROFILE:
+      return reloadPage(PATH_NAME.HOME, handleLoadHome);
   }
-};
+}

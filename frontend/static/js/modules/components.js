@@ -71,7 +71,7 @@ const handleSubmitMovieUpsirt = function (event, movieId, reviewId = undefined) 
       modalPlace().empty();
       // console.log(msg);
 
-      loadComponent("popupPlace", "/components/popup-review-create?query=success");
+      loadComponent("popupPlace", "/components/popup-review-create?type=success");
       if ($("#recentCheckBox").is(":checked")) {
         loadComponent(
           "recentReview", 

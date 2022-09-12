@@ -27,7 +27,7 @@ const setTitle = function (title) {
 const pushHistory = (pathname) => history.pushState({ pathname }, "", location.origin + pathname);
 history.replaceState({ pathname: location.pathname }, "");
 window.onpopstate = function ({ state }) {
-  // console.log("onpopstate POPSTATE", state)
+  console.log("onpopstate POPSTATE", state)
   switch (state.pathname) {
     case PATH_NAME.REV:
       return loadPage(PATH_NAME.REV, handleLoadRev);
