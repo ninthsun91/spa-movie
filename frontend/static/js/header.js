@@ -230,47 +230,48 @@ const handleSubmitSignIn = function (event) {
       success: function (res) {
         // console.log(res);
         const { pathname } = location;
-        loadPage(pathname);
         // console.log("pathname", pathname);
         if (pathname === PATH_NAME.HOME) {
-          setTimeout(function () {
-            loadComponent(
-              "movieListNow",
-              "/components/postercard" +
-                "?direction=vertical" +
-                "&query=now" +
-                "&chevron=on" +
-                "is_home=yes",                
-            );
-            loadComponent(
-              "movieListTrending",
-              "/components/postercard" +
-                "?direction=vertical" +
-                "&query=trend" +
-                "&chevron=on" +
-                "is_home=yes",                
-          )}, 500);
+          loadPage(pathname, handleLoadHome);
+          // setTimeout(function () {
+          //   loadComponent(
+          //     "movieListNow",
+          //     "/components/postercard" +
+          //       "?direction=vertical" +
+          //       "&query=now" +
+          //       "&chevron=on" +
+          //       "is_home=yes",
+          //   );
+          //   loadComponent(
+          //     "movieListTrending",
+          //     "/components/postercard" +
+          //       "?direction=vertical" +
+          //       "&query=trend" +
+          //       "&chevron=on" +
+          //       "is_home=yes",   
+          // )}, 500);
         }
         if (pathname === PATH_NAME.REV) {
-          setTimeout(function () {
-            loadComponent(
-              "recentReview", 
-              "/components/reviewcard" +
-              "?query=recent" +
-              "&is_home=no"
-              );
-            loadComponent(
-              "popularReview", 
-              "/components/reviewcard" +
-              "?query=popular" +
-              "&is_home=no"
-              );
+          loadPage(pathname, handleLoadRev);
+          // setTimeout(function () {
+          //   loadComponent(
+          //     "recentReview", 
+          //     "/components/reviewcard" +
+          //     "?query=recent" +
+          //     "&is_home=no"
+          //     );
+          //   loadComponent(
+          //     "popularReview", 
+          //     "/components/reviewcard" +
+          //     "?query=popular" +
+          //     "&is_home=no"
+          //     );
 
-            setTimeout(function () {
-              reviewMenuSlideUp();
-              reviewContainerWidthGrow();
-            }, 300);
-          }, 500);
+          //   setTimeout(function () {
+          //     reviewMenuSlideUp();
+          //     reviewContainerWidthGrow();
+          //   }, 300);
+          // }, 500);
         }
       },
       complete: function () {},
