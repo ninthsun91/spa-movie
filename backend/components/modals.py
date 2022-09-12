@@ -75,8 +75,13 @@ def edit():
     tag_to_empty = request.args.get("tagId")    
     m_id = request.args.get("movieId")
     r_id = request.args.get("reviewId")
-    movie = movie_code(int(m_id))
-    review = review_id(r_id)
 
-    return render_template("components/review_upsert.html", tag_to_empty=tag_to_empty,
-        movie=movie, review=review, title="Edit Review", make_edit="edit", reviewId=r_id)
+    review = review_id(r_id)
+    movie = movie_code(int(m_id))
+
+    payload = token_check()
+    if payload["username"] is not review["username"]:
+        return render_template("components/popup.html", message="작성자만 수정할 수 있습니다.")
+    else :
+        return render_template("components/review_upsert.html", tag_to_empty=tag_to_empty,
+            movie=movie, review=review, title="Edit Review", make_edit="edit", reviewId=r_id)
