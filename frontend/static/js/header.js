@@ -228,51 +228,28 @@ const handleSubmitSignIn = function (event) {
       data,
       method: "POST",
       success: function (res) {
-        // console.log(res);
-        const { pathname } = location;
-        // console.log("pathname", pathname);
-        if (pathname === PATH_NAME.HOME) {
-          loadPage(pathname, handleLoadHome);
-          // setTimeout(function () {
-          //   loadComponent(
-          //     "movieListNow",
-          //     "/components/postercard" +
-          //       "?direction=vertical" +
-          //       "&query=now" +
-          //       "&chevron=on" +
-          //       "is_home=yes",
-          //   );
-          //   loadComponent(
-          //     "movieListTrending",
-          //     "/components/postercard" +
-          //       "?direction=vertical" +
-          //       "&query=trend" +
-          //       "&chevron=on" +
-          //       "is_home=yes",   
-          // )}, 500);
+        if (res.msg === "로그인 성공") {
+          const { pathname } = location;
+          // console.log("pathname", pathname);
+          if (pathname === PATH_NAME.HOME) {
+            loadPage(pathname, handleLoadHome);
+          }
+          if (pathname === PATH_NAME.REV) {
+            loadPage(pathname, handleLoadRev);
+          }
+        } else {
+          $("#sign").empty();
+          $("#modalPlace").append(res)
+          setTimeout(function () {
+            if ($("#modalPlace").children().text().trim() === "아이디, 비밀번호가 잘못되었습니다.") {
+              $("#modalPlace").empty();
+            }
+          }, 2000);
         }
-        if (pathname === PATH_NAME.REV) {
-          loadPage(pathname, handleLoadRev);
-          // setTimeout(function () {
-          //   loadComponent(
-          //     "recentReview", 
-          //     "/components/reviewcard" +
-          //     "?query=recent" +
-          //     "&is_home=no"
-          //     );
-          //   loadComponent(
-          //     "popularReview", 
-          //     "/components/reviewcard" +
-          //     "?query=popular" +
-          //     "&is_home=no"
-          //     );
-
-          //   setTimeout(function () {
-          //     reviewMenuSlideUp();
-          //     reviewContainerWidthGrow();
-          //   }, 300);
-          // }, 500);
-        }
+        
+      },
+      error: function (request, status, error){
+        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
       },
       complete: function () {},
     });

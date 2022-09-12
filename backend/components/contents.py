@@ -19,7 +19,6 @@ def poster_list():
     direction = request.args.get("direction")
     query = request.args.get("query")
     field = [ "code", "image", "title", "director", "actor", "pubDate", "naverRating" ]
-    print(f"mooooooooovie is home: {is_home}")
 
     if query == "search":
         keyword = request.args.get("keyword")
@@ -30,8 +29,6 @@ def poster_list():
         result = movie_card(query, field)
         movies = result["movies"]
         max_page = result["max_page"]
-    
-    print(f"INITIAL", query, direction, is_home, chevron_switch)
 
     return render_template("components/poster_card.html",
         movies=movies, direction=direction, query=query, chevron=chevron_switch, is_home=is_home)
@@ -45,8 +42,6 @@ def review_list():
     """
     is_home = request.args.get("is_home")
     query = request.args.get("query")
-    print(f"revieeeeeeeeeew is home: {is_home}")
-
     field = [ "_id", "code", "username", "title", "comment",
         "userRating", "likes", "time" ]
     result = review_card(query, field)

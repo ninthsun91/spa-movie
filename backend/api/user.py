@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template
 from bson.objectid import ObjectId
 
 from ..config import Pymongo
@@ -37,7 +37,7 @@ def sign_in():
    if user is not None:
       return create_token(user)
    else:
-      return jsonify({"msg": "아이디, 비밀번호가 틀렸습니다."})
+      return render_template("components/popup.html", message="아이디, 비밀번호가 잘못되었습니다.")
 
 
 # 회원가입
