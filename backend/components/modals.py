@@ -21,7 +21,8 @@ def sign_in():
 @modals_ext.route("/profile/update")
 def profile_update():
     tagId = request.args.get("tagId")
-    user = user_uid()
+    payload = token_check()
+    user = user_uid(payload["uid"])
     
     return render_template("components/profile.html", user=user, tag_to_empty=tagId)
 
