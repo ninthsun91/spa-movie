@@ -1,6 +1,11 @@
 const handleClickMakeReview = function () {
   // console.log("review");
   loadComponent("modalPlace", "/components/moviesearch?tagId=modalPlace&cover=on");
+  setTimeout(function () {
+    if ($("#modalPlace").children().text().trim() === "리뷰를 작성하시려면 로그인해주세요") {
+      $("#modalPlace").empty();
+    }
+  }, 3000);
 };
 
 const handleClickRecentLabel = function () {
