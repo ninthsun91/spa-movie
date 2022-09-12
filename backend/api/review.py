@@ -81,10 +81,14 @@ def review_delete():
     : id = review _id
     """
     r_id = request.args.get("reviewId")
-    result = review_delete_id(r_id).deleted_count
-
-    if result == 1:
-        return jsonify({ "msg": "리뷰를 삭제했습니다!" })
+    review = review_id(r_id)
+    payload = token_check()
+    if review["username"] == payload["username"]:
+        result = review_delete_id(r_id).deleted_count
+        if result == 1:
+            return jsonify({ "msg": "리뷰를 삭제했습니다!" })
+    else:
+        return  jsonify({ "msg": "작성자만 삭제할 수 있습니다." })
 
 
 

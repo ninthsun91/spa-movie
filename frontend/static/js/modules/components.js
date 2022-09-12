@@ -135,7 +135,7 @@ const handleClickReviewLike = function () {
 const handleClickReviewDelete = function (reviewId) {
   modalPlace().empty();
   $.get(`/delete?reviewId=${reviewId}`, (res)=>{
-    msg = encodeURIComponent("리뷰를 삭제했습니다")
+    msg = encodeURIComponent(res.msg)
     loadComponent("popupPlace", "/components/popup?msg="+msg);
       if ($("#recentCheckBox").is(":checked")) {
         loadComponent(

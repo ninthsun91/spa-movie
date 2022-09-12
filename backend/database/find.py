@@ -26,6 +26,12 @@ def review_delete_id(rid):
     """
     리뷰 _id로 삭제
     """
+    review = db.reviews.find_one({"_id": ObjectId(rid)})
+    code = review["code"]
+    db.movies.update_one({"code": code}, {"$pull": {"reviews": rid}})
+    username = review["username"]
+    db.users.update_one({"username": username}, {"$pull": {"reviews": rid}})
+
     return db.reviews.delete_one({"_id": ObjectId(rid)})
 
 
