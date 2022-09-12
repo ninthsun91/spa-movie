@@ -66,7 +66,7 @@ def movies_title(field, keyword, page=None):
     : page = request.args. 페이지 요청 관련 QS. 없으면 첫페이지 데이터 반환
     """
     search_naver(keyword)
-    time.sleep(1)
+    # time.sleep(1)
 
     show = 4
     if page == None or len(page) == 0:
