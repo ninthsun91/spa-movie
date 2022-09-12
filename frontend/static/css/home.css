@@ -88,7 +88,7 @@
   height: 2px;
   width: 75%;
   margin-left: 10%;
-  top: -4%
+  top: -4%;
 }
 .movies-grouped > div .divider h2 {
   display: block;
@@ -102,6 +102,9 @@
   overflow: auto;
   height: 100%;
 }
+.movies-grouped > div .list-wrapper > div {
+  display: flex;
+}
 .movies-grouped > div .list-wrapper .movie-list {
   min-width: fit-content;
   width: calc(100% - 60px);
@@ -112,46 +115,4 @@
   gap: 20px;
   justify-content: space-around;
   align-items: flex-end;
-}
-
-.chevrons {
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  margin: 0 auto 0 auto;
-  /* border: solid 1px red; */
-  /* width: 1000px; */
-}
-.chevrons div {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  position: static;
-  top: 320px;
-}
-.chevrons .left-chevron {
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  padding-right: 15%;
-}
-.chevrons .right-chevron {
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  padding-left: 15%;
-}
-.chevrons div i {
-  color: rgb(255, 255, 255, 0.7);
-  font-size: 60px;
-  cursor: pointer;
-  z-index: 20;
-}
-.chevrons div a {
-  color: rgb(255, 255, 255, 0.7);
-  font-size: 40px;
-  cursor: pointer;
-  z-index: 20;
 }

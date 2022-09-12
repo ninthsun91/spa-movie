@@ -1,4 +1,4 @@
-{% for review in reviews %}
+{% extends "inheritance/chevrons_on_postercard.html" %}{% block content%} {% for review in reviews %}
 <section class="review-card" onclick="handleClickViewReview('{{review._id}}')">
   <div class="about-movie">
     <img src="{{review.image}}" height="240" width="180" />
@@ -14,15 +14,4 @@
     <div>{{review.time}}</div>
   </div>
 </section>
-{% endfor %}
-
-<div class="chevrons-rev" value="{{query}}_max={{max_page}}">
-  <div class="left-chevron" onclick="handleClickReviewLeft('{{query}}')">          
-    <i id="leftChevron" class="bi bi-chevron-compact-left"></i>
-    <a>이전</a>
-  </div>
-  <div class="right-chevron" onclick="handleClickReviewRight('{{query}}')">
-    <a>다음</a>
-    <i id="rightChevron" class="bi bi-chevron-compact-right"></i>
-  </div>
-</div>
+{% endfor %}{% endblock %}

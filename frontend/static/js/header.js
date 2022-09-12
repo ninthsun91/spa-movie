@@ -91,7 +91,7 @@ const tagsProfile = {
 const idValidator = (idVal) => (reg.id.test(idVal) && idVal ? { isValid: true } : { isValid: false, msg: "id error" });
 const pwValidator = (pwVal) =>
   reg.password.test(pwVal) && pwVal ? { isValid: true } : { isValid: false, msg: "pw error" };
-  
+
 const confirmValidator = (pwVal, confirmVal) =>
   pwVal === confirmVal && confirmVal ? { isValid: true } : { isValid: false, msg: "confirm error" };
 
@@ -241,14 +241,28 @@ const handleSubmitSignIn = function (event) {
         // console.log("pathname", pathname);
         if (pathname === PATH_NAME.HOME) {
           setTimeout(function () {
-            loadComponent("movieListNow", "/components/postercard?direction=vertical&query=now");
-            loadComponent("movieListTrending", "/components/postercard?direction=vertical&query=trend");
+            loadComponent(
+              "movieListNow",
+              "/components/postercard" +
+                "?direction=vertical" +
+                "&query=now" +
+                "&chevron=on" +
+                "is_home=yes"
+            );
+            loadComponent(
+              "movieListTrending",
+              "/components/postercard" +
+                "?direction=vertical" +
+                "&query=trend" +
+                "&chevron=on" +
+                "is_home=yes"
           }, 500);
         }
         if (pathname === PATH_NAME.REV) {
           setTimeout(function () {
-            loadComponent("recentReview", "/components/reviewcard?query=recent");
-            loadComponent("popularReview", "/components/reviewcard?query=popular");
+            loadComponent("recentReview", "/components/reviewcard?query=recent&is_home=no");
+            loadComponent("popularReview", "/components/reviewcard?query=popular&is_home=no");
+
             setTimeout(function () {
               reviewMenuSlideUp();
               reviewContainerWidthGrow();
@@ -298,4 +312,4 @@ const handleClickLogOut = function () {
     case PATH_NAME.MY_PAGE:
       return loadPage(PATH_NAME.MY_PAGE, handleLoadMyPage);
   }
-}
+};

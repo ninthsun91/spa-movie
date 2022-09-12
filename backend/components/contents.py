@@ -13,6 +13,9 @@ def poster_list():
     : direction = 포스터 표시 형식. horizontal | vertical
     : quert = 요청하는 컨텐츠 종류. recent | trend | trendrev | now
     """
+    
+    is_home = request.args.get("is_home")
+    chevron_switch = request.args.get("chevron")
     direction = request.args.get("direction")
     query = request.args.get("query")
     field = [ "code", "image", "title", "director", "actor", "pubDate", "naverRating" ]
@@ -28,7 +31,7 @@ def poster_list():
         max_page = result["max_page"]
 
     return render_template("components/poster_card.html",
-        movies=movies, direction=direction, query=query)
+        movies=movies, direction=direction, query=query,chevron=chevron_switch,is_home=is_home)
 
 
 @contents_ext.route("/reviewcard")
@@ -37,6 +40,7 @@ def review_list():
     GET. 필요한 QS 데이터
     : query = 요청하는 컨텐츠 종류. popular | recentrev
     """
+    is_home = request.args.get("is_home")
     query = request.args.get("query")
 
     field = [ "_id", "code", "username", "title", "comment",
@@ -51,7 +55,7 @@ def review_list():
         review["image"] = movie["image"]
 
     return render_template("components/review_card.html",
-        reviews=reviews, query=query, max_page=max_page)
+        reviews=reviews, query=query, max_page=max_page,is_home=is_home)
 
 
 @contents_ext.route("/view-review")

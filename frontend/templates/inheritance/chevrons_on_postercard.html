@@ -1,0 +1,20 @@
+{%if is_home=="yes"%}
+<div class="left-chevron at-home" onclick="handleClickMovieLeft('{{query}}', '{{direction}}')">
+  <i id="leftChevron" class="bi bi-chevron-compact-left"></i>
+</div>
+{%endif%} {%block content%}{%endblock%}{% if is_home=="no"%}
+<div class="chevrons">
+  <div class="left-chevron" onclick="handleClickMovieLeft('{{query}}', '{{direction}}')">
+    <i id="leftChevron" class="bi bi-chevron-compact-left"></i>
+    <a>이전</a>
+  </div>
+  <div class="right-chevron" onclick="handleClickMovieRight('{{query}}', '{{direction}}')">
+    <a>다음</a>
+    <i id="rightChevron" class="bi bi-chevron-compact-right"></i>
+  </div>
+</div>
+{%endif%} {%if is_home=="yes"%}
+<div class="right-chevron at-home" onclick="handleClickMovieRight('{{query}}', '{{direction}}')">
+  <i id="rightChevron" class="bi bi-chevron-compact-right"></i>
+</div>
+{%endif%}

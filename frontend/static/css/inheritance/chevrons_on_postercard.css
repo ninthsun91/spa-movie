@@ -1,0 +1,18 @@
+.chevrons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  font-size: 18px;
+}
+.left-chevron,
+.right-chevron {
+  cursor: pointer;
+}
+
+.at-home {
+  margin: 0 20px;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+}

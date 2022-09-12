@@ -30,6 +30,7 @@ def movie_card(query: str, field: list, page=None, keyword=None):
     print("query : ", query)
     print("field : ", field)
     get = CardList[query]["get"]
+    print("get : ",get)
     max_page = CardList[query]["max_page"]
     show = CardList[query]["show"]
 
