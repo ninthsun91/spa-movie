@@ -32,30 +32,32 @@
   justify-content: flex-start;
 }
 
-
-
 .poster-horizontal {
-  margin: 10px 0;
+  margin: 48px 0;
   padding: 0 40px;
 }
 .poster-horizontal .poster-plate {
   /* background-color: white; */
-  background-color: rgb(24, 24, 24);
+  background-color: rgb(16, 16, 16);
   width: 100%;
   display: flex;
   padding: 5px;
   cursor: pointer;
   height: 15%;
   position: relative;
-  box-shadow: 0px 0px 1px rgb(232, 232, 232);
 }
 .poster-horizontal .poster-plate .poster-wrapper {
   position: absolute;
-  inset: -0.8rem;
+  top: -12px;
+  left: -3px;
+  width: fit-content;
+  height: fit-content;
+  position: absolute;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   z-index: 2;
+  box-shadow: 7px 8px 0px rgb(232, 232, 232);
 }
 .poster-horizontal .poster-plate .poster-details {
   flex: 3;
@@ -66,20 +68,18 @@
 }
 .poster-horizontal .poster-plate .poster-details .title-wrapper .title {
   position: absolute;
-  background-color: rgb(30, 30, 30);
   color: rgb(225, 225, 225);
   right: 30px;
-  padding: 12px;
+  padding: 12px 0 12px 12px;
   font-size: 2em;
   font-weight: 900;
   z-index: 2;
-  box-shadow: 0px 0px 1px rgb(232, 232, 232)
 }
 .poster-horizontal .poster-plate .poster-details .title-wrapper .divider {
   top: 48px;
   left: -120px;
   position: absolute;
-  width: 90%;
+  width: 120%;
   height: 5px;
   background-color: rgb(232, 232, 232);
 }
@@ -89,21 +89,22 @@
   margin-right: 14px;
 }
 .poster-horizontal .poster-plate .poster-details .rating {
-  margin-top: 80px;
+  margin-top: 60px;
   position: relative;
 }
 .poster-horizontal .poster-plate .poster-details .rating .star-wrapper .star-rating {
   position: absolute;
   top: 12px;
-  transform: scale(1);
+  left: -42px;
+  transform: scale(0.6);
 }
 .poster-horizontal .poster-plate .poster-details .rating .star-score {
-  font-size: 2em;
+  font-size: 1.2em;
   font-weight: 900;
   color: rgb(232, 232, 232);
   position: absolute;
-  top: 16px;
-  left: 230px;
+  top: 22px;
+  left: 136px;
 }
 .poster-horizontal .poster-plate .poster-details .details {
   font-size: 1em;
@@ -111,11 +112,11 @@
   color: rgb(232, 232, 232);
   display: flex;
   flex-direction: column;
-  gap: 6px;  
+  gap: 6px;
 }
 
 .poster-horizontal .poster-plate .poster-details .details .director {
-  margin-top: 80px;
+  margin-top: 56px;
 }
 
 .poster-horizontal .poster-plate .poster-details .details .actors {
@@ -123,9 +124,11 @@
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 1; /* number of lines to show */
-  -webkit-box-orient: vertical; 
+  -webkit-box-orient: vertical;
 }
-
+.poster-horizontal .poster-plate .poster-details .details .release-date {
+  margin-bottom: 30px;
+}
 .star-wrapper {
   width: 90px;
 }

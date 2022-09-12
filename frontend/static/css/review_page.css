@@ -153,6 +153,7 @@
   gap: 12px;
 }
 .board .review-viewer .review-wrapper .review-container.movie-list {
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 10px;
@@ -168,8 +169,6 @@
 .board .review-viewer .review-wrapper:hover .heading h2 {
   transition: all 0.5s;
 }
-
-
 
 .chevrons-rev {
   display: flex;
