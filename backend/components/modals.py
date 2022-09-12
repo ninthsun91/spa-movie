@@ -80,8 +80,9 @@ def edit():
     movie = movie_code(int(m_id))
 
     payload = token_check()
-    if payload["username"] is not review["username"]:
-        return render_template("components/popup.html", message="작성자만 수정할 수 있습니다.")
-    else :
+    print(payload["username"], review["username"], payload["username"] == review["username"])
+    if payload["username"] == review["username"]:
         return render_template("components/review_upsert.html", tag_to_empty=tag_to_empty,
             movie=movie, review=review, title="Edit Review", make_edit="edit", reviewId=r_id)
+    else :
+        return render_template("components/popup.html", message="작성자만 수정할 수 있습니다.")
