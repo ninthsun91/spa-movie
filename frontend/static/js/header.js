@@ -256,12 +256,22 @@ const handleSubmitSignIn = function (event) {
                 "&query=trend" +
                 "&chevron=on" +
                 "is_home=yes"
-          }, 500);
+          )}, 500);
         }
         if (pathname === PATH_NAME.REV) {
           setTimeout(function () {
-            loadComponent("recentReview", "/components/reviewcard?query=recent&is_home=no");
-            loadComponent("popularReview", "/components/reviewcard?query=popular&is_home=no");
+            loadComponent(
+              "recentReview", 
+              "/components/reviewcard" +
+              "?query=recent" +
+              "&is_home=no"
+              );
+            loadComponent(
+              "popularReview", 
+              "/components/reviewcard" +
+              "?query=popular" +
+              "&is_home=no"
+              );
 
             setTimeout(function () {
               reviewMenuSlideUp();

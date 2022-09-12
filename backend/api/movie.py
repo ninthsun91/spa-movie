@@ -107,7 +107,7 @@ def list_trend():
     query = request.args.get("query")
     direction = request.args.get("direction")
     field = [ "code", "title", "director", "actor", "pubDate", "naverRating" ]
-
+    print("treeeeeeeeeeend", query, direction)
     # from /rev
     if "rev" in request.path:
         result = movie_card("trendrev", field, request.args)
@@ -115,7 +115,7 @@ def list_trend():
     else:
         result = movie_card("trend", field, request.args)
     movies = result["movies"]
-
+    print(movies)
     return render_template("components/poster_card.html",
         movies=movies, query=query, direction=direction)
 

@@ -85,10 +85,21 @@ const handleLoadMyPage = (responseText, textStatus, req) => {
 const handleLoadHome = () => {
   // console.log("after load home");
   setTitle(TITLE.HOME);
-  loadComponent("movieListNow", "/components/postercard?direction=vertical&query=now&chevron=on&is_home=yes");
+  loadComponent(
+    "movieListNow", 
+    "/components/postercard?" +
+    "direction=vertical" +
+    "&query=now" +
+    "&chevron=on" +
+    "&is_home=yes"
+    );
   loadComponent(
     "movieListTrending",
-    "/components/postercard" + "?direction=vertical" + "&query=trend" + "&chevron=on" + "&is_home=yes"
+    "/components/postercard" + 
+    "?direction=vertical" + 
+    "&query=trend" + 
+    "&chevron=on" + 
+    "&is_home=yes"
   );
   $("#modalPlace").empty();
   $("#popupPlace").empty();

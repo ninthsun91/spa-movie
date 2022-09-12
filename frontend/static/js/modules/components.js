@@ -15,7 +15,6 @@ const handleSubmitSearchMovie = function (event) {
     "moviesSearched",
     "/components/postercard" +
       "?direction=horizontal" +
-      "&count=4" +
       "&query=search" +
       "&keyword=" +
       encodeURIComponent(keyword) +
@@ -34,7 +33,12 @@ const handleClickSearchRight = function () {
 
 const handleClickMovieUpsert = function (code) {
   // console.log("upsert");
-  loadComponent("modalContent", `/components/upsert?tagId=modalContent&movieId=${code}`);
+  loadComponent(
+    "modalContent", 
+    "/components/upsert" +
+    "?tagId=modalContent" +
+    "&movieId=" + code
+    );
   searchLeft().hide();
   searchRight().hide();
 };
@@ -67,20 +71,29 @@ const handleSubmitMovieUpsirt = function (event, movieId, reviewId = undefined) 
       modalPlace().empty();
       // console.log(msg);
 
-      loadComponent("popupPlace", "/components/popup-review-create?type=success");
+      loadComponent("popupPlace", "/components/popup-review-create?query=success");
       if ($("#recentCheckBox").is(":checked")) {
-        loadComponent("recentReview", "/components/reviewcard?type=recentrev&is_home=no");
+        loadComponent(
+          "recentReview", 
+          "/components/reviewcard" +
+          "?query=recentrev" +
+          "&is_home=no"
+          );
       }
       if ($("#popularCheckBox").is(":checked")) {
-        loadComponent("popularReview", "/components/reviewcard?type=popular&is_home=no");
+        loadComponent(
+          "popularReview", 
+          "/components/reviewcard" +
+          "?query=popular" +
+          "&is_home=no"
+          );
       }
       if ($("#mostCheckBox").is(":checked")) {
         loadComponent(
           "mostReviewed",
           "/components/postercard" +
             "?direction=vertical" +
-            "&count=6" +
-            "&type=trendrev" +
+            "&query=trendrev" +
             "&chevron=on" +
             "is_home=no"
         );
@@ -133,17 +146,32 @@ const handleClickMovieLeft = (query, direction) => {
   page = Number(getCookie(query)) - 1;
   if (page === 0) page = 10;
   document.cookie = `${query}=${page}`;
-  console.log("movieeeeeeeeeee leeeeeeeeeeft", query, page, direction);
+  console.log("mooovie left", query, direction, page)
 
   switch (query) {
     case "trend":
-      loadComponent("movieListTrending", `/trend?query=trend&direction=${direction}`);
+      loadComponent(
+        "movieListTrending", 
+        "/trend" +
+        "?query=trend" +
+        "&direction=" + direction
+        );
       break;
     case "now":
-      loadComponent("movieListNow", `/now?query=now&direction=${direction}`);
+      loadComponent(
+        "movieListNow", 
+        "/now" +
+        "?query=now" +
+        "&direction=" + direction
+        );
       break;
     case "trendrev":
-      loadComponent("mostReviewed", `/trendrev?query=trendrev&direction=${direction}`);
+      loadComponent(
+        "mostReviewed", 
+        "/trendrev" +
+        "?query=trendrev" +
+        "&direction=" + direction
+        );
       break;
   }
   $("#modalPlace").empty();
@@ -154,17 +182,32 @@ const handleClickMovieRight = (query, direction) => {
   page = Number(getCookie(query)) + 1;
   if (page === 11) page = 1;
   document.cookie = `${query}=${page}`;
-  console.log("moooooooovie riiiiiiiiiight", query, page, direction);
+  console.log("mooovie right", query, direction, page)
 
   switch (query) {
     case "trend":
-      loadComponent("movieListTrending", `/trend?query=trend&direction=${direction}`);
+      loadComponent(
+        "movieListTrending", 
+        "/trend" +
+        "?query=trend" +
+        "&direction=" + direction
+        );
       break;
     case "now":
-      loadComponent("movieListNow", `/now?query=now&direction=${direction}`);
+      loadComponent(
+        "movieListNow", 
+        "/now" +
+        "?query=now" +
+        "&direction=" + direction
+        );
       break;
     case "trendrev":
-      loadComponent("mostReviewed", `/trendrev?query=trendrev&direction=${direction}`);
+      loadComponent(
+        "mostReviewed", 
+        "/trendrev" +
+        "?query=trendrev" +
+        "&direction=" + direction
+        );
       break;
   }
   $("#modalPlace").empty();
@@ -172,11 +215,11 @@ const handleClickMovieRight = (query, direction) => {
 };
 
 const handleClickReviewLeft = (query) => {
-  console.log("reviewwww leeeeeeeeeeft");
   max_page = Math.ceil(Number(getCookie(`${query}_max`)));
   page = Number(getCookie(query)) - 1;
   if (page === 0) page = max_page;
   document.cookie = `${query}=${page}`;
+  console.log("review left", query, max_page, page)
 
   switch (query) {
     case "recentrev":
@@ -191,11 +234,11 @@ const handleClickReviewLeft = (query) => {
 };
 
 const handleClickReviewRight = (query) => {
-  console.log("reviewwww riiiiiiiiiight");
   max_page = Math.ceil(Number(getCookie(`${query}_max`)));
   page = Number(getCookie(query)) + 1;
   if (page === max_page + 1) page = 1;
   document.cookie = `${query}=${page}`;
+  console.log("review right", query, max_page, page)
 
   switch (query) {
     case "recentrev":
